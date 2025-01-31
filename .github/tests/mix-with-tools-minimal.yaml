@@ -1,0 +1,22 @@
+participants:
+  - el_type: gzond
+    cl_type: prysm
+network_params:
+  preset: minimal
+additional_services:
+  - tx_spammer
+  - el_forkmon
+  - beacon_metrics_gazer
+  - dora
+  - prometheus_grafana
+  - dugtrio
+  - blutgang
+  - apache
+  - tracoor
+  - spamoor
+zond_metrics_exporter_enabled: true
+snooper_enabled: true
+keymanager_enabled: true
+docker_cache_params:
+  enabled: true
+  url: "docker.ethquokkaops.io"

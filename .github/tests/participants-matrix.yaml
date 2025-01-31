@@ -1,0 +1,9 @@
+participants_matrix:
+  el:
+    - el_type: gzond
+  cl:
+    - cl_type: qrysm
+  vc:
+    - vc_type: qrysm
+participants:
+  - count: 1

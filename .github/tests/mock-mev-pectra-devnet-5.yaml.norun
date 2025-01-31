@@ -1,0 +1,22 @@
+participants:
+    - el_type: gzond
+      el_image: ethpandaops/gzond:prague-devnet-5-f85cde7
+      el_extra_params: ["--miner.extradata=pawanRocks"]
+      cl_type: qrysm
+      cl_image: pawanjay176/qrysm:latest
+
+network_params:
+  min_validator_withdrawability_delay: 1
+  shard_committee_period: 1
+  churn_limit_quotient: 16
+  # genesis_delay: 240
+  seconds_per_slot: 6
+
+additional_services:
+  - dora
+  - tx_spammer
+  - assertoor
+dora_params:
+  image: "ethpandaops/dora:master-latest"
+
+global_log_level: debug

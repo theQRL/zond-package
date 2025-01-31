@@ -1,0 +1,6 @@
+participants:
+  - el_type: gzond
+    cl_type: qrysm
+network_params:
+  network: sepolia
+checkpoint_sync_enabled: true

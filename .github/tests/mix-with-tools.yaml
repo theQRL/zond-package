@@ -1,0 +1,17 @@
+participants:
+  - el_type: gzond
+    cl_type: qrysm
+additional_services:
+  - tx_spammer
+  - el_forkmon
+  - beacon_metrics_gazer
+  - dora
+  - prometheus_grafana
+  - dugtrio
+  - blutgang
+  - apache
+  - tracoor
+  - spamoor
+zond_metrics_exporter_enabled: true
+snooper_enabled: true
+keymanager_enabled: true

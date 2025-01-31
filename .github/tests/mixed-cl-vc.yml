@@ -1,0 +1,5 @@
+participants:
+  - el_type: gzond
+    cl_type: qrysm
+    use_separate_vc: true
+    vc_type: qrysm

@@ -1,0 +1,7 @@
+participants:
+  - el_type: gzond
+    cl_type: qrysm
+# additional_services:
+#   - dora
+network_params:
+  genesis_delay: 120

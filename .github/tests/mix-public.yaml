@@ -1,0 +1,19 @@
+participants:
+  - el_type: gzond
+    cl_type: qrysm
+port_publisher:
+  el:
+    enabled: true
+    public_port_start: 32000
+  cl:
+    enabled: true
+    public_port_start: 33000
+  vc:
+    enabled: true
+    public_port_start: 34000
+  remote_signer:
+    enabled: true
+    public_port_start: 35000
+  additional_services:
+    enabled: true
+    public_port_start: 36000

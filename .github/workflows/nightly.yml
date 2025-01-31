@@ -1,0 +1,75 @@
+name: Nightly test Workflow
+
+on:
+  schedule:
+    - cron: "0 2 * * *" # This schedules the workflow to run at 02:00 UTC every day
+  workflow_dispatch:
+
+jobs:
+  list-yamls:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: set-matrix
+        # List all yaml files in the .github/tests directory, except for the k8s.yaml file
+        run: echo "matrix=$(ls ./.github/tests/*.yaml | grep -vE 'k8s.yaml$' | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+  run_with_args:
+    needs:
+      - list-yamls
+    strategy:
+      matrix:
+          file_name: ${{ fromJson(needs.list-yamls.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/docker-login
+        with:
+          username: ethpandaops
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Setup Kurtosis
+        uses: ./.github/actions/kurtosis-install
+
+      - name: Run Starlark
+        run: |
+          kurtosis run ${{ github.workspace }} --verbosity detailed --args-file ${{ matrix.file_name }}
+
+      - name: Check if Discord Webhook is Set
+        id: check_discord_webhook
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "discord_webhook_set=false" >> $GITHUB_ENV
+          else
+            echo "discord_webhook_set=true" >> $GITHUB_ENV
+          fi
+
+      - name: Notify
+        if: (cancelled() || failure()) && env.discord_webhook_set == 'true'
+        uses: nobrayner/discord-webhook@v1
+        with:
+          description: "The nightly test for ${{matrix.file_name}} on zond-package has failed find it here ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          github-token: ${{ secrets.github_token }}
+          discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
+
+  assertoor-mix-assert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/docker-login
+        with:
+          username: ethpandaops
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Kurtosis Assertoor GitHub Action
+        uses: ethpandaops/kurtosis-assertoor-github-action@v1
+        with:
+          kurtosis_extra_args: "--image-download always --non-blocking-tasks --verbosity DETAILED"
+          zond_package_branch: ""
+          zond_package_args: .github/tests/mix-assert.yaml
+          zond_package_url: "$GITHUB_WORKSPACE"
+          persistent_logs: "true"

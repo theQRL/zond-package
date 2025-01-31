@@ -1,0 +1,5 @@
+participants:
+  - el_type: gzond
+    cl_type: qrysm
+network_params:
+  preregistered_validator_count: 400

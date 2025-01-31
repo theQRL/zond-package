@@ -1,0 +1,25 @@
+participants_matrix:
+  el:
+    - el_type: gzond
+      el_image: ethpandaops/gzond:prague-devnet-5-a193537
+  cl:
+    - cl_type: prysm
+      cl_image: ethpandaops/prysm-beacon-chain:devnet5-minimal-ae44429
+      vc_image: ethpandaops/prysm-validator:devnet5-minimal-ae44429
+network_params:
+  preset: minimal
+  min_validator_withdrawability_delay: 1
+  shard_committee_period: 1
+  churn_limit_quotient: 16
+  genesis_delay: 240
+additional_services:
+  - dora
+  - tx_spammer
+  - assertoor
+dora_params:
+  image: "ethpandaops/dora:master-latest"
+
+assertoor_params:
+  image: "ethpandaops/assertoor:master"
+  tests:
+    - file: https://raw.githubusercontent.com/ethpandaops/assertoor/refs/heads/master/playbooks/pectra-dev/kurtosis/all.yaml
