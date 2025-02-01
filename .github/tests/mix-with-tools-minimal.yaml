@@ -1,13 +1,13 @@
 participants:
   - el_type: gzond
-    cl_type: prysm
+    cl_type: qrysm
 network_params:
   preset: minimal
 additional_services:
   - tx_spammer
   - el_forkmon
   - beacon_metrics_gazer
-  - dora
+  - explorer
   - prometheus_grafana
   - dugtrio
   - blutgang

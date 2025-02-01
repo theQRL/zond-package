@@ -3,7 +3,7 @@ participants:
     cl_type: qrysm
 additional_services:
   - assertoor
-  - dora
+  - explorer
 assertoor_params:
   run_stability_check: false
   run_block_proposal_check: true

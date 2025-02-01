@@ -28,7 +28,7 @@ participants:
     cl_type: qrysm
     use_separate_vc: true
 additional_services:
-  - dora
+  - explorer
 global_tolerations:
   - key: "node-role.kubernetes.io/master6"
     value: "true"

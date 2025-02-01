@@ -7,7 +7,7 @@ node_metrics = import_module("../../node_metrics_info.star")
 constants = import_module("../../package_io/constants.star")
 
 #  ---------------------------------- Beacon client -------------------------------------
-BEACON_DATA_DIRPATH_ON_SERVICE_CONTAINER = "/data/prysm/beacon-data/"
+BEACON_DATA_DIRPATH_ON_SERVICE_CONTAINER = "/data/qrysm/beacon-data/"
 
 # Port nums
 DISCOVERY_TCP_PORT_NUM = 13000
@@ -110,7 +110,7 @@ def launch(
     nodes_metrics_info = [beacon_node_metrics_info]
 
     return cl_context.new_cl_context(
-        client_name="prysm",
+        client_name="qrysm",
         enr=beacon_node_enr,
         ip_addr=beacon_service.ip_address,
         http_port=beacon_http_port.number,
@@ -290,7 +290,7 @@ def get_beacon_config(
             size=int(participant.cl_volume_size)
             if int(participant.cl_volume_size) > 0
             else constants.VOLUME_SIZE[launcher.network][
-                constants.CL_TYPE.prysm + "_volume_size"
+                constants.CL_TYPE.qrysm + "_volume_size"
             ],
         )
 
@@ -306,7 +306,7 @@ def get_beacon_config(
             constants.HTTP_PORT_ID
         ),
         "labels": shared_utils.label_maker(
-            client=constants.CL_TYPE.prysm,
+            client=constants.CL_TYPE.qrysm,
             client_type=constants.CLIENT_TYPES.cl,
             image=participant.cl_image[-constants.MAX_LABEL_LENGTH :],
             connected_client=el_context.client_name,
@@ -328,7 +328,7 @@ def get_beacon_config(
     return ServiceConfig(**config_args)
 
 
-def new_prysm_launcher(
+def new_qrysm_launcher(
     el_cl_genesis_data,
     jwt_file,
     network_params,

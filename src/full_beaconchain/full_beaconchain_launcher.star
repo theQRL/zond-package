@@ -238,7 +238,7 @@ def launch_full_beacon(
                 "-blocks.concurrency",
                 "1",
                 "-blocks.tracemode",
-                "geth",
+                "gzond",
                 "-data.concurrency",
                 "1",
                 "-balances.enabled",

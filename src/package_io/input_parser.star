@@ -15,7 +15,7 @@ DEFAULT_CL_IMAGES = {
 }
 
 DEFAULT_CL_IMAGES_MINIMAL = {
-    "qrysm": "ethpandaops/prysm-beacon-chain:develop-minimal",
+    "qrysm": "ethpandaops/qrysm-beacon-chain:develop-minimal",
 }
 
 DEFAULT_VC_IMAGES = {
@@ -23,7 +23,7 @@ DEFAULT_VC_IMAGES = {
 }
 
 DEFAULT_VC_IMAGES_MINIMAL = {
-    "qrysm": "ethpandaops/prysm-validator:develop-minimal",
+    "qrysm": "ethpandaops/qrysm-validator:develop-minimal",
 }
 
 DEFAULT_REMOTE_SIGNER_IMAGES = {
@@ -94,10 +94,10 @@ def input_parser(plan, input_args):
         if attr not in ATTR_TO_BE_SKIPPED_AT_ROOT and attr in input_args:
             result[attr] = value
         # custom eth2 attributes config
-        elif attr == "dora_params":
-            for sub_attr in input_args["dora_params"]:
-                sub_value = input_args["dora_params"][sub_attr]
-                result["dora_params"][sub_attr] = sub_value
+        elif attr == "explorer_params":
+            for sub_attr in input_args["explorer_params"]:
+                sub_value = input_args["explorer_params"][sub_attr]
+                result["explorer_params"][sub_attr] = sub_value
         elif attr == "docker_cache_params":
             for sub_attr in input_args["docker_cache_params"]:
                 sub_value = input_args["docker_cache_params"][sub_attr]
@@ -257,9 +257,9 @@ def input_parser(plan, input_args):
             prefunded_accounts=result["network_params"]["prefunded_accounts"],
             gossip_max_size=result["network_params"]["gossip_max_size"],
         ),
-        dora_params=struct(
-            image=result["dora_params"]["image"],
-            env=result["dora_params"]["env"],
+        explorer_params=struct(
+            image=result["explorer_params"]["image"],
+            env=result["explorer_params"]["env"],
         ),
         docker_cache_params=struct(
             enabled=result["docker_cache_params"]["enabled"],
@@ -738,7 +738,7 @@ def default_minimal_network_params():
 
 def default_participant():
     return {
-        "el_type": "geth",
+        "el_type": "gzond",
         "el_image": "",
         "el_log_level": "",
         "el_extra_env_vars": {},
@@ -750,7 +750,7 @@ def default_participant():
         "el_max_cpu": 0,
         "el_min_mem": 0,
         "el_max_mem": 0,
-        "cl_type": "lighthouse",
+        "cl_type": "qrysm",
         "cl_image": "",
         "cl_log_level": "",
         "cl_extra_env_vars": {},
@@ -802,9 +802,9 @@ def default_participant():
     }
 
 
-def get_default_dora_params():
+def get_default_explorer_params():
     return {
-        "image": constants.DEFAULT_DORA_IMAGE,
+        "image": constants.DEFAULT_EXPLORER_IMAGE,
         "env": {},
     }
 
@@ -949,7 +949,7 @@ def docker_cache_image_override(plan, result):
         "remote_signer_image",
     ]
     tooling_overridable_image = [
-        "dora_params.image",
+        "explorer_params.image",
         "assertoor_params.image",
         "xatu_sentry_params.xatu_sentry_image",
         "tx_spammer_params.image",

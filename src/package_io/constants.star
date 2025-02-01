@@ -64,7 +64,7 @@ KEYMANAGER_MOUNT_PATH_ON_CONTAINER = (
     KEYMANAGER_MOUNT_PATH_ON_CLIENTS + "/keymanager.txt"
 )
 
-DEFAULT_DORA_IMAGE = "ethpandaops/dora:latest"
+DEFAULT_EXPLORER_IMAGE = "ethpandaops/explorer:latest"
 DEFAULT_ASSERTOOR_IMAGE = "ethpandaops/assertoor:latest"
 DEFAULT_SNOOPER_IMAGE = "ethpandaops/rpc-snooper:latest"
 DEFAULT_ZOND_GENESIS_GENERATOR_IMAGE = (

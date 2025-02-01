@@ -102,7 +102,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "max by (version)(eth_exe_web3_client_version{instance=~\"$instance\"})",
+          "expr": "max by (version)(zond_exe_web3_client_version{instance=~\"$instance\"})",
           "interval": "",
           "legendFormat": "{{ version }}",
           "refId": "A"
@@ -165,7 +165,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_spec_config_name{instance=~\"$instance\"}",
+          "expr": "zond_con_spec_config_name{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ name }}",
           "refId": "A"
@@ -228,7 +228,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_fork_current{instance=~\"$instance\"}",
+          "expr": "zond_con_fork_current{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ fork }}",
           "refId": "A"
@@ -294,7 +294,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "max by (version)(eth_con_node_version{instance=~\"$instance\"})",
+          "expr": "max by (version)(zond_con_node_version{instance=~\"$instance\"})",
           "interval": "",
           "legendFormat": "{{ version }}",
           "refId": "A"
@@ -360,7 +360,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_exe_chain_id{instance=~\"$instance\"}",
+          "expr": "zond_exe_chain_id{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -426,7 +426,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_exe_network_id{instance=~\"$instance\"}",
+          "expr": "zond_exe_network_id{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -489,7 +489,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_spec_preset_base{instance=~\"$instance\"}",
+          "expr": "zond_con_spec_preset_base{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ preset }}",
           "refId": "A"
@@ -587,7 +587,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_sync_is_syncing{instance=~\"$instance\"}",
+          "expr": "zond_con_sync_is_syncing{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -680,7 +680,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_sync_percentage{instance=~\"$instance\"}",
+          "expr": "zond_con_sync_percentage{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "refId": "A"
@@ -773,7 +773,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "\n    eth_con_beacon_slot{instance=~\"$instance\", slot!=\"genesis\"}\n",
+          "expr": "\n    zond_con_beacon_slot{instance=~\"$instance\", slot!=\"genesis\"}\n",
           "interval": "",
           "legendFormat": "{{ block_id }}",
           "range": true,
@@ -866,7 +866,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_beacon_finality_checkpoint_epochs{instance=~\"$instance\", state_id=\"head\", checkpoint!=\"previous_justified\"}",
+          "expr": "zond_con_beacon_finality_checkpoint_epochs{instance=~\"$instance\", state_id=\"head\", checkpoint!=\"previous_justified\"}",
           "interval": "",
           "legendFormat": "{{ checkpoint }}",
           "refId": "A"
@@ -959,7 +959,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "sum by (instance)(\n    eth_con_beacon_finality_checkpoint_epochs{instance=~\"$instance\", checkpoint=\"justified\", state_id=\"head\"}\n)\n-\nsum by (instance)(\n    eth_con_beacon_finality_checkpoint_epochs{instance=~\"$instance\", checkpoint=\"finalized\", state_id=\"head\"}\n)",
+          "expr": "sum by (instance)(\n    zond_con_beacon_finality_checkpoint_epochs{instance=~\"$instance\", checkpoint=\"justified\", state_id=\"head\"}\n)\n-\nsum by (instance)(\n    zond_con_beacon_finality_checkpoint_epochs{instance=~\"$instance\", checkpoint=\"finalized\", state_id=\"head\"}\n)",
           "hide": false,
           "interval": "",
           "legendFormat": "Justified -> Finalized",
@@ -971,7 +971,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "sum by (instance)(\n    eth_con_beacon_finality_checkpoint_epochs{instance=~\"$instance\", checkpoint=\"justified\", state_id=\"head\"}\n)\n-\nsum by (instance)(\n    eth_con_beacon_finality_checkpoint_epochs{instance=~\"$instance\", checkpoint=\"previous_justified\", state_id=\"head\"}\n)",
+          "expr": "sum by (instance)(\n    zond_con_beacon_finality_checkpoint_epochs{instance=~\"$instance\", checkpoint=\"justified\", state_id=\"head\"}\n)\n-\nsum by (instance)(\n    zond_con_beacon_finality_checkpoint_epochs{instance=~\"$instance\", checkpoint=\"previous_justified\", state_id=\"head\"}\n)",
           "hide": false,
           "interval": "",
           "legendFormat": "Justified -> Previous Justified",
@@ -1065,7 +1065,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_sync_distance{instance=~\"$instance\"}",
+          "expr": "zond_con_sync_distance{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "refId": "A"
@@ -1159,7 +1159,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(rate(eth_con_sync_percentage{instance=~\"$instance\"}[1m])) by (instance)",
+          "expr": "sum(rate(zond_con_sync_percentage{instance=~\"$instance\"}[1m])) by (instance)",
           "instant": false,
           "interval": "",
           "legendFormat": "{{ instance }}",
@@ -1254,7 +1254,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by (instance)(increase(eth_con_beacon_reorg_count{instance=~\"$instance\"}[1m]))",
+          "expr": "sum by (instance)(increase(zond_con_beacon_reorg_count{instance=~\"$instance\"}[1m]))",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "range": true,
@@ -1349,7 +1349,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by (instance)(\n    eth_con_beacon_slot{instance=~\"$instance\", block_id=\"head\"}\n)\n-\nsum by (instance) (\n    eth_con_beacon_slot{instance=~\"$instance\", block_id=\"finalized\"}\n) ",
+          "expr": "sum by (instance)(\n    zond_con_beacon_slot{instance=~\"$instance\", block_id=\"head\"}\n)\n-\nsum by (instance) (\n    zond_con_beacon_slot{instance=~\"$instance\", block_id=\"finalized\"}\n) ",
           "interval": "1m",
           "legendFormat": "Head -> Finalized",
           "range": true,
@@ -1362,7 +1362,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by (instance)(\n    eth_con_beacon_slot{instance=~\"$instance\", block_id=\"head\"}\n)\n-\nsum by (instance) (\n    eth_con_beacon_slot{instance=~\"$instance\", block_id=\"justified\"}\n) != 0",
+          "expr": "sum by (instance)(\n    zond_con_beacon_slot{instance=~\"$instance\", block_id=\"head\"}\n)\n-\nsum by (instance) (\n    zond_con_beacon_slot{instance=~\"$instance\", block_id=\"justified\"}\n) != 0",
           "hide": false,
           "interval": "1m",
           "legendFormat": "Head -> Justified",
@@ -1376,7 +1376,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by (instance)(\n    eth_con_beacon_slot{instance=~\"$instance\", block_id=\"justified\"}\n)\n-\nsum by (instance) (\n    eth_con_beacon_slot{instance=~\"$instance\", block_id=\"finalized\"}\n) != 0",
+          "expr": "sum by (instance)(\n    zond_con_beacon_slot{instance=~\"$instance\", block_id=\"justified\"}\n)\n-\nsum by (instance) (\n    zond_con_beacon_slot{instance=~\"$instance\", block_id=\"finalized\"}\n) != 0",
           "hide": false,
           "interval": "1m",
           "legendFormat": "Justified -> Finalized",
@@ -1470,7 +1470,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_beacon_transactions{instance=~\"$instance\", block_id=\"head\"}",
+          "expr": "zond_con_beacon_transactions{instance=~\"$instance\", block_id=\"head\"}",
           "interval": "",
           "legendFormat": "Transactions",
           "refId": "A"
@@ -1481,7 +1481,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_beacon_slashings{instance=~\"$instance\", block_id=\"head\", type=\"proposer\"}",
+          "expr": "zond_con_beacon_slashings{instance=~\"$instance\", block_id=\"head\", type=\"proposer\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Proposer Slashings",
@@ -1493,7 +1493,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_beacon_slashings{instance=~\"$instance\", block_id=\"head\", type=\"attester\"}",
+          "expr": "zond_con_beacon_slashings{instance=~\"$instance\", block_id=\"head\", type=\"attester\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Attester Slashings",
@@ -1505,7 +1505,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_beacon_attestations{instance=~\"$instance\",block_id=\"head\"}",
+          "expr": "zond_con_beacon_attestations{instance=~\"$instance\",block_id=\"head\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Attestations",
@@ -1517,7 +1517,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_beacon_deposits{instance=~\"$instance\",block_id=\"head\"}",
+          "expr": "zond_con_beacon_deposits{instance=~\"$instance\",block_id=\"head\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Deposits",
@@ -1529,7 +1529,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_beacon_voluntary_exits{instance=~\"$instance\",block_id=\"head\"}",
+          "expr": "zond_con_beacon_voluntary_exits{instance=~\"$instance\",block_id=\"head\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Voluntary Exits",
@@ -1625,7 +1625,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by (event)(increase(eth_con_event_count{instance=~\"$instance\"}[1m]))",
+          "expr": "sum by (event)(increase(zond_con_event_count{instance=~\"$instance\"}[1m]))",
           "hide": false,
           "interval": "1m",
           "legendFormat": "{{ event }}",
@@ -1715,7 +1715,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(increase(eth_con_beacon_proposer_delay_bucket{instance=~\"$instance\"}[1m])) by (le)",
+          "expr": "avg(increase(zond_con_beacon_proposer_delay_bucket{instance=~\"$instance\"}[1m])) by (le)",
           "interval": "1m",
           "legendFormat": "{{ instance }}",
           "range": true,
@@ -1823,7 +1823,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(eth_con_beacon_withdrawals_index_max{instance=~\"$instance\", block_id=\"head\"}) by (instance)",
+          "expr": "sum(zond_con_beacon_withdrawals_index_max{instance=~\"$instance\", block_id=\"head\"}) by (instance)",
           "interval": "",
           "legendFormat": "Index Max",
           "range": true,
@@ -1836,7 +1836,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(eth_con_beacon_withdrawals_index_min{instance=~\"$instance\", block_id=\"head\"}) by (instance)",
+          "expr": "sum(zond_con_beacon_withdrawals_index_min{instance=~\"$instance\", block_id=\"head\"}) by (instance)",
           "hide": false,
           "interval": "",
           "legendFormat": "Index Min",
@@ -1850,7 +1850,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(eth_con_beacon_withdrawals{instance=~\"$instance\", block_id=\"head\"}) by (instance)",
+          "expr": "sum(zond_con_beacon_withdrawals{instance=~\"$instance\", block_id=\"head\"}) by (instance)",
           "hide": false,
           "interval": "",
           "legendFormat": "Per Block",
@@ -1946,7 +1946,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(increase(eth_con_beacon_withdrawals_amount_gwei{instance=~\"$instance\", block_id=\"head\"}[1m])) by (instance)",
+          "expr": "sum(increase(zond_con_beacon_withdrawals_amount_gwei{instance=~\"$instance\", block_id=\"head\"}[1m])) by (instance)",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "range": true,
@@ -2042,7 +2042,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by (direction)(eth_con_peers{instance=~\"$instance\", state=\"connected\"})",
+          "expr": "sum by (direction)(zond_con_peers{instance=~\"$instance\", state=\"connected\"})",
           "hide": false,
           "interval": "",
           "legendFormat": "__auto",
@@ -2137,7 +2137,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_con_fork_epoch{instance=~\"$instance\", fork!=\"SHARDING\"}",
+          "expr": "zond_con_fork_epoch{instance=~\"$instance\", fork!=\"SHARDING\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "{{ fork }}",
@@ -2236,7 +2236,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_exe_sync_is_syncing{instance=~\"$instance\"}",
+          "expr": "zond_exe_sync_is_syncing{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -2329,7 +2329,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_exe_sync_percentage{instance=~\"$instance\"}",
+          "expr": "zond_exe_sync_percentage{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "refId": "A"
@@ -2422,7 +2422,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_exe_block_most_recent_number{instance=~\"$instance\"}",
+          "expr": "zond_exe_block_most_recent_number{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "refId": "A"
@@ -2515,7 +2515,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_exe_net_peer_count{instance=~\"$instance\"}",
+          "expr": "zond_exe_net_peer_count{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "refId": "A"
@@ -2608,7 +2608,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "sum by (instance)(\n    eth_exe_block_head_total_difficulty_trillions{instance=~\"$instance\"}\n)",
+          "expr": "sum by (instance)(\n    zond_exe_block_head_total_difficulty_trillions{instance=~\"$instance\"}\n)",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "refId": "A"
@@ -2701,7 +2701,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_exe_sync_highest_block{instance=~\"$instance\"} - eth_exe_sync_current_block{instance=~\"$instance\"}",
+          "expr": "zond_exe_sync_highest_block{instance=~\"$instance\"} - zond_exe_sync_current_block{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "refId": "A"
@@ -2794,7 +2794,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "sum by (instance)(rate(eth_exe_sync_percentage{instance=~\"$instance\"}[1m]))",
+          "expr": "sum by (instance)(rate(zond_exe_sync_percentage{instance=~\"$instance\"}[1m]))",
           "interval": "1m",
           "legendFormat": "{{ instance }}",
           "refId": "A"
@@ -2887,7 +2887,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_exe_gas_price_gwei{instance=~\"$instance\"}",
+          "expr": "zond_exe_gas_price_gwei{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "refId": "A"
@@ -2981,7 +2981,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by (instance)(\n    eth_exe_block_head_gas_used{instance=~\"$instance\"}\n)\n/\nsum by (instance)( \n    eth_exe_block_head_gas_limit{instance=~\"$instance\"} \n)",
+          "expr": "sum by (instance)(\n    zond_exe_block_head_gas_used{instance=~\"$instance\"}\n)\n/\nsum by (instance)( \n    zond_exe_block_head_gas_limit{instance=~\"$instance\"} \n)",
           "interval": "20s",
           "legendFormat": "{{ instance }}",
           "range": true,
@@ -3075,7 +3075,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by (instance)(\n    increase(\n        eth_exe_block_head_transactions_in_block{instance=~\"$instance\"}[1m]\n    )\n)",
+          "expr": "sum by (instance)(\n    increase(\n        zond_exe_block_head_transactions_in_block{instance=~\"$instance\"}[1m]\n    )\n)",
           "interval": "1m",
           "legendFormat": "{{ instance }}",
           "range": true,
@@ -3170,7 +3170,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "eth_exe_block_head_block_size_bytes{instance=~\"$instance\"}",
+          "expr": "zond_exe_block_head_block_size_bytes{instance=~\"$instance\"}",
           "interval": "1m",
           "legendFormat": "{{ instance }}",
           "range": true,
@@ -3265,7 +3265,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "eth_exe_txpool_transactions{instance=~\"$instance\"}",
+          "expr": "zond_exe_txpool_transactions{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ status }}",
           "range": true,
@@ -3359,7 +3359,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_exe_block_head_gas_used{instance=~\"$instance\"}",
+          "expr": "zond_exe_block_head_gas_used{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "refId": "A"
@@ -3452,7 +3452,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_exe_block_head_gas_limit{instance=~\"$instance\"}",
+          "expr": "zond_exe_block_head_gas_limit{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "refId": "A"
@@ -3533,7 +3533,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "exemplar": false,
-              "expr": "sum by (spec)(\n    label_replace(\n        {__name__=~\"eth_con_spec.*\", instance=~\"$instance\"},\n        \"spec\",\n        \"$1\",\n        \"__name__\",\n        \"eth_con_spec_(.*)\"\n    )\n)",
+              "expr": "sum by (spec)(\n    label_replace(\n        {__name__=~\"zond_con_spec.*\", instance=~\"$instance\"},\n        \"spec\",\n        \"$1\",\n        \"__name__\",\n        \"zond_con_spec_(.*)\"\n    )\n)",
               "format": "table",
               "instant": true,
               "interval": "",
@@ -3565,14 +3565,14 @@
           "type": "prometheus",
           "uid": "PBFA97CFB590B2093"
         },
-        "definition": "label_values(eth_con_beacon_slot, instance)",
+        "definition": "label_values(zond_con_beacon_slot, instance)",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values(eth_con_beacon_slot, instance)",
+          "query": "label_values(zond_con_beacon_slot, instance)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,

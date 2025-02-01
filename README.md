@@ -567,7 +567,7 @@ additional_services:
   - spamoor
   - el_forkmon
   - beacon_metrics_gazer
-  - dora
+  - explorer
   - full_beaconchain_explorer
   - prometheus_grafana
   - dugtrio
@@ -576,12 +576,12 @@ additional_services:
   - apache
   - tracoor
 
-# Configuration place for dora the explorer - https://github.com/ethpandaops/dora
-dora_params:
-  # Dora docker image to use
+# Configuration place for the explorer - https://github.com/theQRL/light-explorer
+explorer_params:
+  # Explorer docker image to use
   # Defaults to the latest image
-  image: "ethpandaops/dora:latest"
-  # A list of optional extra env_vars the dora container should spin up with
+  image: "theqrl/light-explorer:latest"
+  # A list of optional extra env_vars the explorer container should spin up with
   env: {}
 
 # Configuration place for transaction spammer - https://github.com/MariusVanDerWijden/tx-fuzz
@@ -805,8 +805,8 @@ spamoor_params:
 
 # Zond genesis generator params
 zond_genesis_generator_params:
-  # The image to use for ethereum genesis generator
-  image: ethpandaops/ethereum-genesis-generator:3.5.1
+  # The image to use for zond genesis generator
+  image: theqrl/zond-genesis-generator:3.5.1
 
 # Global parameter to set the exit ip address of services and public ports
 port_publisher:
@@ -913,10 +913,10 @@ Consensus Layer (CL) nodes - Validator:
   "com.kurtosistech.custom.zond-package-connected-client": "gzond",
 ```
 
-`ethereum-package-client` describes which client is running on the node.
-`ethereum-package-client-image` describes the image that is used for the client.
-`ethereum-package-client-type` describes the type of client that is running on the node (`execution`,`beacon` or `validator`).
-`ethereum-package-connected-client` describes the CL/EL client that is connected to the EL/CL client.
+`zond-package-client` describes which client is running on the node.
+`zond-package-client-image` describes the image that is used for the client.
+`zond-package-client-type` describes the type of client that is running on the node (`execution`,`beacon` or `validator`).
+`zond-package-connected-client` describes the CL/EL client that is connected to the EL/CL client.
 
 ## Pre-funded accounts at Genesis
 

@@ -63,7 +63,7 @@ Then the validator keys are generated. A tool called [eth2-val-tools](https://gi
 
 ### Starting EL clients
 
-Next, we plug the generated genesis data [into EL client "launchers"](https://github.com/theQRL/zond-package/tree/main/src/participant_network/el) to start a mining network of EL nodes. The launchers come with a `launch` function that consumes EL genesis data and produces information about the running EL client node. Running EL node information is represented by [an `el_context` struct](https://github.com/theQRL/zond-package/blob/main/src/participant_network/el/el_context.star). Each EL client type has its own launcher (e.g. [Geth](https://github.com/theQRL/zond-package/tree/main/src/participant_network/el/geth), [Besu](https://github.com/theQRL/zond-package/tree/main/src/participant_network/el/besu)) because each EL client will require different environment variables and flags to be set when launching the client's container.
+Next, we plug the generated genesis data [into EL client "launchers"](https://github.com/theQRL/zond-package/tree/main/src/participant_network/el) to start a mining network of EL nodes. The launchers come with a `launch` function that consumes EL genesis data and produces information about the running EL client node. Running EL node information is represented by [an `el_context` struct](https://github.com/theQRL/zond-package/blob/main/src/participant_network/el/el_context.star). Each EL client type has its own launcher (e.g. [Gzond](https://github.com/theQRL/zond-package/tree/main/src/participant_network/el/gzond)) because each EL client will require different environment variables and flags to be set when launching the client's container.
 
 ### Starting CL clients
 

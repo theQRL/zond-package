@@ -13,11 +13,11 @@ network_params:
   churn_limit_quotient: 16
   genesis_delay: 240
 additional_services:
-  - dora
+  - explorer
   - tx_spammer
   - assertoor
-dora_params:
-  image: "ethpandaops/dora:master-latest"
+explorer_params:
+  image: "ethpandaops/explorer:master-latest"
 
 global_log_level: debug
 

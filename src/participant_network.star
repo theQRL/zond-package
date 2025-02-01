@@ -137,13 +137,13 @@ def launch_participant_network(
     )
 
     # Launch all consensus layer clients
-    prysm_password_relative_filepath = (
-        validator_data.prysm_password_relative_filepath
+    qrysm_password_relative_filepath = (
+        validator_data.qrysm_password_relative_filepath
         if total_number_of_validator_keys > 0
         else None
     )
-    prysm_password_artifact_uuid = (
-        validator_data.prysm_password_artifact_uuid
+    qrysm_password_artifact_uuid = (
+        validator_data.qrysm_password_artifact_uuid
         if total_number_of_validator_keys > 0
         else None
     )
@@ -165,8 +165,8 @@ def launch_participant_network(
         persistent,
         num_participants,
         validator_data,
-        prysm_password_relative_filepath,
-        prysm_password_artifact_uuid,
+        qrysm_password_relative_filepath,
+        qrysm_password_artifact_uuid,
     )
 
     zond_metrics_exporter_context = None
@@ -178,7 +178,7 @@ def launch_participant_network(
     # Some CL clients cannot run validator clients in the same process and need
     # a separate validator client
     _cls_that_need_separate_vc = [
-        constants.CL_TYPE.prysm,
+        constants.CL_TYPE.qrysm,
     ]
 
     current_vc_index = 0

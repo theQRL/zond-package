@@ -1,17 +1,17 @@
 shared_utils = import_module("../shared_utils/shared_utils.star")
 constants = import_module("../package_io/constants.star")
-SERVICE_NAME = "dora"
+SERVICE_NAME = "explorer"
 
 HTTP_PORT_NUMBER = 8080
 
-DORA_CONFIG_FILENAME = "dora-config.yaml"
+EXPLORER_CONFIG_FILENAME = "explorer-config.yaml"
 
-DORA_CONFIG_MOUNT_DIRPATH_ON_SERVICE = "/config"
+EXPLORER_CONFIG_MOUNT_DIRPATH_ON_SERVICE = "/config"
 
 VALIDATOR_RANGES_MOUNT_DIRPATH_ON_SERVICE = "/validator-ranges"
 VALIDATOR_RANGES_ARTIFACT_NAME = "validator-ranges"
 
-# The min/max CPU/memory that dora can use
+# The min/max CPU/memory that the explorer can use
 MIN_CPU = 100
 MAX_CPU = 1000
 MIN_MEMORY = 128
@@ -26,13 +26,13 @@ USED_PORTS = {
 }
 
 
-def launch_dora(
+def launch_explorer(
     plan,
     config_template,
     participant_contexts,
     participant_configs,
     network_params,
-    dora_params,
+    explorer_params,
     global_node_selectors,
     port_publisher,
     additional_service_index,
@@ -70,15 +70,15 @@ def launch_dora(
         config_template, template_data
     )
     template_and_data_by_rel_dest_filepath = {}
-    template_and_data_by_rel_dest_filepath[DORA_CONFIG_FILENAME] = template_and_data
+    template_and_data_by_rel_dest_filepath[EXPLORER_CONFIG_FILENAME] = template_and_data
 
     config_files_artifact_name = plan.render_templates(
-        template_and_data_by_rel_dest_filepath, "dora-config"
+        template_and_data_by_rel_dest_filepath, "explorer-config"
     )
     config = get_config(
         config_files_artifact_name,
         network_params,
-        dora_params,
+        explorer_params,
         global_node_selectors,
         port_publisher,
         additional_service_index,
@@ -90,14 +90,14 @@ def launch_dora(
 def get_config(
     config_files_artifact_name,
     network_params,
-    dora_params,
+    explorer_params,
     node_selectors,
     port_publisher,
     additional_service_index,
 ):
     config_file_path = shared_utils.path_join(
-        DORA_CONFIG_MOUNT_DIRPATH_ON_SERVICE,
-        DORA_CONFIG_FILENAME,
+        EXPLORER_CONFIG_MOUNT_DIRPATH_ON_SERVICE,
+        EXPLORER_CONFIG_FILENAME,
     )
 
     public_ports = shared_utils.get_additional_service_standard_public_port(
@@ -107,18 +107,18 @@ def get_config(
         0,
     )
 
-    IMAGE_NAME = dora_params.image
+    IMAGE_NAME = explorer_params.image
 
     return ServiceConfig(
         image=IMAGE_NAME,
         ports=USED_PORTS,
         public_ports=public_ports,
         files={
-            DORA_CONFIG_MOUNT_DIRPATH_ON_SERVICE: config_files_artifact_name,
+            EXPLORER_CONFIG_MOUNT_DIRPATH_ON_SERVICE: config_files_artifact_name,
             VALIDATOR_RANGES_MOUNT_DIRPATH_ON_SERVICE: VALIDATOR_RANGES_ARTIFACT_NAME,
         },
         cmd=["-config", config_file_path],
-        env_vars=dora_params.env,
+        env_vars=explorer_params.env,
         min_cpu=MIN_CPU,
         max_cpu=MAX_CPU,
         min_memory=MIN_MEMORY,

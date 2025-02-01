@@ -161,7 +161,7 @@ SUBCATEGORY_PARAMS = {
         "prefunded_accounts",
         "gossip_max_size",
     ],
-    "dora_params": [
+    "explorer_params": [
         "image",
         "env",
     ],
@@ -236,7 +236,7 @@ ADDITIONAL_SERVICES_PARAMS = [
     "tx_spammer",
     "el_forkmon",
     "beacon_metrics_gazer",
-    "dora",
+    "explorer",
     "full_beaconchain_explorer",
     "prometheus_grafana",
     "dugtrio",

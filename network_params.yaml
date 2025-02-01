@@ -91,7 +91,7 @@ network_params:
   devnet_repo: theqrl
   prefunded_accounts: {}
 additional_services: []
-dora_params:
+explorer_params:
   image: ""
 tx_spammer_params:
   tx_spammer_extra_args: []

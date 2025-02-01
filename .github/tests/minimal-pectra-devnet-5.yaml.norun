@@ -3,9 +3,9 @@ participants_matrix:
     - el_type: gzond
       el_image: ethpandaops/gzond:prague-devnet-5-a193537
   cl:
-    - cl_type: prysm
-      cl_image: ethpandaops/prysm-beacon-chain:devnet5-minimal-ae44429
-      vc_image: ethpandaops/prysm-validator:devnet5-minimal-ae44429
+    - cl_type: qrysm
+      cl_image: ethpandaops/qrysm-beacon-chain:devnet5-minimal-ae44429
+      vc_image: ethpandaops/qrysm-validator:devnet5-minimal-ae44429
 network_params:
   preset: minimal
   min_validator_withdrawability_delay: 1
@@ -13,11 +13,11 @@ network_params:
   churn_limit_quotient: 16
   genesis_delay: 240
 additional_services:
-  - dora
+  - explorer
   - tx_spammer
   - assertoor
-dora_params:
-  image: "ethpandaops/dora:master-latest"
+explorer_params:
+  image: "ethpandaops/explorer:master-latest"
 
 assertoor_params:
   image: "ethpandaops/assertoor:master"

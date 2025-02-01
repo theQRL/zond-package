@@ -2,6 +2,6 @@ participants:
   - el_type: gzond
     cl_type: qrysm
 # additional_services:
-#   - dora
+#   - explorer
 network_params:
   genesis_delay: 120

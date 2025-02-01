@@ -51,8 +51,8 @@ def launch(
         )
 
     keymanager_enabled = participant.keymanager_enabled
-    if vc_type == constants.VC_TYPE.prysm:
-        config = prysm.get_config(
+    if vc_type == constants.VC_TYPE.qrysm:
+        config = qrysm.get_config(
             participant=participant,
             el_cl_genesis_data=launcher.el_cl_genesis_data,
             keymanager_file=keymanager_file,
@@ -63,8 +63,8 @@ def launch(
             remote_signer_context=remote_signer_context,
             full_name=full_name,
             node_keystore_files=node_keystore_files,
-            prysm_password_relative_filepath=prysm_password_relative_filepath,
-            prysm_password_artifact_uuid=prysm_password_artifact_uuid,
+            qrysm_password_relative_filepath=qrysm_password_relative_filepath,
+            qrysm_password_artifact_uuid=qrysm_password_artifact_uuid,
             tolerations=tolerations,
             node_selectors=node_selectors,
             keymanager_enabled=keymanager_enabled,

@@ -18,7 +18,7 @@ el_forkmon = import_module("./src/el_forkmon/el_forkmon_launcher.star")
 beacon_metrics_gazer = import_module(
     "./src/beacon_metrics_gazer/beacon_metrics_gazer_launcher.star"
 )
-dora = import_module("./src/dora/dora_launcher.star")
+explorer = import_module("./src/explorer/explorer_launcher.star")
 dugtrio = import_module("./src/dugtrio/dugtrio_launcher.star")
 blutgang = import_module("./src/blutgang/blutgang_launcher.star")
 forky = import_module("./src/forky/forky_launcher.star")
@@ -233,22 +233,22 @@ def run(plan, args={}):
                 beacon_metrics_gazer_prometheus_metrics_job
             )
             plan.print("Successfully launched beacon metrics gazer")
-        elif additional_service == "dora":
-            plan.print("Launching dora")
-            dora_config_template = read_file(static_files.DORA_CONFIG_TEMPLATE_FILEPATH)
-            dora_params = args_with_right_defaults.dora_params
-            dora.launch_dora(
+        elif additional_service == "explorer":
+            plan.print("Launching explorer")
+            explorer_config_template = read_file(static_files.EXPLORER_CONFIG_TEMPLATE_FILEPATH)
+            explorer_params = args_with_right_defaults.explorer_params
+            explorer.launch_explorer(
                 plan,
-                dora_config_template,
+                explorer_config_template,
                 all_participants,
                 args_with_right_defaults.participants,
                 network_params,
-                dora_params,
+                explorer_params,
                 global_node_selectors,
                 args_with_right_defaults.port_publisher,
                 index,
             )
-            plan.print("Successfully launched dora")
+            plan.print("Successfully launched explorer")
         elif additional_service == "dugtrio":
             plan.print("Launching dugtrio")
             dugtrio_config_template = read_file(

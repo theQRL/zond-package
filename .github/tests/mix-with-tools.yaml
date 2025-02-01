@@ -5,7 +5,7 @@ additional_services:
   - tx_spammer
   - el_forkmon
   - beacon_metrics_gazer
-  - dora
+  - explorer
   - prometheus_grafana
   - dugtrio
   - blutgang
