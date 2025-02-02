@@ -26,7 +26,6 @@ def launch(
                 jwt_file,
                 network_params.network,
                 network_id,
-                el_cl_data.prague_time,
             ),
             "launch_method": gzond.launch,
         },

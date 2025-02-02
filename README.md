@@ -6,7 +6,7 @@ You now have the ability to spin up a private Zond testnet or public devnet/test
 
 Specifically, this [package][package-reference] will:
 
-1. Generate Execution Layer (EL) & Consensus Layer (CL) genesis information using [the Zond genesis generator](https://github.com/theqrl/zond-genesis-generator).
+1. Generate Execution Layer (EL) & Consensus Layer (CL) genesis information using [the Zond genesis generator](https://github.com/theQRL/zond-genesis-generator).
 2. Configure & bootstrap a network of Zond nodes of *n* size using the genesis data generated above
 3. Spin up a [transaction spammer](https://github.com/MariusVanDerWijden/tx-fuzz) to send fake transactions to the network
 4. Spin up and connect a [testnet verifier](https://github.com/ethereum/merge-testnet-verifier)
@@ -806,7 +806,7 @@ spamoor_params:
 # Zond genesis generator params
 zond_genesis_generator_params:
   # The image to use for zond genesis generator
-  image: theqrl/zond-genesis-generator:3.5.1
+  image: theqrl/zond-genesis-generator:latest
 
 # Global parameter to set the exit ip address of services and public ports
 port_publisher:

@@ -43,8 +43,6 @@ GRAFANA_DASHBOARD_PATH_URL = "/d/QdTOwy-nz/eth2-merge-kurtosis-module-dashboard?
 FIRST_NODE_FINALIZATION_FACT = "cl-boot-finalization-fact"
 HTTP_PORT_ID_FOR_FACT = "http"
 
-PATH_TO_PARSED_BEACON_STATE = "/genesis/output/parsedBeaconState.json"
-
 
 def run(plan, args={}):
     """Launches an arbitrarily complex zond testnet based on the arguments provided
@@ -102,7 +100,6 @@ def run(plan, args={}):
     (
         all_participants,
         final_genesis_timestamp,
-        genesis_validators_root,
         el_cl_data_files_artifact_uuid,
         network_id,
     ) = participant_network.launch_participant_network(
@@ -178,7 +175,6 @@ def run(plan, args={}):
             network_params=network_params,
             network_id=network_id,
             final_genesis_timestamp=final_genesis_timestamp,
-            genesis_validators_root=genesis_validators_root,
         )
 
         return output
@@ -438,7 +434,6 @@ def run(plan, args={}):
         network_params=network_params,
         network_id=network_id,
         final_genesis_timestamp=final_genesis_timestamp,
-        genesis_validators_root=genesis_validators_root,
     )
 
     return output

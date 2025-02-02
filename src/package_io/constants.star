@@ -43,11 +43,9 @@ RBUILDER_PORT_ID = "rbuilder-rpc"
 LITTLE_BIGTABLE_PORT_ID = "littlebigtable"
 VALDIATOR_GRPC_PORT_ID = "grpc"
 
-VALIDATING_REWARDS_ACCOUNT = "0x8943545177806ED17B9F23F0a21ee5948eCaa776"
+VALIDATING_REWARDS_ACCOUNT = "Z8943545177806ED17B9F23F0a21ee5948eCaa776"
 MAX_ENR_ENTRIES = 20
 MAX_ENODE_ENTRIES = 20
-
-GENESIS_VALIDATORS_ROOT_PLACEHOLDER = "GENESIS_VALIDATORS_ROOT_PLACEHOLDER"
 
 ARCHIVE_MODE = True
 
@@ -67,8 +65,8 @@ KEYMANAGER_MOUNT_PATH_ON_CONTAINER = (
 DEFAULT_EXPLORER_IMAGE = "ethpandaops/explorer:latest"
 DEFAULT_ASSERTOOR_IMAGE = "ethpandaops/assertoor:latest"
 DEFAULT_SNOOPER_IMAGE = "ethpandaops/rpc-snooper:latest"
-DEFAULT_ZOND_GENESIS_GENERATOR_IMAGE = (
-    "theQRL/zond-genesis-generator:3.6.0"
+DEFAULT_ZOND_GENESIS_GENERATOR_IMAGE = ( 
+    "theqrl/zond-genesis-generator:latest"
 )
 
 DEFAULT_MNEMONIC = "giant issue aisle success illegal bike spike question tent bar rely arctic volcano long crawl hungry vocal artwork sniff fantasy very lucky have athlete"
@@ -109,11 +107,6 @@ CHECKPOINT_SYNC_URL = {
     "ephemery": "https://checkpoint-sync.ephemery.ethpandaops.io/",
     "sepolia": "https://checkpoint-sync.sepolia.ethpandaops.io/",
     "holesky": "https://checkpoint-sync.holesky.ethpandaops.io/",
-}
-
-GENESIS_VALIDATORS_ROOT = {
-    "mainnet": "0x4b363db94e286120d76eb905340fdd4e54bfe9f06bf33ff6cf5ad27f511bfe95",
-    "sepolia": "0xd8ea171f3c94aea21ebc42a1ed61052acf3f9209c00e4efbaaddac09ed9b8078",
 }
 
 DEPOSIT_CONTRACT_ADDRESS = {

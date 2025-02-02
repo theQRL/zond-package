@@ -49,38 +49,17 @@ def generate_el_cl_genesis_data(
     genesis = plan.run_sh(
         name="run-generate-genesis",
         description="Creating genesis",
-        run="cp /opt/values.env /config/values.env && ./entrypoint.sh all && mkdir /network-configs && mv /data/metadata/* /network-configs/ && mv /data/parsed /network-configs/parsed",
+        run="cp /opt/values.env /config/values.env && ./entrypoint.sh all && mkdir /network-configs && mv /data/metadata/* /network-configs/",
         image=image,
         files=files,
         store=[
             StoreSpec(src="/network-configs/", name="el_cl_genesis_data"),
-            StoreSpec(
-                src="/network-configs/genesis_validators_root.txt",
-                name="genesis_validators_root",
-            ),
         ],
         wait=None,
     )
 
-    genesis_validators_root = plan.run_sh(
-        name="read-genesis-validators-root",
-        description="Reading genesis validators root",
-        run="cat /data/genesis_validators_root.txt",
-        files={"/data": genesis.files_artifacts[1]},
-        wait=None,
-    )
-
-    prague_time = plan.run_sh(
-        name="read-prague-time",
-        description="Reading prague time from genesis",
-        run="jq .config.pragueTime /data/genesis.json | tr -d '\n'",
-        files={"/data": genesis.files_artifacts[0]},
-    )
-
     result = el_cl_genesis_data.new_el_cl_genesis_data(
         genesis.files_artifacts[0],
-        genesis_validators_root.output,
-        prague_time.output,
     )
 
     return result

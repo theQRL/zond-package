@@ -94,6 +94,6 @@ Once the Zond network is up and running, verification logic will be run to ensur
 [main-function]: https://github.com/theQRL/zond-package/blob/main/main.star#22
 [package-io]: https://github.com/theQRL/zond-package/tree/main/src/package_io
 [participant-network]: https://github.com/theQRL/zond-package/tree/main/src/participant_network
-[zond-genesis-generator]: https://github.com/ethpandaops/zond-genesis-generator
+[zond-genesis-generator]: https://github.com/theQRL/zond-genesis-generator
 [static-files]: https://github.com/theQRL/zond-package/tree/main/static_files
 [testnet-verifier]: https://github.com/theQRL/zond-package/tree/main/src/testnet_verifier

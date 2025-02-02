@@ -34,7 +34,6 @@ VERBOSITY_LEVELS = {
 }
 
 BUILDER_IMAGE_STR = "builder"
-SUAVE_ENABLED_GETH_IMAGE_STR = "suave"
 
 
 def launch(
@@ -207,13 +206,6 @@ def get_config(
             if "--ws.api" in arg:
                 cmd[index] = "--ws.api=admin,engine,net,eth,web3,debug"
 
-    if SUAVE_ENABLED_GETH_IMAGE_STR in participant.el_image:
-        for index, arg in enumerate(cmd):
-            if "--http.api" in arg:
-                cmd[index] = "--http.api=admin,engine,net,eth,web3,debug,suavex"
-            if "--ws.api" in arg:
-                cmd[index] = "--ws.api=admin,engine,net,eth,web3,debug,suavex"
-
     if (
         launcher.network == constants.NETWORK_NAME.kurtosis
         or constants.NETWORK_NAME.shadowfork in launcher.network
@@ -228,8 +220,6 @@ def get_config(
                     ]
                 )
             )
-        if constants.NETWORK_NAME.shadowfork in launcher.network:  # shadowfork
-            cmd.append("--override.prague=" + str(launcher.prague_time))
 
     elif (
         launcher.network not in constants.PUBLIC_NETWORKS
@@ -307,12 +297,10 @@ def new_gzond_launcher(
     jwt_file,
     network,
     networkid,
-    prague_time,
 ):
     return struct(
         el_cl_genesis_data=el_cl_genesis_data,
         jwt_file=jwt_file,
         network=network,
         networkid=networkid,
-        prague_time=prague_time,
     )
