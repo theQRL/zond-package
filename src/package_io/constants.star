@@ -99,14 +99,12 @@ PUBLIC_NETWORKS = (
 NETWORK_ID = {
     "mainnet": "1",
     "sepolia": "11155111",
-    "holesky": "17000",
 }
 
 CHECKPOINT_SYNC_URL = {
     "mainnet": "https://beaconstate.info",
     "ephemery": "https://checkpoint-sync.ephemery.ethpandaops.io/",
     "sepolia": "https://checkpoint-sync.sepolia.ethpandaops.io/",
-    "holesky": "https://checkpoint-sync.holesky.ethpandaops.io/",
 }
 
 DEPOSIT_CONTRACT_ADDRESS = {
@@ -142,4 +140,3 @@ VOLUME_SIZE = {
 }
 VOLUME_SIZE["mainnet-shadowfork"] = VOLUME_SIZE["mainnet"]
 VOLUME_SIZE["sepolia-shadowfork"] = VOLUME_SIZE["sepolia"]
-VOLUME_SIZE["holesky-shadowfork"] = VOLUME_SIZE["holesky"]

@@ -59,11 +59,11 @@ To mitigate these issues, you can use the `el_volume_size` and `cl_volume_size` 
 For optimal performance, we recommend using a cloud provider that allows you to provision Kubernetes clusters with fast persistent storage or self hosting your own Kubernetes cluster with fast persistent storage.
 
 ### Shadowforking
-In order to enable shadowfork capabilities, you can use the `network_params.network` flag. The expected value is the name of the network you want to shadowfork followed by `-shadowfork`. Please note that `persistent` configuration parameter has to be enabled for shadowforks to work! Current limitation on k8s is it is only working on a single node cluster. For example, to shadowfork the Holesky testnet, you can use the following command:
+In order to enable shadowfork capabilities, you can use the `network_params.network` flag. The expected value is the name of the network you want to shadowfork followed by `-shadowfork`. Please note that `persistent` configuration parameter has to be enabled for shadowforks to work! Current limitation on k8s is it is only working on a single node cluster. For example, to shadowfork the Sepolia testnet, you can use the following command:
 ```yaml
 ...
 network_params:
-  network: "holesky-shadowfork"
+  network: "sepolia-shadowfork"
 persistent: true
 ...
 ```
@@ -439,7 +439,7 @@ participants_matrix: {}
 network_params:
   # Network name, used to enable syncing of alternative networks
   # Defaults to "kurtosis"
-  # You can sync any public network by setting this to the network name (e.g. "mainnet", "sepolia", "holesky")
+  # You can sync any public network by setting this to the network name (e.g. "mainnet", "sepolia")
   # You can sync any devnet by setting this to the network name (e.g. "dencun-devnet-12")
   network: "kurtosis"
 
