@@ -120,7 +120,7 @@ def get_config(
         gcmode_archive = True
     else:
         gcmode_archive = False
-    elif constants.NETWORK_NAME.shadowfork in launcher.network:  # shadowfork
+    if constants.NETWORK_NAME.shadowfork in launcher.network:  # shadowfork
         init_datadir_cmd_str = "echo shadowfork"
 
     elif gcmode_archive:  # Disable path based storage scheme archive mode
