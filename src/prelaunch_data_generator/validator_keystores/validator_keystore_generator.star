@@ -10,7 +10,7 @@ QRYSM_PASSWORD_FILEPATH_ON_GENERATOR = "/tmp/qrysm-password.txt"
 
 KEYSTORES_GENERATION_TOOL_NAME = "/app/eth2-val-tools"
 
-VAL_TOOLS_IMAGE = "theqrl-dev/zond-genesis-generator:latest"
+VAL_TOOLS_IMAGE = "theqrl/zond-genesis-generator:latest"
 
 SUCCESSFUL_EXEC_CMD_EXIT_CODE = 0
 
