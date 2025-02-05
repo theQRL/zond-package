@@ -15,7 +15,7 @@ DEFAULT_CL_IMAGES = {
 }
 
 DEFAULT_CL_IMAGES_MINIMAL = {
-    "qrysm": "ethpandaops/qrysm-beacon-chain:develop-minimal",
+    "qrysm": "theqrl/qrysm-beacon-chain:develop-minimal",
 }
 
 DEFAULT_VC_IMAGES = {
