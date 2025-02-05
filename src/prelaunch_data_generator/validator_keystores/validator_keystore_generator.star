@@ -10,12 +10,9 @@ QRYSM_PASSWORD_FILEPATH_ON_GENERATOR = "/tmp/qrysm-password.txt"
 
 KEYSTORES_GENERATION_TOOL_NAME = "/app/eth2-val-tools"
 
-ETH_VAL_TOOLS_IMAGE = "protolambda/eth2-val-tools:latest"
+VAL_TOOLS_IMAGE = "theqrl-dev/zond-genesis-generator:latest"
 
 SUCCESSFUL_EXEC_CMD_EXIT_CODE = 0
-
-RAW_KEYS_DIRNAME = "keys"
-RAW_SECRETS_DIRNAME = "secrets"
 
 QRYSM_DIRNAME = "qrysm"
 
@@ -67,7 +64,7 @@ def get_config(files_artifact_mountpoints, docker_cache_params):
     return ServiceConfig(
         image=shared_utils.docker_cache_image_calc(
             docker_cache_params,
-            ETH_VAL_TOOLS_IMAGE,
+            VAL_TOOLS_IMAGE,
         ),
         entrypoint=ENTRYPOINT_ARGS,
         files=files_artifact_mountpoints,
@@ -91,25 +88,34 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
         if participant.validator_count == 0:
             all_output_dirpaths.append(output_dirpath)
             continue
+        generate_keystores_cmds = []
 
         start_index = running_total_validator_count
-        stop_index = start_index + participant.validator_count
-
-        generate_keystores_cmd = '{0} keystores --insecure --qrysm-pass {1} --out-loc {2} --source-mnemonic "{3}" --source-min {4} --source-max {5}'.format(
-            KEYSTORES_GENERATION_TOOL_NAME,
-            QRYSM_PASSWORD,
-            output_dirpath,
-            mnemonic,
+        generate_validator_keys_cmd = '{0} new-seed --validator-start-index {1} --num-validators {2} --folder {3} --mnemonic "{4}" --keystore-password "" --chain-name "dev"'.format(
+            "/usr/local/bin/deposit",
             start_index,
-            stop_index,
+            participant.validator_count,
+            shared_utils.path_join(outdir_path, "validator_keys"),
+            mnemonic
         )
+        generate_keystores_cmds.append(generate_validator_keys_cmd)
+
+        create_validator_wallets_cmd = '{0} wallet create --wallet-dir={1}'.format(
+            "/usr/local/bin/validator",
+            shared_utils.path_join(outdir_path, "qrysm"),
+        )
+        generate_keystores_cmds.append(create_validator_wallets_cmd)
+
+        import_validator_keys_cmd = '{0} accounts import --keys-dir={1} --wallet-dir={2}'.format(
+            "/usr/local/bin/validator",
+            shared_utils.path_join(outdir_path, "validator_keys"),
+            shared_utils.path_join(outdir_path, "qrysm"),
+        )
+        generate_keystores_cmds.append(import_validator_keys_cmd)
+
+        generate_keystores_cmd = " && ".join(generate_keystores_cmds)
         all_output_dirpaths.append(output_dirpath)
         all_sub_command_strs.append(generate_keystores_cmd)
-
-        raw_secret_permissions_cmd = (
-            "chmod 0600 -R " + output_dirpath + RAW_SECRETS_DIRNAME
-        )
-        all_sub_command_strs.append(raw_secret_permissions_cmd)
 
         running_total_validator_count += participant.validator_count
 
@@ -151,9 +157,6 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
         base_dirname_in_artifact = shared_utils.path_base(output_dirpath)
         to_add = keystore_files_module.new_keystore_files(
             artifact_name,
-            shared_utils.path_join(base_dirname_in_artifact),
-            shared_utils.path_join(base_dirname_in_artifact, RAW_KEYS_DIRNAME),
-            shared_utils.path_join(base_dirname_in_artifact, RAW_SECRETS_DIRNAME),
             shared_utils.path_join(base_dirname_in_artifact, QRYSM_DIRNAME),
         )
 
@@ -193,6 +196,7 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
     return result
 
 
+# NOTE(rgeraldes24): not supported atm
 # this is like above but runs things in parallel - for large networks that run on k8s or gigantic dockers
 def generate_valdiator_keystores_in_parallel(
     plan, mnemonic, participants, docker_cache_params
@@ -231,10 +235,6 @@ def generate_valdiator_keystores_in_parallel(
             stop_index,
             generation_finished_filepath,
         )
-        raw_secret_permissions_cmd = (
-            " && chmod 0600 -R " + output_dirpath + "/" + RAW_SECRETS_DIRNAME
-        )
-        generate_keystores_cmd += raw_secret_permissions_cmd
         all_generation_commands.append(generate_keystores_cmd)
         all_output_dirpaths.append(output_dirpath)
 
@@ -301,9 +301,6 @@ def generate_valdiator_keystores_in_parallel(
         base_dirname_in_artifact = shared_utils.path_base(output_dirpath)
         to_add = keystore_files_module.new_keystore_files(
             artifact_name,
-            shared_utils.path_join(base_dirname_in_artifact),
-            shared_utils.path_join(base_dirname_in_artifact, RAW_KEYS_DIRNAME),
-            shared_utils.path_join(base_dirname_in_artifact, RAW_SECRETS_DIRNAME),
             shared_utils.path_join(base_dirname_in_artifact, QRYSM_DIRNAME),
         )
 
