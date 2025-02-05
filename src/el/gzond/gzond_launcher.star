@@ -191,7 +191,6 @@ def get_config(
         "--authrpc.vhosts=*",
         "--authrpc.jwtsecret=" + constants.JWT_MOUNT_PATH_ON_CONTAINER,
         "--syncmode=full" if not gcmode_archive else "--gcmode=archive",
-        "--rpc.allow-unprotected-txs",
         "--metrics",
         "--metrics.addr=0.0.0.0",
         "--metrics.port={0}".format(METRICS_PORT_NUM),
