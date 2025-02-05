@@ -95,21 +95,21 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
             "/usr/local/bin/deposit",
             start_index,
             participant.validator_count,
-            shared_utils.path_join(outdir_dirpath, "validator_keys"),
+            shared_utils.path_join(output_dirpath, "validator_keys"),
             mnemonic
         )
         generate_keystores_cmds.append(generate_validator_keys_cmd)
 
         create_validator_wallets_cmd = '{0} wallet create --wallet-dir={1}'.format(
             "/usr/local/bin/validator",
-            shared_utils.path_join(outdir_dirpath, "qrysm"),
+            shared_utils.path_join(output_dirpath, "qrysm"),
         )
         generate_keystores_cmds.append(create_validator_wallets_cmd)
 
         import_validator_keys_cmd = '{0} accounts import --keys-dir={1} --wallet-dir={2}'.format(
             "/usr/local/bin/validator",
-            shared_utils.path_join(outdir_dirpath, "validator_keys"),
-            shared_utils.path_join(outdir_dirpath, "qrysm"),
+            shared_utils.path_join(output_dirpath, "validator_keys"),
+            shared_utils.path_join(output_dirpath, "qrysm"),
         )
         generate_keystores_cmds.append(import_validator_keys_cmd)
 
