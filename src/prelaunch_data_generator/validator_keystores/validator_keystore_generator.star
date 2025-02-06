@@ -122,8 +122,7 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
             mnemonic
         )
         generate_keystores_cmds.append(generate_validator_keys_cmd)
-
-        create_validator_wallets_cmd = '{0} wallet create --wallet-dir={1} --keymanager-kind={2} --wallet-password-file={3}'.format(
+        create_validator_wallets_cmd = '{0} wallet create --accept-terms-of-use=true --wallet-dir={1} --keymanager-kind={2} --wallet-password-file={3}'.format(
             "/usr/local/bin/validator",
             shared_utils.path_join(output_dirpath, "qrysm"),
             "local",
