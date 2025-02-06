@@ -114,12 +114,13 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
         generate_keystores_cmds = []
 
         start_index = running_total_validator_count
-        generate_validator_keys_cmd = '{0} new-seed --validator-start-index {1} --num-validators {2} --folder {3} --mnemonic "{4}" --keystore-password "" --chain-name "dev"'.format(
+        generate_validator_keys_cmd = '{0} new-seed --validator-start-index {1} --num-validators {2} --folder {3} --mnemonic "{4}" --keystore-password-file={5} --chain-name "dev"'.format(
             "/usr/local/bin/deposit",
             start_index,
             participant.validator_count,
             shared_utils.path_join(output_dirpath, "validator_keys"),
-            mnemonic
+            mnemonic,
+            QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
         )
         generate_keystores_cmds.append(generate_validator_keys_cmd)
         create_validator_wallets_cmd = '{0} wallet create --accept-terms-of-use=true --wallet-dir={1} --keymanager-kind={2} --wallet-password-file={3}'.format(
@@ -130,10 +131,11 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
         )
         generate_keystores_cmds.append(create_validator_wallets_cmd)
 
-        import_validator_keys_cmd = '{0} accounts import --keys-dir={1} --wallet-dir={2} --wallet-password-file={3} --account-password-file={3}'.format(
+        import_validator_keys_cmd = '{0} accounts import --keys-dir={1} --wallet-dir={2} --wallet-password-file={3} --account-password-file={4}'.format(
             "/usr/local/bin/validator",
             shared_utils.path_join(output_dirpath, "validator_keys"),
             shared_utils.path_join(output_dirpath, "qrysm"),
+            QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
             QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
         )
         generate_keystores_cmds.append(import_validator_keys_cmd)
