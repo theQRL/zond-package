@@ -23,7 +23,7 @@ DEFAULT_VC_IMAGES = {
 }
 
 DEFAULT_VC_IMAGES_MINIMAL = {
-    "qrysm": "ethpandaops/qrysm-validator:develop-minimal",
+    "qrysm": "theqrl/qrysm-validator:develop-minimal",
 }
 
 DEFAULT_REMOTE_SIGNER_IMAGES = {
@@ -683,7 +683,7 @@ def default_network_params():
         "network": "kurtosis",
         "network_id": "3151908",
         "deposit_contract_address": "Z4242424242424242424242424242424242424242",
-        "seconds_per_slot": 12,
+        "seconds_per_slot": 60,
         "num_validator_keys_per_node": 64,
         "preregistered_validator_keys_mnemonic": constants.DEFAULT_MNEMONIC,
         "preregistered_validator_count": 0,
@@ -695,7 +695,7 @@ def default_network_params():
         "eth1_follow_distance": 2048,
         "min_validator_withdrawability_delay": 256,
         "shard_committee_period": 256,
-        "network_sync_base_url": "https://snapshots.ethpandaops.io/",
+        "network_sync_base_url": "https://snapshots.theqrl.org/",
         "data_column_sidecar_subnet_count": 128,
         "samples_per_slot": 8,
         "custody_requirement": 4,
@@ -712,7 +712,7 @@ def default_minimal_network_params():
         "network": "kurtosis",
         "network_id": "3151908",
         "deposit_contract_address": "Z4242424242424242424242424242424242424242",
-        "seconds_per_slot": 6,
+        "seconds_per_slot": 15,
         "num_validator_keys_per_node": 64,
         "preregistered_validator_keys_mnemonic": constants.DEFAULT_MNEMONIC,
         "preregistered_validator_count": 0,
@@ -724,7 +724,7 @@ def default_minimal_network_params():
         "eth1_follow_distance": 16,
         "min_validator_withdrawability_delay": 256,
         "shard_committee_period": 64,
-        "network_sync_base_url": "https://snapshots.ethpandaops.io/",
+        "network_sync_base_url": "https://snapshots.theqrl.org/",
         "data_column_sidecar_subnet_count": 128,
         "samples_per_slot": 8,
         "custody_requirement": 4,

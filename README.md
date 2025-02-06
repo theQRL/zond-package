@@ -450,7 +450,7 @@ network_params:
   deposit_contract_address: "Z4242424242424242424242424242424242424242"
 
   # Number of seconds per slot on the Beacon chain
-  seconds_per_slot: 12
+  seconds_per_slot: 60
 
   # The number of validator keys that each CL validator node should get
   num_validator_keys_per_node: 64
@@ -498,7 +498,7 @@ network_params:
   # If you have a local snapshot, you can set this to the local url:
   # network_snapshot_url_base = "http://10.10.101.21:10000/snapshots/"
   # The snapshots are taken with https://github.com/ethpandaops/snapshotter
-  network_sync_base_url: https://snapshots.ethpandaops.io/
+  network_sync_base_url: https://snapshots.theqrl.org/
 
   # The number of data column sidecar subnets used in the gossipsub protocol
   data_column_sidecar_subnet_count: 128
