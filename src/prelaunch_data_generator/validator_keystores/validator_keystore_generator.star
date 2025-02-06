@@ -79,6 +79,29 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
         plan, {}, "cl-validator-keystore", docker_cache_params
     )
 
+    write_qrysm_password_file_cmd = [
+        "sh",
+        "-c",
+        "echo '{0}' > {1}".format(
+            QRYSM_PASSWORD,
+            QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
+        ),
+    ]
+    write_qrysm_password_file_cmd_result = plan.exec(
+        service_name=service_name,
+        description="Storing qrysm password in a file",
+        recipe=ExecRecipe(command=write_qrysm_password_file_cmd),
+    )
+    plan.verify(
+        write_qrysm_password_file_cmd_result["code"],
+        "==",
+        SUCCESSFUL_EXEC_CMD_EXIT_CODE,
+    )
+
+    qrysm_password_artifact_name = plan.store_service_files(
+        service_name, QRYSM_PASSWORD_FILEPATH_ON_GENERATOR, name="qrysm-password"
+    )
+
     all_output_dirpaths = []
     all_sub_command_strs = []
     running_total_validator_count = 0
@@ -100,16 +123,19 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
         )
         generate_keystores_cmds.append(generate_validator_keys_cmd)
 
-        create_validator_wallets_cmd = '{0} wallet create --wallet-dir={1}'.format(
+        create_validator_wallets_cmd = '{0} wallet create --wallet-dir={1} --keymanager-kind={2} --wallet-password-file={3}'.format(
             "/usr/local/bin/validator",
             shared_utils.path_join(output_dirpath, "qrysm"),
+            "local",
+            QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
         )
         generate_keystores_cmds.append(create_validator_wallets_cmd)
 
-        import_validator_keys_cmd = '{0} accounts import --keys-dir={1} --wallet-dir={2}'.format(
+        import_validator_keys_cmd = '{0} accounts import --keys-dir={1} --wallet-dir={2} --wallet-password-file={3} --account-password-file={3}'.format(
             "/usr/local/bin/validator",
             shared_utils.path_join(output_dirpath, "validator_keys"),
             shared_utils.path_join(output_dirpath, "qrysm"),
+            QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
         )
         generate_keystores_cmds.append(import_validator_keys_cmd)
 
@@ -163,29 +189,6 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
         keystore_files.append(to_add)
 
         running_total_validator_count += participant.validator_count
-
-    write_qrysm_password_file_cmd = [
-        "sh",
-        "-c",
-        "echo '{0}' > {1}".format(
-            QRYSM_PASSWORD,
-            QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
-        ),
-    ]
-    write_qrysm_password_file_cmd_result = plan.exec(
-        service_name=service_name,
-        description="Storing qrysm password in a file",
-        recipe=ExecRecipe(command=write_qrysm_password_file_cmd),
-    )
-    plan.verify(
-        write_qrysm_password_file_cmd_result["code"],
-        "==",
-        SUCCESSFUL_EXEC_CMD_EXIT_CODE,
-    )
-
-    qrysm_password_artifact_name = plan.store_service_files(
-        service_name, QRYSM_PASSWORD_FILEPATH_ON_GENERATOR, name="qrysm-password"
-    )
 
     result = keystores_result.new_generate_keystores_result(
         qrysm_password_artifact_name,
