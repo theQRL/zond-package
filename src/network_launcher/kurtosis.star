@@ -57,14 +57,14 @@ def launch(
 
     plan.print("Generating EL CL data")
 
-    ethereum_genesis_generator_image = shared_utils.docker_cache_image_calc(
+    zond_genesis_generator_image = shared_utils.docker_cache_image_calc(
         args_with_right_defaults.docker_cache_params,
-        args_with_right_defaults.ethereum_genesis_generator_params.image,
+        args_with_right_defaults.zond_genesis_generator_params.image,
     )
 
     return (
         total_number_of_validator_keys,
-        ethereum_genesis_generator_image,
+        zond_genesis_generator_image,
         final_genesis_timestamp,
         validator_data,
     )

@@ -4,24 +4,17 @@ keystores_result = import_module("./generate_keystores_result.star")
 
 NODE_KEYSTORES_OUTPUT_DIRPATH_FORMAT_STR = "/node-{0}-keystores{1}/"
 
-# Prysm keystores are encrypted with a password
-PRYSM_PASSWORD = "password"
-PRYSM_PASSWORD_FILEPATH_ON_GENERATOR = "/tmp/prysm-password.txt"
+# Qrysm keystores are encrypted with a password
+QRYSM_PASSWORD = "password"
+QRYSM_PASSWORD_FILEPATH_ON_GENERATOR = "/tmp/qrysm-password.txt"
 
 KEYSTORES_GENERATION_TOOL_NAME = "/app/eth2-val-tools"
 
-ETH_VAL_TOOLS_IMAGE = "protolambda/eth2-val-tools:latest"
+VAL_TOOLS_IMAGE = "theqrl/zond-genesis-generator:latest"
 
 SUCCESSFUL_EXEC_CMD_EXIT_CODE = 0
 
-RAW_KEYS_DIRNAME = "keys"
-RAW_SECRETS_DIRNAME = "secrets"
-
-NIMBUS_KEYS_DIRNAME = "nimbus-keys"
-PRYSM_DIRNAME = "prysm"
-
-TEKU_KEYS_DIRNAME = "teku-keys"
-TEKU_SECRETS_DIRNAME = "teku-secrets"
+QRYSM_DIRNAME = "qrysm"
 
 KEYSTORE_GENERATION_FINISHED_FILEPATH_FORMAT = "/tmp/keystores_generated-{0}-{1}"
 
@@ -71,7 +64,7 @@ def get_config(files_artifact_mountpoints, docker_cache_params):
     return ServiceConfig(
         image=shared_utils.docker_cache_image_calc(
             docker_cache_params,
-            ETH_VAL_TOOLS_IMAGE,
+            VAL_TOOLS_IMAGE,
         ),
         entrypoint=ENTRYPOINT_ARGS,
         files=files_artifact_mountpoints,

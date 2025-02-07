@@ -2,8 +2,8 @@ constants = import_module("../package_io/constants.star")
 shared_utils = import_module("../shared_utils/shared_utils.star")
 vc_shared = import_module("./shared.star")
 
-PRYSM_PASSWORD_MOUNT_DIRPATH_ON_SERVICE_CONTAINER = "/prysm-password"
-PRYSM_BEACON_RPC_PORT = 4000
+QRYSM_PASSWORD_MOUNT_DIRPATH_ON_SERVICE_CONTAINER = "/qrysm-password"
+QRYSM_BEACON_RPC_PORT = 4000
 
 
 def get_config(
@@ -17,8 +17,8 @@ def get_config(
     remote_signer_context,
     full_name,
     node_keystore_files,
-    prysm_password_relative_filepath,
-    prysm_password_artifact_uuid,
+    qrysm_password_relative_filepath,
+    qrysm_password_artifact_uuid,
     tolerations,
     node_selectors,
     keymanager_enabled,
@@ -27,11 +27,11 @@ def get_config(
 ):
     validator_keys_dirpath = shared_utils.path_join(
         constants.VALIDATOR_KEYS_DIRPATH_ON_SERVICE_CONTAINER,
-        node_keystore_files.prysm_relative_dirpath,
+        node_keystore_files.qrysm_relative_dirpath,
     )
     validator_secrets_dirpath = shared_utils.path_join(
-        PRYSM_PASSWORD_MOUNT_DIRPATH_ON_SERVICE_CONTAINER,
-        prysm_password_relative_filepath,
+        QRYSM_PASSWORD_MOUNT_DIRPATH_ON_SERVICE_CONTAINER,
+        qrysm_password_relative_filepath,
     )
 
     cmd = [
@@ -74,8 +74,8 @@ def get_config(
         "--keymanager-token-file=" + constants.KEYMANAGER_MOUNT_PATH_ON_CONTAINER,
     ]
 
-    if cl_context.client_name != constants.CL_TYPE.prysm:
-        # Use Beacon API if a Prysm VC wants to connect to a non-Prysm BN
+    if cl_context.client_name != constants.CL_TYPE.qrysm:
+        # Use Beacon API if a Qrysm VC wants to connect to a non-Qrysm BN
         cmd.append("--enable-beacon-rest-api")
 
     if len(participant.vc_extra_params) > 0:
@@ -85,7 +85,7 @@ def get_config(
     files = {
         constants.GENESIS_DATA_MOUNTPOINT_ON_CLIENTS: el_cl_genesis_data.files_artifact_uuid,
         constants.VALIDATOR_KEYS_DIRPATH_ON_SERVICE_CONTAINER: node_keystore_files.files_artifact_uuid,
-        PRYSM_PASSWORD_MOUNT_DIRPATH_ON_SERVICE_CONTAINER: prysm_password_artifact_uuid,
+        QRYSM_PASSWORD_MOUNT_DIRPATH_ON_SERVICE_CONTAINER: qrysm_password_artifact_uuid,
     }
 
     public_ports = {}
@@ -121,7 +121,7 @@ def get_config(
         "files": files,
         "env_vars": participant.vc_extra_env_vars,
         "labels": shared_utils.label_maker(
-            client=constants.VC_TYPE.prysm,
+            client=constants.VC_TYPE.qrysm,
             client_type=constants.CLIENT_TYPES.validator,
             image=image[-constants.MAX_LABEL_LENGTH :],
             connected_client=cl_context.client_name,
