@@ -121,10 +121,6 @@ def get_config(
 
     IMAGE_NAME = assertoor_params.image
 
-    if assertoor_params.image == constants.DEFAULT_ASSERTOOR_IMAGE:
-        if network_params.fulu_fork_epoch < constants.FULU_FORK_EPOCH:
-            IMAGE_NAME = "ethpandaops/assertoor:fulu-support"
-
     return ServiceConfig(
         image=IMAGE_NAME,
         ports=USED_PORTS,
@@ -173,7 +169,6 @@ def new_config_template_data(
         "RunBlockProposalCheck": assertoor_params.run_block_proposal_check,
         "RunLifecycleTest": assertoor_params.run_lifecycle_test,
         "RunTransactionTest": assertoor_params.run_transaction_test,
-        "RunBlobTransactionTest": assertoor_params.run_blob_transaction_test,
         "RunOpcodesTransactionTest": assertoor_params.run_opcodes_transaction_test,
         "AdditionalTests": additional_tests,
     }

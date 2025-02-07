@@ -47,12 +47,6 @@ def launch_participant_network(
     prague_time = 0
     shadowfork_block = "latest"
     total_number_of_validator_keys = 0
-    if (
-        constants.NETWORK_NAME.shadowfork in network_params.network
-        and ("verkle" in network_params.network)
-        and ("holesky" in network_params.network)
-    ):
-        shadowfork_block = "793312"  # Hardcodes verkle shadowfork block for holesky
 
     if (
         network_params.network == constants.NETWORK_NAME.kurtosis
