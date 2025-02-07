@@ -2,7 +2,7 @@
 
 This is a [Kurtosis][kurtosis-repo] package that will spin up a private Zond testnet over Docker or Kubernetes with multi-client support, Flashbot's `mev-boost` infrastructure for PBS-related testing/validation, and other useful network tools (transaction spammer, monitoring tools, etc). Kurtosis packages are entirely reproducible and composable, so this will work the same way over Docker or Kubernetes, in the cloud or locally on your machine.
 
-You now have the ability to spin up a private Zond testnet or public devnet/testnet (e.g. Goerli, Holesky, Sepolia, dencun-devnet-12, verkle-gen-devnet-2 etc) with a single command. This package is designed to be used for testing, validation, and development of Ethereum clients, and is not intended for production use. For more details check network_params.network in the [configuration section](./README.md#configuration).
+You now have the ability to spin up a private Zond testnet or public devnet/testnet with a single command. This package is designed to be used for testing, validation, and development of Ethereum clients, and is not intended for production use. For more details check network_params.network in the [configuration section](./README.md#configuration).
 
 Specifically, this [package][package-reference] will:
 
@@ -69,16 +69,6 @@ persistent: true
 ...
 ```
 
-##### Shadowforking custom verkle networks
-In order to enable shadowfork capabilities for verkle networks, you need to define electra and mention verkle in the network name after shadowfork.
-```yaml
-...
-network_params:
-  electra_fork_epoch: 1
-  network: "holesky-shadowfork-verkle"
-persistent: true
-...
-```
 
 #### Taints and tolerations
 It is possible to run the package on a Kubernetes cluster with taints and tolerations. This is done by adding the tolerations to the `tolerations` field in the `network_params.yaml` file. For example:

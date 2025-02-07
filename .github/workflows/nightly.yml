@@ -56,7 +56,7 @@ jobs:
         if: (cancelled() || failure()) && env.discord_webhook_set == 'true'
         uses: nobrayner/discord-webhook@v1
         with:
-          description: "The nightly test for ${{matrix.file_name}} on ethereum-package has failed find it here ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          description: "The nightly test for ${{matrix.file_name}} on zond-package has failed find it here ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           github-token: ${{ secrets.github_token }}
           discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
 
@@ -73,7 +73,7 @@ jobs:
         uses: ethpandaops/kurtosis-assertoor-github-action@v1
         with:
           kurtosis_extra_args: "--image-download always --non-blocking-tasks --verbosity DETAILED"
-          ethereum_package_branch: ""
-          ethereum_package_args: .github/tests/mix-assert.yaml
-          ethereum_package_url: "$GITHUB_WORKSPACE"
+          zond_package_branch: ""
+          zond_package_args: .github/tests/mix-assert.yaml
+          zond_package_url: "$GITHUB_WORKSPACE"
           persistent_logs: "true"
