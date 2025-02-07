@@ -60,9 +60,6 @@ externalTests:
 {{- if .RunTransactionTest }}
 - file: /tests/eoa-transactions-test.yaml
 {{- end }}
-{{- if .RunBlobTransactionTest }}
-- file: /tests/blob-transactions-test.yaml
-{{- end }}
 {{- if .RunOpcodesTransactionTest }}
 - file: /tests/all-opcodes-transaction-test.yaml
 {{- end }}

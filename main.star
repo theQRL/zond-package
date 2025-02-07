@@ -68,14 +68,13 @@ FIRST_NODE_FINALIZATION_FACT = "cl-boot-finalization-fact"
 HTTP_PORT_ID_FOR_FACT = "http"
 
 MEV_BOOST_SHOULD_CHECK_RELAY = True
-PATH_TO_PARSED_BEACON_STATE = "/genesis/output/parsedBeaconState.json"
 
 
 def run(plan, args={}):
     """Launches an arbitrarily complex zond testnet based on the arguments provided
 
     Args:
-        args: A YAML or JSON argument to configure the network; example https://github.com/ethpandaops/ethereum-package/blob/main/network_params.yaml
+        args: A YAML or JSON argument to configure the network; example https://github.com/theQRL/zond-package/blob/main/network_params.yaml
     """
 
     args_with_right_defaults = input_parser.input_parser(plan, args)
@@ -547,21 +546,6 @@ def run(plan, args={}):
                 args_with_right_defaults.docker_cache_params,
             )
             plan.print("Successfully launched blutgang")
-        elif additional_service == "blobscan":
-            plan.print("Launching blobscan")
-            blobscan.launch_blobscan(
-                plan,
-                all_cl_contexts,
-                all_el_contexts,
-                network_id,
-                network_params,
-                persistent,
-                global_node_selectors,
-                args_with_right_defaults.port_publisher,
-                index,
-                args_with_right_defaults.docker_cache_params,
-            )
-            plan.print("Successfully launched blobscan")
         elif additional_service == "forky":
             plan.print("Launching forky")
             forky_config_template = read_file(
@@ -667,15 +651,6 @@ def run(plan, args={}):
                 args_with_right_defaults.spamoor_params,
                 global_node_selectors,
             )
-        elif additional_service == "spamoor_blob":
-            plan.print("Launching spamoor as blob spammer")
-            spamoor_blob.launch_spamoor_blob(
-                plan,
-                prefunded_accounts,
-                all_el_contexts,
-                args_with_right_defaults.spamoor_blob_params,
-                global_node_selectors,
-            )
         else:
             fail("Invalid additional service %s" % (additional_service))
     if launch_prometheus_grafana:
@@ -709,7 +684,7 @@ def run(plan, args={}):
         first_cl_client = all_cl_contexts[0]
         first_client_beacon_name = first_cl_client.beacon_service_name
         epoch_recipe = GetHttpRequestRecipe(
-            endpoint="/eth/v1/beacon/states/head/finality_checkpoints",
+            endpoint="/zond/v1/beacon/states/head/finality_checkpoints",
             port_id=HTTP_PORT_ID_FOR_FACT,
             extract={"finalized_epoch": ".data.finalized.epoch"},
         )

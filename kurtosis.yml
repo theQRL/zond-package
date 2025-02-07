@@ -1,2 +1,2 @@
-# TODO(rgeraldes24): error occurred: Caused by: The package name in kurtosis.yml must match the location it is in. Package name is 'github.com/theQRL/zond-package' and kurtosis.yml is found here: 'github.com/rgeraldes24/zond-package'
+# TODO(now.youtrack.cloud/issue/TQ-38)
 name: "github.com/rgeraldes24/zond-package"

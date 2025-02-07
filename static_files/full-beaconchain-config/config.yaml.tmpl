@@ -19,13 +19,12 @@ bigtable:
   emulator: true
   emulatorHost: {{.LBTHost}}
   emulatorPort: {{.LBTPort}}
-eth1ErigonEndpoint: '{{.ELNodeEndpoint}}'
-eth1GethEndpoint: '{{.ELNodeEndpoint}}'
+zond1GzondEndpoint: '{{.ELNodeEndpoint}}'
 redisCacheEndpoint: '{{.RedisEndpoint}}'
 tieredCacheProvider: 'redis'
 frontend:
   siteDomain: "localhost:8080"
-  siteName: 'Open Source Ethereum (ETH) Testnet Explorer' # Name of the site, displayed in the title tag
+  siteName: 'Open Source Zond Testnet Explorer' # Name of the site, displayed in the title tag
   siteSubtitle: "Showing a local testnet."
   server:
     host: '0.0.0.0' # Address to listen on
