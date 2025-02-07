@@ -14,8 +14,6 @@ validator_ranges = import_module(
 transaction_spammer = import_module(
     "./src/transaction_spammer/transaction_spammer.star"
 )
-blob_spammer = import_module("./src/blob_spammer/blob_spammer.star")
-spamoor_blob = import_module("./src/spamoor_blob/spamoor_blob.star")
 el_forkmon = import_module("./src/el_forkmon/el_forkmon_launcher.star")
 beacon_metrics_gazer = import_module(
     "./src/beacon_metrics_gazer/beacon_metrics_gazer_launcher.star"
@@ -23,7 +21,6 @@ beacon_metrics_gazer = import_module(
 dora = import_module("./src/dora/dora_launcher.star")
 dugtrio = import_module("./src/dugtrio/dugtrio_launcher.star")
 blutgang = import_module("./src/blutgang/blutgang_launcher.star")
-blobscan = import_module("./src/blobscan/blobscan_launcher.star")
 forky = import_module("./src/forky/forky_launcher.star")
 tracoor = import_module("./src/tracoor/tracoor_launcher.star")
 apache = import_module("./src/apache/apache_launcher.star")
@@ -75,7 +72,7 @@ PATH_TO_PARSED_BEACON_STATE = "/genesis/output/parsedBeaconState.json"
 
 
 def run(plan, args={}):
-    """Launches an arbitrarily complex ethereum testnet based on the arguments provided
+    """Launches an arbitrarily complex zond testnet based on the arguments provided
 
     Args:
         args: A YAML or JSON argument to configure the network; example https://github.com/ethpandaops/ethereum-package/blob/main/network_params.yaml
@@ -186,15 +183,15 @@ def run(plan, args={}):
     all_cl_contexts = []
     all_vc_contexts = []
     all_remote_signer_contexts = []
-    all_ethereum_metrics_exporter_contexts = []
+    all_zond_metrics_exporter_contexts = []
     all_xatu_sentry_contexts = []
     for participant in all_participants:
         all_el_contexts.append(participant.el_context)
         all_cl_contexts.append(participant.cl_context)
         all_vc_contexts.append(participant.vc_context)
         all_remote_signer_contexts.append(participant.remote_signer_context)
-        all_ethereum_metrics_exporter_contexts.append(
-            participant.ethereum_metrics_exporter_context
+        all_zond_metrics_exporter_contexts.append(
+            participant.zond_metrics_exporter_context
         )
         all_xatu_sentry_contexts.append(participant.xatu_sentry_context)
 
@@ -449,20 +446,6 @@ def run(plan, args={}):
                 global_node_selectors,
             )
             plan.print("Successfully launched transaction spammer")
-        elif additional_service == "blob_spammer":
-            plan.print("Launching Blob spammer")
-            blob_spammer.launch_blob_spammer(
-                plan,
-                prefunded_accounts,
-                fuzz_target,
-                all_cl_contexts[0],
-                network_params.deneb_fork_epoch,
-                network_params.seconds_per_slot,
-                network_params.genesis_delay,
-                global_node_selectors,
-                args_with_right_defaults.tx_spammer_params,
-            )
-            plan.print("Successfully launched blob spammer")
         # We need a way to do time.sleep
         # TODO add code that waits for CL genesis
         elif additional_service == "el_forkmon":

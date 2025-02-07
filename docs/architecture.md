@@ -5,13 +5,13 @@ This repo is a Kurtosis package. To get general information on what a Kurtosis p
 The overview of this particular package's operation is as follows:
 
 1. Parse user parameters
-1. Launch a network of Ethereum participants
+1. Launch a network of Zond participants
    1. Generate execution layer (EL) client config data
    1. Launch EL clients
    1. Generate consensus layer (CL) client config data
    1. Launch CL clients
 1. Launch auxiliary services (Grafana, Forkmon, etc.)
-1. Run Ethereum Merge verification logic
+1. Run Zond Merge verification logic
 1. Return information to the user
 
 ## Overview
@@ -55,7 +55,7 @@ We'll explain these phases one by one.
 
 ### Generating EL and CL client data
 
-All EL clients require both a genesis file and a JWT secret. The exact format of the genesis file differs per client, so we first leverage [a Docker image containing tools for generating this genesis data][ethereum-genesis-generator] to create the actual files that the EL clients-to-be will need. This is accomplished by filling in a single genesis generation environment config files found in [`static_files`](../static_files/genesis-generation-config/el-cl/values.env.tmpl).
+All EL clients require both a genesis file and a JWT secret. The exact format of the genesis file differs per client, so we first leverage [a Docker image containing tools for generating this genesis data][zond-genesis-generator] to create the actual files that the EL clients-to-be will need. This is accomplished by filling in a single genesis generation environment config files found in [`static_files`](../static_files/genesis-generation-config/el-cl/values.env.tmpl).
 
 CL clients, like EL clients also have a genesis and config files that they need. This is created at the same time as the EL genesis files.
 
@@ -63,7 +63,7 @@ Then the validator keys are generated. A tool called [eth2-val-tools](https://gi
 
 ### Starting EL clients
 
-Next, we plug the generated genesis data [into EL client "launchers"](https://github.com/ethpandaops/ethereum-package/tree/main/src/participant_network/el) to start a mining network of EL nodes. The launchers come with a `launch` function that consumes EL genesis data and produces information about the running EL client node. Running EL node information is represented by [an `el_context` struct](https://github.com/ethpandaops/ethereum-package/blob/main/src/participant_network/el/el_context.star). Each EL client type has its own launcher (e.g. [Geth](https://github.com/ethpandaops/ethereum-package/tree/main/src/participant_network/el/geth), [Besu](https://github.com/ethpandaops/ethereum-package/tree/main/src/participant_network/el/besu)) because each EL client will require different environment variables and flags to be set when launching the client's container.
+Next, we plug the generated genesis data [into EL client "launchers"](https://github.com/theQRL/zond-package/tree/main/src/participant_network/el) to start a mining network of EL nodes. The launchers come with a `launch` function that consumes EL genesis data and produces information about the running EL client node. Running EL node information is represented by [an `el_context` struct](https://github.com/ethpandaops/ethereum-package/blob/main/src/participant_network/el/el_context.star). Each EL client type has its own launcher (e.g. [Geth](https://github.com/ethpandaops/ethereum-package/tree/main/src/participant_network/el/geth), [Besu](https://github.com/ethpandaops/ethereum-package/tree/main/src/participant_network/el/besu)) because each EL client will require different environment variables and flags to be set when launching the client's container.
 
 ### Starting CL clients
 

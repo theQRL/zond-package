@@ -1,19 +1,16 @@
 # Zond Package
 
-![Run of the Ethereum Network Package](run.gif)
+This is a [Kurtosis][kurtosis-repo] package that will spin up a private Zond testnet over Docker or Kubernetes with multi-client support, Flashbot's `mev-boost` infrastructure for PBS-related testing/validation, and other useful network tools (transaction spammer, monitoring tools, etc). Kurtosis packages are entirely reproducible and composable, so this will work the same way over Docker or Kubernetes, in the cloud or locally on your machine.
 
-This is a [Kurtosis][kurtosis-repo] package that will spin up a private Ethereum testnet over Docker or Kubernetes with multi-client support, Flashbot's `mev-boost` infrastructure for PBS-related testing/validation, and other useful network tools (transaction spammer, monitoring tools, etc). Kurtosis packages are entirely reproducible and composable, so this will work the same way over Docker or Kubernetes, in the cloud or locally on your machine.
-
-You now have the ability to spin up a private Ethereum testnet or public devnet/testnet (e.g. Goerli, Holesky, Sepolia, dencun-devnet-12, verkle-gen-devnet-2 etc) with a single command. This package is designed to be used for testing, validation, and development of Ethereum clients, and is not intended for production use. For more details check network_params.network in the [configuration section](./README.md#configuration).
+You now have the ability to spin up a private Zond testnet or public devnet/testnet (e.g. Goerli, Holesky, Sepolia, dencun-devnet-12, verkle-gen-devnet-2 etc) with a single command. This package is designed to be used for testing, validation, and development of Ethereum clients, and is not intended for production use. For more details check network_params.network in the [configuration section](./README.md#configuration).
 
 Specifically, this [package][package-reference] will:
 
 1. Generate Execution Layer (EL) & Consensus Layer (CL) genesis information using [the Ethereum genesis generator](https://github.com/ethpandaops/ethereum-genesis-generator).
-2. Configure & bootstrap a network of Ethereum nodes of *n* size using the genesis data generated above
+2. Configure & bootstrap a network of Zond nodes of *n* size using the genesis data generated above
 3. Spin up a [transaction spammer](https://github.com/MariusVanDerWijden/tx-fuzz) to send fake transactions to the network
 4. Spin up and connect a [testnet verifier](https://github.com/ethereum/merge-testnet-verifier)
 5. Spin up a Grafana and Prometheus instance to observe the network
-6. Spin up a Blobscan instance to analyze blob transactions (EIP-4844)
 
 Optional features (enabled via flags or parameter files at runtime):
 
@@ -27,14 +24,12 @@ Optional features (enabled via flags or parameter files at runtime):
 
 ## Quickstart
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/new/?editor=code#https://github.com/ethpandaops/ethereum-package)
-
 1. [Install Docker & start the Docker Daemon if you haven't done so already][docker-installation]
 2. [Install the Kurtosis CLI, or upgrade it to the latest version if it's already installed][kurtosis-cli-installation]
 3. Run the package with default configurations from the command line:
 
    ```bash
-   kurtosis run --enclave my-testnet github.com/ethpandaops/ethereum-package
+   kurtosis run --enclave my-testnet github.com/theQRL/zond-package
    ```
 
 #### Run with your own configuration
@@ -42,7 +37,7 @@ Optional features (enabled via flags or parameter files at runtime):
 Kurtosis packages are parameterizable, meaning you can customize your network and its behavior to suit your needs by storing parameters in a file that you can pass in at runtime like so:
 
 ```bash
-kurtosis run --enclave my-testnet github.com/ethpandaops/ethereum-package --args-file network_params.yaml
+kurtosis run --enclave my-testnet github.com/theQRL/zond-package --args-file network_params.yaml
 ```
 
 Where `network_params.yaml` contains the parameters for your network in your home directory.
@@ -1124,21 +1119,10 @@ participants:
 snooper_enabled: true
 additional_services:
   - prometheus_grafana
-ethereum_metrics_exporter_enabled: true
+zond_metrics_exporter_enabled: true
 ```
 
 </details>
-
-## Beacon Node <> Validator Client compatibility
-
-|               | Lighthouse VC | Prysm VC | Teku VC | Lodestar VC | Nimbus VC
-|---------------|---------------|----------|---------|-------------|-----------|
-| Lighthouse BN | ✅            | ❌       | ✅      | ✅          | ✅
-| Prysm BN      | ✅            | ✅       | ✅      | ✅          | ✅
-| Teku BN       | ✅            | ✅       | ✅      | ✅          | ✅
-| Lodestar BN   | ✅            | ✅       | ✅      | ✅          | ✅
-| Nimbus BN     | ✅            | ✅       | ✅      | ✅          | ✅
-| Grandine BN   | ✅            | ✅       | ✅      | ✅          | ✅
 
 ## Custom labels for Docker and Kubernetes
 
@@ -1147,34 +1131,34 @@ There are 4 custom labels that can be used to identify the nodes in the network.
 Execution Layer (EL) nodes:
 
 ```sh
-  "com.kurtosistech.custom.ethereum-package-client": "geth",
-  "com.kurtosistech.custom.ethereum-package-client-image": "ethereum-client-go-latest",
-  "com.kurtosistech.custom.ethereum-package-client-type": "execution",
-  "com.kurtosistech.custom.ethereum-package-connected-client": "lighthouse",
+  "com.kurtosistech.custom.zond-package-client": "geth",
+  "com.kurtosistech.custom.zond-package-client-image": "ethereum-client-go-latest",
+  "com.kurtosistech.custom.zond-package-client-type": "execution",
+  "com.kurtosistech.custom.zond-package-connected-client": "lighthouse",
 ```
 
 Consensus Layer (CL) nodes - Beacon:
 
 ```sh
-  "com.kurtosistech.custom.ethereum-package-client": "lighthouse",
-  "com.kurtosistech.custom.ethereum-package-client-image": "sigp-lighthouse-latest",
-  "com.kurtosistech.custom.ethereum-package-client-type": "beacon",
-  "com.kurtosistech.custom.ethereum-package-connected-client": "geth",
+  "com.kurtosistech.custom.zond-package-client": "lighthouse",
+  "com.kurtosistech.custom.zond-package-client-image": "sigp-lighthouse-latest",
+  "com.kurtosistech.custom.zond-package-client-type": "beacon",
+  "com.kurtosistech.custom.zond-package-connected-client": "geth",
 ```
 
 Consensus Layer (CL) nodes - Validator:
 
 ```sh
-  "com.kurtosistech.custom.ethereum-package-client": "lighthouse",
-  "com.kurtosistech.custom.ethereum-package-client-image": "sigp-lighthouse-latest",
-  "com.kurtosistech.custom.ethereum-package-client-type": "validator",
-  "com.kurtosistech.custom.ethereum-package-connected-client": "geth",
+  "com.kurtosistech.custom.zond-package-client": "lighthouse",
+  "com.kurtosistech.custom.zond-package-client-image": "sigp-lighthouse-latest",
+  "com.kurtosistech.custom.zond-package-client-type": "validator",
+  "com.kurtosistech.custom.zond-package-connected-client": "geth",
 ```
 
-`ethereum-package-client` describes which client is running on the node.
-`ethereum-package-client-image` describes the image that is used for the client.
-`ethereum-package-client-type` describes the type of client that is running on the node (`execution`,`beacon` or `validator`).
-`ethereum-package-connected-client` describes the CL/EL client that is connected to the EL/CL client.
+`zond-package-client` describes which client is running on the node.
+`zond-package-client-image` describes the image that is used for the client.
+`zond-package-client-type` describes the type of client that is running on the node (`execution`,`beacon` or `validator`).
+`zond-package-connected-client` describes the CL/EL client that is connected to the EL/CL client.
 
 ## Proposer Builder Separation (PBS) emulation
 
@@ -1219,9 +1203,7 @@ Here's a table of where the keys are used
 |---------------|---------------------|------------------|-----------------|-----------------------------|
 | 0             | Builder             | ✅                |                 | As coinbase                |
 | 0             | mev_custom_flood    |                   | ✅              | As the receiver of balance |
-| 1             | blob_spammer        | ✅                |                 | As the sender of blobs     |
 | 3             | transaction_spammer | ✅                |                 | To spam transactions with  |
-| 4             | spamoor_blob        | ✅                |                 | As the sender of blobs     |
 | 6             | mev_flood           | ✅                |                 | As the contract owner      |
 | 7             | mev_flood           | ✅                |                 | As the user_key            |
 | 8             | assertoor           | ✅                | ✅              | As the funding for tests   |
@@ -1252,14 +1234,7 @@ To get detailed information about the structure of the package, visit [the archi
 When you're happy with your changes:
 
 1. Create a PR
-1. Add one of the maintainers of the repo as a "Review Request":
-   * `parithosh` (Ethereum Foundation)
-   * `barnabasbusa` (Ethereum Foundation)
-   * `pk910` (Ethereum Foundation)
-   * `samcm` (Ethereum Foundation)
-   * `h4ck3rk3y` (Kurtosis)
-   * `mieubrisse` (Kurtosis)
-   * `leederek` (Kurtosis)
+1. Add one of the maintainers of the repo as a "Review Request".
 1. Once everything works, merge!
 
 <!------------------------ Only links below here -------------------------------->

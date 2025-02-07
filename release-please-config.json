@@ -6,7 +6,7 @@
   "bump-minor-pre-major": true,
   "packages": {
     ".": {
-      "package-name": "ethereum-package"
+      "package-name": "zond-package"
     }
   }
 }
