@@ -43,10 +43,10 @@ jobs:
           kubernetes_config: "${{ steps.kubeconfig.outputs.kubeconfig }}"
           kubernetes_cluster: "minikube"
           kubernetes_storage_class: "standard"
-          ethereum_package_branch: ""
-          ethereum_package_args: "${{ matrix.payload.file }}"
-          ethereum_package_url: "$GITHUB_WORKSPACE"
-          enclave_name: "ethereum-package-${{ matrix.payload.name }}-${{ github.run_id }}"
+          zond_package_branch: ""
+          zond_package_args: "${{ matrix.payload.file }}"
+          zond_package_url: "$GITHUB_WORKSPACE"
+          enclave_name: "zond-package-${{ matrix.payload.name }}-${{ github.run_id }}"
           persistent_logs: "true"
 
       - name: Check if Discord Webhook is Set
@@ -66,4 +66,4 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          args: "The k8s nightly/per PR test for ${{matrix.payload.name}} on ethereum-package has failed. Find it here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          args: "The k8s nightly/per PR test for ${{matrix.payload.name}} on zond-package has failed. Find it here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

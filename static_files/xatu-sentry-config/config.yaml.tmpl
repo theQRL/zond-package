@@ -7,7 +7,7 @@ ntpServer: time.google.com
 
 ethereum:
   beaconNodeAddress: "{{ .BeaconNodeAddress }}"
-  overrideNetworkName: "{{ .EthereumNetworkName }}"
+  overrideNetworkName: "{{ .ZondNetworkName }}"
   beaconSubscriptions:
   {{- range .BeaconSubscriptions }}
   - "{{ . }}"
