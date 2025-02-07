@@ -1,4 +1,4 @@
-# Ethereum Package
+# Zond Package
 
 ![Run of the Ethereum Network Package](run.gif)
 
