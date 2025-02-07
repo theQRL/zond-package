@@ -1,9 +1,9 @@
 participants:
-  - el_type: geth
-    cl_type: lighthouse
+  - el_type: gzond
+    cl_type: qrysm
     count: 1
-  - el_type: geth
-    cl_type: lodestar
+  - el_type: gzond
+    cl_type: qrysm
     count: 1
 additional_services:
   - assertoor

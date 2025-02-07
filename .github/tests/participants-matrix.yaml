@@ -1,9 +1,9 @@
 participants_matrix:
   el:
-    - el_type: besu
+    - el_type: gzond
   cl:
-    - cl_type: prysm
+    - cl_type: qrysm
   vc:
-    - vc_type: nimbus
+    - vc_type: qrysm
 participants:
   - count: 1
