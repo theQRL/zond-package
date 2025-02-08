@@ -982,10 +982,10 @@ Consensus Layer (CL) nodes - Validator:
 
 ## Proposer Builder Separation (PBS) emulation
 
-To spin up the network of Ethereum nodes with an external block building network (using Flashbot's `mev-boost` protocol), simply use:
+To spin up the network of Zond nodes with an external block building network (using Flashbot's `mev-boost` protocol), simply use:
 
 ```
-kurtosis run github.com/ethpandaops/ethereum-package '{"mev_type": "full"}'
+kurtosis run github.com/theQRL/zond-package '{"mev_type": "full"}'
 ```
 
 Starting your network up with `"mev_type": "full"` will instantiate and connect the following infrastructure to your network:
@@ -1015,7 +1015,7 @@ For more details, including a guide and architecture of the `mev-boost` infrastr
 
 ## Pre-funded accounts at Genesis
 
-This package comes with [21 prefunded keys for testing](https://github.com/ethpandaops/ethereum-package/blob/main/src/prelaunch_data_generator/genesis_constants/genesis_constants.star).
+This package comes with [21 prefunded keys for testing](https://github.com/theQRL/zond-package/blob/main/src/prelaunch_data_generator/genesis_constants/genesis_constants.star).
 
 Here's a table of where the keys are used
 
