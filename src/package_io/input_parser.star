@@ -911,10 +911,10 @@ def get_default_docker_cache_params():
 def get_default_mev_params(mev_type, preset):
     mev_relay_image = constants.DEFAULT_FLASHBOTS_RELAY_IMAGE
     mev_builder_image = constants.DEFAULT_FLASHBOTS_BUILDER_IMAGE
-    if preset == "minimal":
-        mev_builder_cl_image = DEFAULT_CL_IMAGES_MINIMAL[constants.CL_TYPE.lighthouse]
-    else:
-        mev_builder_cl_image = DEFAULT_CL_IMAGES[constants.CL_TYPE.lighthouse]
+    # if preset == "minimal":
+    #     mev_builder_cl_image = DEFAULT_CL_IMAGES_MINIMAL[constants.CL_TYPE.lighthouse]
+    # else:
+    #     mev_builder_cl_image = DEFAULT_CL_IMAGES[constants.CL_TYPE.lighthouse]
     mev_builder_extra_data = None
     mev_boost_image = constants.DEFAULT_FLASHBOTS_MEV_BOOST_IMAGE
     mev_boost_args = ["mev-boost", "--relay-check"]
@@ -936,30 +936,30 @@ def get_default_mev_params(mev_type, preset):
         "max_mem": 2048,
     }
 
-    if mev_type == constants.MEV_RS_MEV_TYPE:
-        if preset == "minimal":
-            mev_relay_image = constants.DEFAULT_MEV_RS_IMAGE_MINIMAL
-            mev_builder_image = constants.DEFAULT_MEV_RS_IMAGE_MINIMAL
-            mev_builder_cl_image = DEFAULT_CL_IMAGES_MINIMAL[
-                constants.CL_TYPE.lighthouse
-            ]
-            mev_boost_image = constants.DEFAULT_MEV_RS_IMAGE_MINIMAL
-        else:
-            mev_relay_image = constants.DEFAULT_MEV_RS_IMAGE
-            mev_builder_image = constants.DEFAULT_MEV_RS_IMAGE
-            mev_builder_cl_image = DEFAULT_CL_IMAGES[constants.CL_TYPE.lighthouse]
-            mev_boost_image = constants.DEFAULT_MEV_RS_IMAGE
-        mev_builder_extra_data = "0x68656C6C6F20776F726C640A"  # "hello world\n"
-        mev_builder_extra_args = ["--mev-builder-config=" + "/config/config.toml"]
+    # if mev_type == constants.MEV_RS_MEV_TYPE:
+    #     if preset == "minimal":
+    #         mev_relay_image = constants.DEFAULT_MEV_RS_IMAGE_MINIMAL
+    #         mev_builder_image = constants.DEFAULT_MEV_RS_IMAGE_MINIMAL
+    #         mev_builder_cl_image = DEFAULT_CL_IMAGES_MINIMAL[
+    #             constants.CL_TYPE.lighthouse
+    #         ]
+    #         mev_boost_image = constants.DEFAULT_MEV_RS_IMAGE_MINIMAL
+    #     else:
+    #         mev_relay_image = constants.DEFAULT_MEV_RS_IMAGE
+    #         mev_builder_image = constants.DEFAULT_MEV_RS_IMAGE
+    #         mev_builder_cl_image = DEFAULT_CL_IMAGES[constants.CL_TYPE.lighthouse]
+    #         mev_boost_image = constants.DEFAULT_MEV_RS_IMAGE
+    #     mev_builder_extra_data = "0x68656C6C6F20776F726C640A"  # "hello world\n"
+    #     mev_builder_extra_args = ["--mev-builder-config=" + "/config/config.toml"]
 
-    if mev_type == constants.COMMIT_BOOST_MEV_TYPE:
-        mev_relay_image = constants.DEFAULT_FLASHBOTS_RELAY_IMAGE
-        mev_builder_image = constants.DEFAULT_FLASHBOTS_BUILDER_IMAGE
-        mev_boost_image = constants.DEFAULT_COMMIT_BOOST_MEV_BOOST_IMAGE
-        mev_builder_cl_image = DEFAULT_CL_IMAGES[constants.CL_TYPE.lighthouse]
-        mev_builder_extra_data = (
-            "0x436F6D6D69742D426F6F737420F09F93BB"  # Commit-Boost 📻
-        )
+    # if mev_type == constants.COMMIT_BOOST_MEV_TYPE:
+    #     mev_relay_image = constants.DEFAULT_FLASHBOTS_RELAY_IMAGE
+    #     mev_builder_image = constants.DEFAULT_FLASHBOTS_BUILDER_IMAGE
+    #     mev_boost_image = constants.DEFAULT_COMMIT_BOOST_MEV_BOOST_IMAGE
+    #     mev_builder_cl_image = DEFAULT_CL_IMAGES[constants.CL_TYPE.lighthouse]
+    #     mev_builder_extra_data = (
+    #         "0x436F6D6D69742D426F6F737420F09F93BB"  # Commit-Boost 📻
+    #     )
 
     if mev_type == constants.MOCK_MEV_TYPE:
         mev_builder_image = constants.DEFAULT_MOCK_MEV_IMAGE
