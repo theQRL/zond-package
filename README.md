@@ -939,7 +939,7 @@ participants:
 snooper_enabled: true
 additional_services:
   - prometheus_grafana
-zond_metrics_exporter_enabled: true
+ethereum_metrics_exporter_enabled: true
 ```
 
 </details>

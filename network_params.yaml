@@ -57,7 +57,7 @@ participants:
     tolerations: []
     count: 2
     snooper_enabled: false
-    zond_metrics_exporter_enabled: false
+    ethereum_metrics_exporter_enabled: false
     xatu_sentry_enabled: false
     prometheus_config:
       scrape_interval: 15s
@@ -119,7 +119,7 @@ assertoor_params:
 wait_for_finalization: false
 global_log_level: info
 snooper_enabled: false
-zond_metrics_exporter_enabled: false
+ethereum_metrics_exporter_enabled: false
 parallel_keystore_generation: false
 disable_peer_scoring: false
 persistent: false
