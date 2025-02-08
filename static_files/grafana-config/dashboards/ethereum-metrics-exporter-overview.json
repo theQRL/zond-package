@@ -696,79 +696,10 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "count(eth_con_node_version{version=~\".*Lighthouse.*\"})",
-          "interval": "",
-          "legendFormat": "Lighthouse",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "count(eth_con_node_version{version=~\".*Nimbus.*\"})",
+          "expr": "count(eth_con_node_version{version=~\".*Qrysm.*\"})",
           "hide": false,
           "interval": "",
-          "legendFormat": "Nimbus",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "count(eth_con_node_version{version=~\".*teku.*\"})",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Teku",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "count(eth_con_node_version{version=~\".*Lodestar.*\"})",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Lodestar",
-          "range": true,
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "count(eth_con_node_version{version=~\".*Grandine.*\"})",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Grandine",
-          "range": true,
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "count(eth_con_node_version{version=~\".*Prysm.*\"})",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Prysm",
+          "legendFormat": "Qrysm",
           "range": true,
           "refId": "F"
         }
