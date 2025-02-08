@@ -189,7 +189,7 @@ def run(plan, args={}):
         all_vc_contexts.append(participant.vc_context)
         all_remote_signer_contexts.append(participant.remote_signer_context)
         all_ethereum_metrics_exporter_contexts.append(
-            participant.zond_metrics_exporter_context
+            participant.ethereum_metrics_exporter_context
         )
         all_xatu_sentry_contexts.append(participant.xatu_sentry_context)
 
