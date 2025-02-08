@@ -49,38 +49,17 @@ def generate_el_cl_genesis_data(
     genesis = plan.run_sh(
         name="run-generate-genesis",
         description="Creating genesis",
-        run="cp /opt/values.env /config/values.env && ./entrypoint.sh all && mkdir /network-configs && mv /data/metadata/* /network-configs/ && mv /data/parsed /network-configs/parsed",
+        run="cp /opt/values.env /config/values.env && ./entrypoint.sh all && mkdir /network-configs && mv /data/metadata/* /network-configs/",
         image=image,
         files=files,
         store=[
             StoreSpec(src="/network-configs/", name="el_cl_genesis_data"),
-            StoreSpec(
-                src="/network-configs/genesis_validators_root.txt",
-                name="genesis_validators_root",
-            ),
         ],
         wait=None,
     )
 
-    genesis_validators_root = plan.run_sh(
-        name="read-genesis-validators-root",
-        description="Reading genesis validators root",
-        run="cat /data/genesis_validators_root.txt",
-        files={"/data": genesis.files_artifacts[1]},
-        wait=None,
-    )
-
-    prague_time = plan.run_sh(
-        name="read-prague-time",
-        description="Reading prague time from genesis",
-        run="jq .config.pragueTime /data/genesis.json | tr -d '\n'",
-        files={"/data": genesis.files_artifacts[0]},
-    )
-
     result = el_cl_genesis_data.new_el_cl_genesis_data(
         genesis.files_artifacts[0],
-        genesis_validators_root.output,
-        prague_time.output,
     )
 
     return result
@@ -107,33 +86,13 @@ def new_env_file_for_el_cl_genesis_data(
         "ChurnLimitQuotient": network_params.churn_limit_quotient,
         "EjectionBalance": network_params.ejection_balance,
         "Eth1FollowDistance": network_params.eth1_follow_distance,
-        "AltairForkEpoch": network_params.altair_fork_epoch,
-        "BellatrixForkEpoch": network_params.bellatrix_fork_epoch,
-        "CapellaForkEpoch": network_params.capella_fork_epoch,
-        "DenebForkEpoch": network_params.deneb_fork_epoch,
-        "ElectraForkEpoch": network_params.electra_fork_epoch,
-        "FuluForkEpoch": network_params.fulu_fork_epoch,
-        "Eip7732ForkEpoch": network_params.eip7732_fork_epoch,
-        "Eip7805ForkEpoch": network_params.eip7805_fork_epoch,
         "GenesisForkVersion": constants.GENESIS_FORK_VERSION,
-        "AltairForkVersion": constants.ALTAIR_FORK_VERSION,
-        "BellatrixForkVersion": constants.BELLATRIX_FORK_VERSION,
-        "CapellaForkVersion": constants.CAPELLA_FORK_VERSION,
-        "DenebForkVersion": constants.DENEB_FORK_VERSION,
-        "ElectraForkVersion": constants.ELECTRA_FORK_VERSION,
-        "FuluForkVersion": constants.FULU_FORK_VERSION,
-        "Eip7732ForkVersion": constants.EIP7732_FORK_VERSION,
-        "Eip7805ForkVersion": constants.EIP7805_FORK_VERSION,
         "ShadowForkFile": shadowfork_file,
         "MinValidatorWithdrawabilityDelay": network_params.min_validator_withdrawability_delay,
         "ShardCommitteePeriod": network_params.shard_committee_period,
         "DataColumnSidecarSubnetCount": network_params.data_column_sidecar_subnet_count,
         "SamplesPerSlot": network_params.samples_per_slot,
         "CustodyRequirement": network_params.custody_requirement,
-        "MaxBlobsPerBlockElectra": network_params.max_blobs_per_block_electra,
-        "TargetBlobsPerBlockElectra": network_params.target_blobs_per_block_electra,
-        "MaxBlobsPerBlockFulu": network_params.max_blobs_per_block_fulu,
-        "TargetBlobsPerBlockFulu": network_params.target_blobs_per_block_fulu,
         "Preset": network_params.preset,
         "AdditionalPreloadedContracts": json.encode(
             network_params.additional_preloaded_contracts

@@ -79,6 +79,29 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
         plan, {}, "cl-validator-keystore", docker_cache_params
     )
 
+    write_qrysm_password_file_cmd = [
+        "sh",
+        "-c",
+        "echo '{0}' > {1}".format(
+            QRYSM_PASSWORD,
+            QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
+        ),
+    ]
+    write_qrysm_password_file_cmd_result = plan.exec(
+        service_name=service_name,
+        description="Storing qrysm password in a file",
+        recipe=ExecRecipe(command=write_qrysm_password_file_cmd),
+    )
+    plan.verify(
+        write_qrysm_password_file_cmd_result["code"],
+        "==",
+        SUCCESSFUL_EXEC_CMD_EXIT_CODE,
+    )
+
+    qrysm_password_artifact_name = plan.store_service_files(
+        service_name, QRYSM_PASSWORD_FILEPATH_ON_GENERATOR, name="qrysm-password"
+    )
+
     all_output_dirpaths = []
     all_sub_command_strs = []
     running_total_validator_count = 0
@@ -88,27 +111,38 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
         if participant.validator_count == 0:
             all_output_dirpaths.append(output_dirpath)
             continue
+        generate_keystores_cmds = []
 
         start_index = running_total_validator_count
-        stop_index = start_index + participant.validator_count
-
-        generate_keystores_cmd = '{0} keystores --insecure --prysm-pass {1} --out-loc {2} --source-mnemonic "{3}" --source-min {4} --source-max {5}'.format(
-            KEYSTORES_GENERATION_TOOL_NAME,
-            PRYSM_PASSWORD,
-            output_dirpath,
-            mnemonic,
+        generate_validator_keys_cmd = '{0} new-seed --validator-start-index {1} --num-validators {2} --folder {3} --mnemonic "{4}" --keystore-password-file={5} --chain-name "dev"'.format(
+            "/usr/local/bin/deposit",
             start_index,
-            stop_index,
+            participant.validator_count,
+            shared_utils.path_join(output_dirpath, "validator_keys"),
+            mnemonic,
+            QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
         )
+        generate_keystores_cmds.append(generate_validator_keys_cmd)
+        create_validator_wallets_cmd = '{0} wallet create --accept-terms-of-use=true --wallet-dir={1} --keymanager-kind={2} --wallet-password-file={3}'.format(
+            "/usr/local/bin/validator",
+            shared_utils.path_join(output_dirpath, "qrysm"),
+            "local",
+            QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
+        )
+        generate_keystores_cmds.append(create_validator_wallets_cmd)
+
+        import_validator_keys_cmd = '{0} accounts import --keys-dir={1} --wallet-dir={2} --wallet-password-file={3} --account-password-file={4}'.format(
+            "/usr/local/bin/validator",
+            shared_utils.path_join(output_dirpath, "validator_keys"),
+            shared_utils.path_join(output_dirpath, "qrysm"),
+            QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
+            QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
+        )
+        generate_keystores_cmds.append(import_validator_keys_cmd)
+
+        generate_keystores_cmd = " && ".join(generate_keystores_cmds)
         all_output_dirpaths.append(output_dirpath)
         all_sub_command_strs.append(generate_keystores_cmd)
-
-        teku_permissions_cmd = "chmod 0777 -R " + output_dirpath + TEKU_KEYS_DIRNAME
-        raw_secret_permissions_cmd = (
-            "chmod 0600 -R " + output_dirpath + RAW_SECRETS_DIRNAME
-        )
-        all_sub_command_strs.append(teku_permissions_cmd)
-        all_sub_command_strs.append(raw_secret_permissions_cmd)
 
         running_total_validator_count += participant.validator_count
 
@@ -150,45 +184,16 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
         base_dirname_in_artifact = shared_utils.path_base(output_dirpath)
         to_add = keystore_files_module.new_keystore_files(
             artifact_name,
-            shared_utils.path_join(base_dirname_in_artifact),
-            shared_utils.path_join(base_dirname_in_artifact, RAW_KEYS_DIRNAME),
-            shared_utils.path_join(base_dirname_in_artifact, RAW_SECRETS_DIRNAME),
-            shared_utils.path_join(base_dirname_in_artifact, NIMBUS_KEYS_DIRNAME),
-            shared_utils.path_join(base_dirname_in_artifact, PRYSM_DIRNAME),
-            shared_utils.path_join(base_dirname_in_artifact, TEKU_KEYS_DIRNAME),
-            shared_utils.path_join(base_dirname_in_artifact, TEKU_SECRETS_DIRNAME),
+            shared_utils.path_join(base_dirname_in_artifact, QRYSM_DIRNAME),
         )
 
         keystore_files.append(to_add)
 
         running_total_validator_count += participant.validator_count
 
-    write_prysm_password_file_cmd = [
-        "sh",
-        "-c",
-        "echo '{0}' > {1}".format(
-            PRYSM_PASSWORD,
-            PRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
-        ),
-    ]
-    write_prysm_password_file_cmd_result = plan.exec(
-        service_name=service_name,
-        description="Storing prysm password in a file",
-        recipe=ExecRecipe(command=write_prysm_password_file_cmd),
-    )
-    plan.verify(
-        write_prysm_password_file_cmd_result["code"],
-        "==",
-        SUCCESSFUL_EXEC_CMD_EXIT_CODE,
-    )
-
-    prysm_password_artifact_name = plan.store_service_files(
-        service_name, PRYSM_PASSWORD_FILEPATH_ON_GENERATOR, name="prysm-password"
-    )
-
     result = keystores_result.new_generate_keystores_result(
-        prysm_password_artifact_name,
-        shared_utils.path_base(PRYSM_PASSWORD_FILEPATH_ON_GENERATOR),
+        qrysm_password_artifact_name,
+        shared_utils.path_base(QRYSM_PASSWORD_FILEPATH_ON_GENERATOR),
         keystore_files,
     )
 
@@ -224,23 +229,15 @@ def generate_valdiator_keystores_in_parallel(
         )
         finished_files_to_verify.append(generation_finished_filepath)
 
-        generate_keystores_cmd = 'nohup {0} keystores --insecure --prysm-pass {1} --out-loc {2} --source-mnemonic "{3}" --source-min {4} --source-max {5} && touch {6}'.format(
+        generate_keystores_cmd = 'nohup {0} keystores --insecure --qrysm-pass {1} --out-loc {2} --source-mnemonic "{3}" --source-min {4} --source-max {5} && touch {6}'.format(
             KEYSTORES_GENERATION_TOOL_NAME,
-            PRYSM_PASSWORD,
+            QRYSM_PASSWORD,
             output_dirpath,
             mnemonic,
             start_index,
             stop_index,
             generation_finished_filepath,
         )
-        teku_permissions_cmd = (
-            " && chmod 777 -R " + output_dirpath + "/" + TEKU_KEYS_DIRNAME
-        )
-        raw_secret_permissions_cmd = (
-            " && chmod 0600 -R " + output_dirpath + "/" + RAW_SECRETS_DIRNAME
-        )
-        generate_keystores_cmd += teku_permissions_cmd
-        generate_keystores_cmd += raw_secret_permissions_cmd
         all_generation_commands.append(generate_keystores_cmd)
         all_output_dirpaths.append(output_dirpath)
 
@@ -307,43 +304,37 @@ def generate_valdiator_keystores_in_parallel(
         base_dirname_in_artifact = shared_utils.path_base(output_dirpath)
         to_add = keystore_files_module.new_keystore_files(
             artifact_name,
-            shared_utils.path_join(base_dirname_in_artifact),
-            shared_utils.path_join(base_dirname_in_artifact, RAW_KEYS_DIRNAME),
-            shared_utils.path_join(base_dirname_in_artifact, RAW_SECRETS_DIRNAME),
-            shared_utils.path_join(base_dirname_in_artifact, NIMBUS_KEYS_DIRNAME),
-            shared_utils.path_join(base_dirname_in_artifact, PRYSM_DIRNAME),
-            shared_utils.path_join(base_dirname_in_artifact, TEKU_KEYS_DIRNAME),
-            shared_utils.path_join(base_dirname_in_artifact, TEKU_SECRETS_DIRNAME),
+            shared_utils.path_join(base_dirname_in_artifact, QRYSM_DIRNAME),
         )
 
         keystore_files.append(to_add)
 
-    write_prysm_password_file_cmd = [
+    write_qrysm_password_file_cmd = [
         "sh",
         "-c",
         "echo '{0}' > {1}".format(
-            PRYSM_PASSWORD,
-            PRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
+            QRYSM_PASSWORD,
+            QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
         ),
     ]
-    write_prysm_password_file_cmd_result = plan.exec(
+    write_qrysm_password_file_cmd_result = plan.exec(
         service_name=service_names[0],
-        description="Storing prysm password in a file",
-        recipe=ExecRecipe(command=write_prysm_password_file_cmd),
+        description="Storing qrysm password in a file",
+        recipe=ExecRecipe(command=write_qrysm_password_file_cmd),
     )
     plan.verify(
-        write_prysm_password_file_cmd_result["code"],
+        write_qrysm_password_file_cmd_result["code"],
         "==",
         SUCCESSFUL_EXEC_CMD_EXIT_CODE,
     )
 
-    prysm_password_artifact_name = plan.store_service_files(
-        service_names[0], PRYSM_PASSWORD_FILEPATH_ON_GENERATOR, name="prysm-password"
+    qrysm_password_artifact_name = plan.store_service_files(
+        service_names[0], QRYSM_PASSWORD_FILEPATH_ON_GENERATOR, name="qrysm-password"
     )
 
     result = keystores_result.new_generate_keystores_result(
-        prysm_password_artifact_name,
-        shared_utils.path_base(PRYSM_PASSWORD_FILEPATH_ON_GENERATOR),
+        qrysm_password_artifact_name,
+        shared_utils.path_base(QRYSM_PASSWORD_FILEPATH_ON_GENERATOR),
         keystore_files,
     )
 

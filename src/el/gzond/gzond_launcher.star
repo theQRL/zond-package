@@ -15,13 +15,13 @@ DISCOVERY_PORT_NUM = 30303
 ENGINE_RPC_PORT_NUM = 8551
 METRICS_PORT_NUM = 9001
 
-# TODO(old) Scale this dynamically based on CPUs available and Geth nodes mining
+# TODO(old) Scale this dynamically based on CPUs available and Gzond nodes mining
 NUM_MINING_THREADS = 1
 
 METRICS_PATH = "/debug/metrics/prometheus"
 
 # The dirpath of the execution data directory on the client container
-EXECUTION_DATA_DIRPATH_ON_CLIENT_CONTAINER = "/data/geth/execution-data"
+EXECUTION_DATA_DIRPATH_ON_CLIENT_CONTAINER = "/data/gzond/execution-data"
 
 ENTRYPOINT_ARGS = ["sh", "-c"]
 
@@ -34,7 +34,6 @@ VERBOSITY_LEVELS = {
 }
 
 BUILDER_IMAGE_STR = "builder"
-SUAVE_ENABLED_GETH_IMAGE_STR = "suave"
 
 
 def launch(
@@ -78,7 +77,7 @@ def launch(
     )
 
     metrics_url = "{0}:{1}".format(service.ip_address, METRICS_PORT_NUM)
-    geth_metrics_info = node_metrics.new_node_metrics_info(
+    gzond_metrics_info = node_metrics.new_node_metrics_info(
         service_name, METRICS_PATH, metrics_url
     )
 
@@ -86,7 +85,7 @@ def launch(
     ws_url = "ws://{0}:{1}".format(service.ip_address, WS_PORT_NUM)
 
     return el_context.new_el_context(
-        client_name="geth",
+        client_name="gzond",
         enode=enode,
         ip_addr=service.ip_address,
         rpc_port_num=RPC_PORT_NUM,
@@ -96,7 +95,7 @@ def launch(
         ws_url=ws_url,
         enr=enr,
         service_name=service_name,
-        el_metrics_info=[geth_metrics_info],
+        el_metrics_info=[gzond_metrics_info],
     )
 
 
@@ -121,33 +120,16 @@ def get_config(
         gcmode_archive = True
     else:
         gcmode_archive = False
-    # TODO: Remove this once electra fork has path based storage scheme implemented
-    if (
-        constants.NETWORK_NAME.verkle in launcher.network
-    ) and constants.NETWORK_NAME.shadowfork not in launcher.network:
-        if constants.NETWORK_NAME.verkle + "-gen" in launcher.network:  # verkle-gen
-            init_datadir_cmd_str = "geth --datadir={0} --cache.preimages --override.prague={1} init {2}".format(
-                EXECUTION_DATA_DIRPATH_ON_CLIENT_CONTAINER,
-                launcher.prague_time,
-                constants.GENESIS_CONFIG_MOUNT_PATH_ON_CONTAINER + "/genesis.json",
-            )
-        else:  # verkle
-            init_datadir_cmd_str = (
-                "geth --datadir={0} --cache.preimages init {1}".format(
-                    EXECUTION_DATA_DIRPATH_ON_CLIENT_CONTAINER,
-                    constants.GENESIS_CONFIG_MOUNT_PATH_ON_CONTAINER + "/genesis.json",
-                )
-            )
-    elif constants.NETWORK_NAME.shadowfork in launcher.network:  # shadowfork
+    if constants.NETWORK_NAME.shadowfork in launcher.network:  # shadowfork
         init_datadir_cmd_str = "echo shadowfork"
 
     elif gcmode_archive:  # Disable path based storage scheme archive mode
-        init_datadir_cmd_str = "geth init --state.scheme=hash --datadir={0} {1}".format(
+        init_datadir_cmd_str = "gzond init --state.scheme=hash --datadir={0} {1}".format(
             EXECUTION_DATA_DIRPATH_ON_CLIENT_CONTAINER,
             constants.GENESIS_CONFIG_MOUNT_PATH_ON_CONTAINER + "/genesis.json",
         )
     else:
-        init_datadir_cmd_str = "geth init --datadir={0} {1}".format(
+        init_datadir_cmd_str = "gzond init --datadir={0} {1}".format(
             EXECUTION_DATA_DIRPATH_ON_CLIENT_CONTAINER,
             constants.GENESIS_CONFIG_MOUNT_PATH_ON_CONTAINER + "/genesis.json",
         )
@@ -181,16 +163,7 @@ def get_config(
     used_ports = shared_utils.get_port_specs(used_port_assignments)
 
     cmd = [
-        "geth",
-        # Disable path based storage scheme for electra fork and verkle
-        # TODO: REMOVE Once geth default db is path based, and builder rebased
-        "{0}".format(
-            "--state.scheme=hash"
-            if "verkle" in launcher.network or gcmode_archive
-            else ""
-        ),
-        # Override prague fork timestamp for electra fork
-        "{0}".format("--cache.preimages" if "verkle" in launcher.network else ""),
+        "gzond",
         "{0}".format(
             "--{}".format(launcher.network)
             if launcher.network in constants.PUBLIC_NETWORKS
@@ -218,7 +191,6 @@ def get_config(
         "--authrpc.vhosts=*",
         "--authrpc.jwtsecret=" + constants.JWT_MOUNT_PATH_ON_CONTAINER,
         "--syncmode=full" if not gcmode_archive else "--gcmode=archive",
-        "--rpc.allow-unprotected-txs",
         "--metrics",
         "--metrics.addr=0.0.0.0",
         "--metrics.port={0}".format(METRICS_PORT_NUM),
@@ -233,12 +205,6 @@ def get_config(
             if "--ws.api" in arg:
                 cmd[index] = "--ws.api=admin,engine,net,eth,web3,debug,mev,flashbots"
 
-    if SUAVE_ENABLED_GETH_IMAGE_STR in participant.el_image:
-        for index, arg in enumerate(cmd):
-            if "--http.api" in arg:
-                cmd[index] = "--http.api=admin,engine,net,eth,web3,debug,suavex"
-            if "--ws.api" in arg:
-                cmd[index] = "--ws.api=admin,engine,net,eth,web3,debug,suavex"
 
     if (
         launcher.network == constants.NETWORK_NAME.kurtosis
@@ -254,13 +220,6 @@ def get_config(
                     ]
                 )
             )
-        if constants.NETWORK_NAME.shadowfork in launcher.network:  # shadowfork
-            cmd.append("--override.prague=" + str(launcher.prague_time))
-            if "verkle" in launcher.network:  # verkle-shadowfork
-                cmd.append("--override.overlay-stride=10000")
-                cmd.append("--override.blockproof=true")
-                cmd.append("--clear.verkle.costs=true")
-
     elif (
         launcher.network not in constants.PUBLIC_NETWORKS
         and constants.NETWORK_NAME.shadowfork not in launcher.network
@@ -296,7 +255,7 @@ def get_config(
             size=int(participant.el_volume_size)
             if int(participant.el_volume_size) > 0
             else constants.VOLUME_SIZE[launcher.network][
-                constants.EL_TYPE.geth + "_volume_size"
+                constants.EL_TYPE.gzond + "_volume_size"
             ],
         )
     env_vars = participant.el_extra_env_vars
@@ -310,7 +269,7 @@ def get_config(
         "private_ip_address_placeholder": constants.PRIVATE_IP_ADDRESS_PLACEHOLDER,
         "env_vars": env_vars,
         "labels": shared_utils.label_maker(
-            client=constants.EL_TYPE.geth,
+            client=constants.EL_TYPE.gzond,
             client_type=constants.CLIENT_TYPES.el,
             image=participant.el_image[-constants.MAX_LABEL_LENGTH :],
             connected_client=cl_client_name,
@@ -332,17 +291,15 @@ def get_config(
     return ServiceConfig(**config_args)
 
 
-def new_geth_launcher(
+def new_gzond_launcher(
     el_cl_genesis_data,
     jwt_file,
     network,
     networkid,
-    prague_time,
 ):
     return struct(
         el_cl_genesis_data=el_cl_genesis_data,
         jwt_file=jwt_file,
         network=network,
         networkid=networkid,
-        prague_time=prague_time,
     )

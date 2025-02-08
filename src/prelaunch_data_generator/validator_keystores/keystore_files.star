@@ -6,5 +6,5 @@ def new_keystore_files(
     return struct(
         files_artifact_uuid=files_artifact_uuid,
         # ------------ All directories below are relative to the root of the files artifact ----------------
-        qrysm_relative_dirpath=prysm_relative_dirpath,
+        qrysm_relative_dirpath=qrysm_relative_dirpath,
     )

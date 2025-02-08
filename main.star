@@ -154,7 +154,6 @@ def run(plan, args={}):
     (
         all_participants,
         final_genesis_timestamp,
-        genesis_validators_root,
         el_cl_data_files_artifact_uuid,
         network_id,
     ) = participant_network.launch_participant_network(
@@ -425,7 +424,6 @@ def run(plan, args={}):
             network_params=network_params,
             network_id=network_id,
             final_genesis_timestamp=final_genesis_timestamp,
-            genesis_validators_root=genesis_validators_root,
         )
 
         return output
@@ -714,7 +712,6 @@ def run(plan, args={}):
         network_params=network_params,
         network_id=network_id,
         final_genesis_timestamp=final_genesis_timestamp,
-        genesis_validators_root=genesis_validators_root,
     )
 
     return output

@@ -2,11 +2,11 @@
 
 This is a [Kurtosis][kurtosis-repo] package that will spin up a private Zond testnet over Docker or Kubernetes with multi-client support, Flashbot's `mev-boost` infrastructure for PBS-related testing/validation, and other useful network tools (transaction spammer, monitoring tools, etc). Kurtosis packages are entirely reproducible and composable, so this will work the same way over Docker or Kubernetes, in the cloud or locally on your machine.
 
-You now have the ability to spin up a private Zond testnet or public devnet/testnet with a single command. This package is designed to be used for testing, validation, and development of Ethereum clients, and is not intended for production use. For more details check network_params.network in the [configuration section](./README.md#configuration).
+You now have the ability to spin up a private Zond testnet or public devnet/testnet with a single command. This package is designed to be used for testing, validation, and development of Zond clients, and is not intended for production use. For more details check network_params.network in the [configuration section](./README.md#configuration).
 
 Specifically, this [package][package-reference] will:
 
-1. Generate Execution Layer (EL) & Consensus Layer (CL) genesis information using [the Ethereum genesis generator](https://github.com/ethpandaops/ethereum-genesis-generator).
+1. Generate Execution Layer (EL) & Consensus Layer (CL) genesis information using [the Zond genesis generator](https://github.com/theQRL/zond-genesis-generator).
 2. Configure & bootstrap a network of Zond nodes of *n* size using the genesis data generated above
 3. Spin up a [transaction spammer](https://github.com/MariusVanDerWijden/tx-fuzz) to send fake transactions to the network
 4. Spin up and connect a [testnet verifier](https://github.com/ethereum/merge-testnet-verifier)
@@ -441,8 +441,8 @@ participants_matrix: {}
 network_params:
   # Network name, used to enable syncing of alternative networks
   # Defaults to "kurtosis"
-  # You can sync any public network by setting this to the network name (e.g. "mainnet", "sepolia", "holesky")
-  # You can sync any devnet by setting this to the network name (e.g. "dencun-devnet-12", "verkle-gen-devnet-2")
+  # You can sync any public network by setting this to the network name (e.g. "mainnet", "sepolia")
+  # You can sync any devnet by setting this to the network name (e.g. "dencun-devnet-12")
   network: "kurtosis"
 
   # The network ID of the network.
@@ -867,7 +867,7 @@ spamoor_params:
 
 # Zond genesis generator params
 zond_genesis_generator_params:
-  # The image to use for zondgenesis generator
+  # The image to use for zond genesis generator
   image: theqrl/zond-genesis-generator:latest
 
 # Global parameter to set the exit ip address of services and public ports
@@ -917,58 +917,24 @@ port_publisher:
 #### Example configurations
 
 <details>
-    <summary>A 3-node Ethereum network with "mock" MEV mode.</summary>
-    Useful for testing mev-boost and the client implementations without adding the complexity of the relay. This can be enabled by a single config command and would deploy the [mock-builder](https://github.com/marioevz/mock-builder), instead of the relay infrastructure.
+    <summary>A 5-node Zond network.</summary>
 
 ```yaml
 participants:
-  - el_type: geth
-    el_image: ''
-    cl_type: lighthouse
-    cl_image: ''
-    count: 2
-  - el_type: nethermind
-    el_image: ''
-    cl_type: teku
-    cl_image: ''
-    count: 1
-  - el_type: besu
-    el_image: ''
-    cl_type: prysm
-    cl_image: ''
-    count: 2
-mev_type: mock
+  - el_type: gzond
+    cl_type: qrysm
+    count: 5
 ```
 
 </details>
 
 <details>
-    <summary>A 5-node Ethereum network with three different CL and EL client combinations and mev-boost infrastructure in "full" mode.</summary>
+    <summary>A 2-node gzond/qrysm network with optional services (Grafana, Prometheus, transaction-spammer, EngineAPI snooper, and a testnet verifier)</summary>
 
 ```yaml
 participants:
-  - el_type: geth
-    cl_type: lighthouse
-    count: 2
-  - el_type: nethermind
-    cl_type: teku
-  - el_type: besu
-    cl_type: prysm
-    count: 2
-mev_type: flashbots
-network_params:
-  deneb_fork_epoch: 1
-```
-
-</details>
-
-<details>
-    <summary>A 2-node geth/lighthouse network with optional services (Grafana, Prometheus, transaction-spammer, EngineAPI snooper, and a testnet verifier)</summary>
-
-```yaml
-participants:
-  - el_type: geth
-    cl_type: lighthouse
+  - el_type: gzond
+    cl_type: qrysm
     count: 2
 snooper_enabled: true
 additional_services:
@@ -995,7 +961,7 @@ Consensus Layer (CL) nodes - Beacon:
 
 ```sh
   "com.kurtosistech.custom.zond-package-client": "qrysm",
-  "com.kurtosistech.custom.zond-package-client-image": "theqrl-qrysm-beacon-chainlatest",
+  "com.kurtosistech.custom.zond-package-client-image": "theqrl-qrysm-beacon-chain-latest",
   "com.kurtosistech.custom.zond-package-client-type": "beacon",
   "com.kurtosistech.custom.zond-package-connected-client": "gzond",
 ```

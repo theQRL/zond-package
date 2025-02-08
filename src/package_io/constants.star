@@ -132,16 +132,16 @@ VOLUME_SIZE = {
         "qrysm_volume_size": 500000,  # 500GB
     },
     "devnets": {
-        "geth_volume_size": 100000,  # 100GB
-        "prysm_volume_size": 100000,  # 100GB
+        "gzond_volume_size": 100000,  # 100GB
+        "qrysm_volume_size": 100000,  # 100GB
     },
     "ephemery": {
-        "geth_volume_size": 5000,  # 5GB
-        "prysm_volume_size": 1000,  # 1GB
+        "gzond_volume_size": 5000,  # 5GB
+        "qrysm_volume_size": 1000,  # 1GB
     },
     "kurtosis": {
-        "geth_volume_size": 5000,  # 5GB
-        "prysm_volume_size": 1000,  # 1GB
+        "gzond_volume_size": 5000,  # 5GB
+        "qrysm_volume_size": 1000,  # 1GB
     },
 }
 VOLUME_SIZE["mainnet-shadowfork"] = VOLUME_SIZE["mainnet"]

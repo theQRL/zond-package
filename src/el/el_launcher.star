@@ -2,13 +2,7 @@ constants = import_module("../package_io/constants.star")
 input_parser = import_module("../package_io/input_parser.star")
 shared_utils = import_module("../shared_utils/shared_utils.star")
 
-geth = import_module("./geth/geth_launcher.star")
-besu = import_module("./besu/besu_launcher.star")
-erigon = import_module("./erigon/erigon_launcher.star")
-nethermind = import_module("./nethermind/nethermind_launcher.star")
-reth = import_module("./reth/reth_launcher.star")
-ethereumjs = import_module("./ethereumjs/ethereumjs_launcher.star")
-nimbus_eth1 = import_module("./nimbus-eth1/nimbus_launcher.star")
+gzond = import_module("./gzond/gzond_launcher.star")
 
 
 def launch(
@@ -28,75 +22,14 @@ def launch(
     mev_params,
 ):
     el_launchers = {
-        constants.EL_TYPE.geth: {
-            "launcher": geth.new_geth_launcher(
+        constants.EL_TYPE.gzond: {
+            "launcher": gzond.new_gzond_launcher(
                 el_cl_data,
                 jwt_file,
                 network_params.network,
                 network_id,
-                el_cl_data.prague_time,
             ),
-            "launch_method": geth.launch,
-        },
-        constants.EL_TYPE.besu: {
-            "launcher": besu.new_besu_launcher(
-                el_cl_data,
-                jwt_file,
-                network_params.network,
-            ),
-            "launch_method": besu.launch,
-        },
-        constants.EL_TYPE.erigon: {
-            "launcher": erigon.new_erigon_launcher(
-                el_cl_data,
-                jwt_file,
-                network_params.network,
-                network_id,
-                el_cl_data.prague_time,
-            ),
-            "launch_method": erigon.launch,
-        },
-        constants.EL_TYPE.nethermind: {
-            "launcher": nethermind.new_nethermind_launcher(
-                el_cl_data,
-                jwt_file,
-                network_params.network,
-            ),
-            "launch_method": nethermind.launch,
-        },
-        constants.EL_TYPE.reth: {
-            "launcher": reth.new_reth_launcher(
-                el_cl_data,
-                jwt_file,
-                network_params.network,
-            ),
-            "launch_method": reth.launch,
-        },
-        constants.EL_TYPE.reth_builder: {
-            "launcher": reth.new_reth_launcher(
-                el_cl_data,
-                jwt_file,
-                network_params.network,
-                builder_type=mev_builder_type,
-                mev_params=mev_params,
-            ),
-            "launch_method": reth.launch,
-        },
-        constants.EL_TYPE.ethereumjs: {
-            "launcher": ethereumjs.new_ethereumjs_launcher(
-                el_cl_data,
-                jwt_file,
-                network_params.network,
-            ),
-            "launch_method": ethereumjs.launch,
-        },
-        constants.EL_TYPE.nimbus: {
-            "launcher": nimbus_eth1.new_nimbus_launcher(
-                el_cl_data,
-                jwt_file,
-                network_params.network,
-            ),
-            "launch_method": nimbus_eth1.launch,
+            "launch_method": gzond.launch,
         },
     }
 
