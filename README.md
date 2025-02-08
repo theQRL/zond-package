@@ -990,7 +990,7 @@ kurtosis run github.com/ethpandaops/ethereum-package '{"mev_type": "full"}'
 
 Starting your network up with `"mev_type": "full"` will instantiate and connect the following infrastructure to your network:
 
-1. `Flashbot's block builder & CL validator + beacon` - A modified Geth client that builds blocks. The CL validator and beacon clients are lighthouse clients configured to receive payloads from the relay.
+1. `Flashbot's block builder & CL validator + beacon` - A modified Gzond client that builds blocks. The CL validator and beacon clients are lighthouse clients configured to receive payloads from the relay.
 2. `mev-relay-api` - Services that provide APIs for (a) proposers, (b) block builders, (c) data
 3. `mev-relay-website` - A website to monitor payloads that have been delivered
 4. `mev-relay-housekeeper` - Updates known validators, proposer duties, and more in the background. Only a single instance of this should run.

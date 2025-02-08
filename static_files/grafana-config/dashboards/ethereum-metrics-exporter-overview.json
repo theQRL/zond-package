@@ -758,53 +758,11 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "count(eth_exe_web3_client_version{version=~\".*Geth.*\"})",
+          "expr": "count(eth_exe_web3_client_version{version=~\".*Gzond.*\"})",
           "interval": "",
-          "legendFormat": "Geth",
+          "legendFormat": "Gzond",
           "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "count(eth_exe_web3_client_version{version=~\".*Nethermind.*\"})",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Nethermind",
-          "range": true,
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "count(eth_exe_web3_client_version{version=~\".*besu.*\"})",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Besu",
-          "range": true,
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "count(eth_exe_web3_client_version{version=~\".*erigon.*\"})",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "Erigon",
-          "range": true,
-          "refId": "D"
         },
         {
           "datasource": {
