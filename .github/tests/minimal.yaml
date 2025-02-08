@@ -1,5 +1,7 @@
 participants:
   - el_type: gzond
     cl_type: qrysm
+  - el_type: gzond
+    cl_type: qrysm
 network_params:
   preset: minimal
