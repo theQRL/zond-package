@@ -3,7 +3,6 @@ input_parser = import_module("../../../package_io/input_parser.star")
 static_files = import_module("../../../static_files/static_files.star")
 constants = import_module("../../../package_io/constants.star")
 flashbots_relay = import_module("../mev_relay/mev_relay_launcher.star")
-lighthouse = import_module("../../../cl/lighthouse/lighthouse_launcher.star")
 # MEV Builder flags
 
 MEV_BUILDER_CONFIG_FILENAME = "config.toml"
@@ -74,12 +73,13 @@ def new_builder_config_template_data(
         if network_params.network in constants.PUBLIC_NETWORKS
         else "/network-configs/genesis.json",
         "DataDir": "/data/reth/execution-data",
-        "CLEndpoint": "http://cl-{0}-{1}-{2}:{3}".format(
-            num_of_participants,
-            constants.CL_TYPE.lighthouse,
-            constants.EL_TYPE.reth_builder,
-            lighthouse.BEACON_HTTP_PORT_NUM,
-        ),
+        "CLEndpoint": "",
+        # "CLEndpoint": "http://cl-{0}-{1}-{2}:{3}".format(
+        #     num_of_participants,
+        #     constants.CL_TYPE.lighthouse,
+        #     constants.EL_TYPE.reth_builder,
+        #     lighthouse.BEACON_HTTP_PORT_NUM,
+        # ),
         "GenesisForkVersion": constants.GENESIS_FORK_VERSION,
         "Relay": "mev-relay-api",
         "RelayPort": flashbots_relay.MEV_RELAY_ENDPOINT_PORT,
