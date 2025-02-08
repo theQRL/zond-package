@@ -14,7 +14,7 @@ participants:
     el_max_mem: 0
 # CL
     cl_type: qrysm
-    cl_image: theqrl/qrysm:latest
+    cl_image: theqrl/qrysm-beacon-chain:latest
     cl_log_level: ""
     cl_extra_env_vars: {}
     cl_extra_labels: {}
@@ -29,7 +29,7 @@ participants:
     use_separate_vc: true
 # Validator
     vc_type: qrysm
-    vc_image: theqrl/qrysm:latest-unstable
+    vc_image: theqrl/qrysm-validator:latest
     vc_log_level: ""
     vc_extra_env_vars: {}
     vc_extra_labels: {}
