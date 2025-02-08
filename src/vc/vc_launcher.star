@@ -3,12 +3,7 @@ constants = import_module("../package_io/constants.star")
 node_metrics = import_module("../node_metrics_info.star")
 vc_context = import_module("./vc_context.star")
 
-lighthouse = import_module("./lighthouse.star")
-lodestar = import_module("./lodestar.star")
-nimbus = import_module("./nimbus.star")
-prysm = import_module("./prysm.star")
-teku = import_module("./teku.star")
-vero = import_module("./vero.star")
+qrysm = import_module("./qrysm.star")
 vc_shared = import_module("./shared.star")
 shared_utils = import_module("../shared_utils/shared_utils.star")
 
@@ -29,13 +24,12 @@ def launch(
     snooper_beacon_context,
     node_keystore_files,
     participant,
-    prysm_password_relative_filepath,
-    prysm_password_artifact_uuid,
+    qrysm_password_relative_filepath,
+    qrysm_password_artifact_uuid,
     global_tolerations,
     node_selectors,
     preset,
     network,  # TODO: remove when deneb rebase is done
-    electra_fork_epoch,  # TODO: remove when deneb rebase is done
     port_publisher,
     vc_index,
 ):
@@ -57,47 +51,8 @@ def launch(
         )
 
     keymanager_enabled = participant.keymanager_enabled
-    if vc_type == constants.VC_TYPE.lighthouse:
-        if remote_signer_context != None:
-            fail("`use_remote_signer` flag not supported for lighthouse VC")
-        config = lighthouse.get_config(
-            participant=participant,
-            el_cl_genesis_data=launcher.el_cl_genesis_data,
-            image=image,
-            global_log_level=global_log_level,
-            beacon_http_url=beacon_http_url,
-            cl_context=cl_context,
-            el_context=el_context,
-            full_name=full_name,
-            node_keystore_files=node_keystore_files,
-            tolerations=tolerations,
-            node_selectors=node_selectors,
-            keymanager_enabled=keymanager_enabled,
-            port_publisher=port_publisher,
-            vc_index=vc_index,
-        )
-    elif vc_type == constants.VC_TYPE.lodestar:
-        config = lodestar.get_config(
-            participant=participant,
-            el_cl_genesis_data=launcher.el_cl_genesis_data,
-            keymanager_file=keymanager_file,
-            image=image,
-            global_log_level=global_log_level,
-            beacon_http_url=beacon_http_url,
-            cl_context=cl_context,
-            el_context=el_context,
-            remote_signer_context=remote_signer_context,
-            full_name=full_name,
-            node_keystore_files=node_keystore_files,
-            tolerations=tolerations,
-            node_selectors=node_selectors,
-            keymanager_enabled=keymanager_enabled,
-            preset=preset,
-            port_publisher=port_publisher,
-            vc_index=vc_index,
-        )
-    elif vc_type == constants.VC_TYPE.teku:
-        config = teku.get_config(
+    if vc_type == constants.VC_TYPE.qrysm:
+        config = qrysm.get_config(
             participant=participant,
             el_cl_genesis_data=launcher.el_cl_genesis_data,
             keymanager_file=keymanager_file,
@@ -108,70 +63,14 @@ def launch(
             remote_signer_context=remote_signer_context,
             full_name=full_name,
             node_keystore_files=node_keystore_files,
+            qrysm_password_relative_filepath=qrysm_password_relative_filepath,
+            qrysm_password_artifact_uuid=qrysm_password_artifact_uuid,
             tolerations=tolerations,
             node_selectors=node_selectors,
             keymanager_enabled=keymanager_enabled,
             port_publisher=port_publisher,
             vc_index=vc_index,
         )
-    elif vc_type == constants.VC_TYPE.nimbus:
-        config = nimbus.get_config(
-            participant=participant,
-            el_cl_genesis_data=launcher.el_cl_genesis_data,
-            keymanager_file=keymanager_file,
-            image=image,
-            beacon_http_url=beacon_http_url,
-            cl_context=cl_context,
-            el_context=el_context,
-            remote_signer_context=remote_signer_context,
-            full_name=full_name,
-            node_keystore_files=node_keystore_files,
-            tolerations=tolerations,
-            node_selectors=node_selectors,
-            keymanager_enabled=keymanager_enabled,
-            port_publisher=port_publisher,
-            vc_index=vc_index,
-        )
-    elif vc_type == constants.VC_TYPE.prysm:
-        config = prysm.get_config(
-            participant=participant,
-            el_cl_genesis_data=launcher.el_cl_genesis_data,
-            keymanager_file=keymanager_file,
-            image=image,
-            beacon_http_url=beacon_http_url,
-            cl_context=cl_context,
-            el_context=el_context,
-            remote_signer_context=remote_signer_context,
-            full_name=full_name,
-            node_keystore_files=node_keystore_files,
-            prysm_password_relative_filepath=prysm_password_relative_filepath,
-            prysm_password_artifact_uuid=prysm_password_artifact_uuid,
-            tolerations=tolerations,
-            node_selectors=node_selectors,
-            keymanager_enabled=keymanager_enabled,
-            port_publisher=port_publisher,
-            vc_index=vc_index,
-        )
-    elif vc_type == constants.VC_TYPE.vero:
-        if remote_signer_context == None:
-            fail("vero VC requires `use_remote_signer` to be true")
-        if keymanager_enabled:
-            fail("vero VC doesn't support the Keymanager API")
-        config = vero.get_config(
-            participant=participant,
-            image=image,
-            global_log_level=global_log_level,
-            beacon_http_url=beacon_http_url,
-            cl_context=cl_context,
-            remote_signer_context=remote_signer_context,
-            full_name=full_name,
-            tolerations=tolerations,
-            node_selectors=node_selectors,
-            port_publisher=port_publisher,
-            vc_index=vc_index,
-        )
-    elif vc_type == constants.VC_TYPE.grandine:
-        fail("Grandine VC is not yet supported")
     else:
         fail("Unsupported vc_type: {0}".format(vc_type))
 

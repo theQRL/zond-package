@@ -3,4 +3,5 @@ participants:
     cl_type: qrysm
   - el_type: gzond
     cl_type: qrysm
-persistent: true
+# additional_services:
+#   - dora

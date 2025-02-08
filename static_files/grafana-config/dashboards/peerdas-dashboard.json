@@ -2601,36 +2601,11 @@
           },
           {
             "selected": false,
-            "text": "lighthouse",
-            "value": "lighthouse"
-          },
-          {
-            "selected": false,
-            "text": "teku",
-            "value": "teku"
-          },
-          {
-            "selected": false,
-            "text": "prysm",
-            "value": "prysm"
-          },
-          {
-            "selected": false,
-            "text": "lodestar",
-            "value": "lodestar"
-          },
-          {
-            "selected": false,
-            "text": "grandine",
-            "value": "grandine"
-          },
-          {
-            "selected": false,
-            "text": "nimbus",
-            "value": "nimbus"
+            "text": "qrysm",
+            "value": "qrysm"
           }
         ],
-        "query": "lighthouse, teku, prysm, lodestar, grandine, nimbus",
+        "query": "qrysm",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"

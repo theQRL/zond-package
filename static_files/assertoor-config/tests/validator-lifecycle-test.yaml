@@ -22,7 +22,7 @@ tasks:
         limitTotal: 300
         limitPerSlot: 20
         limitPending: 50
-        depositContract: "0x4242424242424242424242424242424242424242"
+        depositContract: "Z4242424242424242424242424242424242424242"
         awaitReceipt: true
       configVars:
         walletPrivkey: "walletPrivkey"
@@ -83,25 +83,25 @@ tasks:
   config:
     minUnfinalizedEpochs: 5
 
-# check if all client pairs propose blocks with bls changes during un-finality
+# check if all client pairs propose blocks with dilithium changes during un-finality
 - name: run_task_background
-  title: "Check if all clients propose blocks with BLS changes during un-finality"
+  title: "Check if all clients propose blocks with Dilithium changes during un-finality"
   config:
     onBackgroundComplete: failOrIgnore
     backgroundTask:
-      name: generate_bls_changes
-      title: "Generate 50 BLS changes (1 bls change per slot)"
+      name: generate_dilithium_changes
+      title: "Generate 50 Dilithium changes (1 dilithium change per slot)"
       config:
         limitTotal: 50
         limitPerSlot: 1
         indexCount: 100
-        targetAddress: 0x65D08a056c17Ae13370565B04cF77D2AfA1cB9FA
+        targetAddress: Z65D08a056c17Ae13370565B04cF77D2AfA1cB9FA
       configVars:
         mnemonic: "validatorMnemonic"
 
     foregroundTask:
       name: run_task_matrix
-      title: "Check bls change inclusion with all client pairs"
+      title: "Check dilithium change inclusion with all client pairs"
       timeout: 1h
       configVars:
         matrixValues: "validatorPairNames"
@@ -114,7 +114,7 @@ tasks:
           configVars:
             validatorNamePattern: "validatorPairName"
           config:
-            minBlsChangeCount: 1
+            minDilithiumChangeCount: 1
 
 # check if all client pairs propose blocks with exits during un-finality
 - name: run_task_background
@@ -233,26 +233,26 @@ tasks:
   config:
     maxUnfinalizedEpochs: 4
 
-# check if all client pairs propose blocks with bls changes during finality
+# check if all client pairs propose blocks with dilithium changes during finality
 - name: run_task_background
-  title: "Check if all clients propose blocks with BLS changes during finality"
+  title: "Check if all clients propose blocks with Dilithium changes during finality"
   config:
     onBackgroundComplete: failOrIgnore
     backgroundTask:
-      name: generate_bls_changes
-      title: "Generate 1 bls change per slot"
+      name: generate_dilithium_changes
+      title: "Generate 1 dilithium change per slot"
       config:
         startIndex: 150
         limitTotal: 50
         limitPerSlot: 1
         indexCount: 50
-        targetAddress: 0x65D08a056c17Ae13370565B04cF77D2AfA1cB9FA
+        targetAddress: Z65D08a056c17Ae13370565B04cF77D2AfA1cB9FA
       configVars:
         mnemonic: "validatorMnemonic"
 
     foregroundTask:
       name: run_task_matrix
-      title: "Check bls change inclusion with all client pairs"
+      title: "Check dilithium change inclusion with all client pairs"
       timeout: 1h
       configVars:
         matrixValues: "validatorPairNames"
@@ -261,11 +261,11 @@ tasks:
         matrixVar: "validatorPairName"
         task:
           name: check_consensus_block_proposals
-          title: "Wait for block proposal with BLS changes from ${validatorPairName}"
+          title: "Wait for block proposal with Dilithium changes from ${validatorPairName}"
           configVars:
             validatorNamePattern: "validatorPairName"
           config:
-            minBlsChangeCount: 1
+            minDilithiumChangeCount: 1
 
 # check if all client pairs propose blocks with exits during finality
 - name: run_task_background
@@ -384,11 +384,11 @@ cleanupTasks:
   title: "Withdraw all funds"
   config:
     task:
-      name: generate_bls_changes
-      title: "Generate BLS changes for all validators"
+      name: generate_dilithium_changes
+      title: "Generate Dilithium changes for all validators"
       config:
         limitTotal: 300
         indexCount: 300
-        targetAddress: 0x65D08a056c17Ae13370565B04cF77D2AfA1cB9FA
+        targetAddress: Z65D08a056c17Ae13370565B04cF77D2AfA1cB9FA
       configVars:
         mnemonic: "validatorMnemonic"

@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  pull_request:
+
+concurrency:
+  group: "tests-${{ github.head_ref }}"
+  cancel-in-progress: true
+
+jobs:
+  run_starlark:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/docker-login
+        with:
+          username: ethpandaops
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Setup Kurtosis
+        uses: ./.github/actions/kurtosis-install
+      - name: Run Starlark
+        run: |
+          kurtosis run ${{ github.workspace }} --args-file network_params.yaml
+
+  run_with_args:
+    strategy:
+      matrix:
+        file_name:
+          [
+            "./.github/tests/mev.yaml",
+            "./.github/tests/mev-mock.yaml",
+            "./.github/tests/mix-with-tools.yaml",
+            "./.github/tests/mix-persistence.yaml",
+            "./.github/tests/mix-public.yaml",
+            "./.github/tests/minimal.yaml",
+            "./network_params.yaml"
+          ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/docker-login
+        with:
+          username: ethpandaops
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Setup Kurtosis
+        uses: ./.github/actions/kurtosis-install
+      - name: Run Starlark
+        run: |
+          kurtosis run ${{ github.workspace }} --args-file ${{ matrix.file_name }}
+
+  lint:
+    runs-on: self-hosted-ghr-size-s-x64
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Setup Kurtosis
+        uses: ./.github/actions/kurtosis-install
+      - name: Kurtosis Lint
+        run: kurtosis lint ${{ github.workspace }}
+
+  assertoor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/docker-login
+        with:
+          username: ethpandaops
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Kurtosis Assertoor GitHub Action
+        uses: ethpandaops/kurtosis-assertoor-github-action@v1
+        with:
+          zond_package_url: "."
+          zond_package_branch: ""
+          zond_package_args: .github/tests/mix-assert.yaml
+  #check_optimism_package:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Checkout Repository
+  #      uses: actions/checkout@v4
+  #    - name: Setup Kurtosis
+  #      uses: ./.github/actions/kurtosis-install
+  #    - name: Run L1
+  #      run: |
+  #        kurtosis run --enclave test ${{ github.workspace }} --args-file https://raw.githubusercontent.com/ethpandaops/optimism-package/refs/heads/main/.github/tests/external-l1/ethereum.yaml --verbosity detailed
+  #    - name: Run L2
+  #      run: |
+  #        kurtosis run --enclave test github.com/ethpandaops/optimism-package --args-file https://raw.githubusercontent.com/ethpandaops/optimism-package/refs/heads/main/.github/tests/external-l1/optimism.yaml --verbosity detailed

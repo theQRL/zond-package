@@ -1,19 +1,16 @@
-# Ethereum Package
+# Zond Package
 
-![Run of the Ethereum Network Package](run.gif)
+This is a [Kurtosis][kurtosis-repo] package that will spin up a private Zond testnet over Docker or Kubernetes with multi-client support, Flashbot's `mev-boost` infrastructure for PBS-related testing/validation, and other useful network tools (transaction spammer, monitoring tools, etc). Kurtosis packages are entirely reproducible and composable, so this will work the same way over Docker or Kubernetes, in the cloud or locally on your machine.
 
-This is a [Kurtosis][kurtosis-repo] package that will spin up a private Ethereum testnet over Docker or Kubernetes with multi-client support, Flashbot's `mev-boost` infrastructure for PBS-related testing/validation, and other useful network tools (transaction spammer, monitoring tools, etc). Kurtosis packages are entirely reproducible and composable, so this will work the same way over Docker or Kubernetes, in the cloud or locally on your machine.
-
-You now have the ability to spin up a private Ethereum testnet or public devnet/testnet (e.g. Goerli, Holesky, Sepolia, dencun-devnet-12, verkle-gen-devnet-2 etc) with a single command. This package is designed to be used for testing, validation, and development of Ethereum clients, and is not intended for production use. For more details check network_params.network in the [configuration section](./README.md#configuration).
+You now have the ability to spin up a private Zond testnet or public devnet/testnet with a single command. This package is designed to be used for testing, validation, and development of Zond clients, and is not intended for production use. For more details check network_params.network in the [configuration section](./README.md#configuration).
 
 Specifically, this [package][package-reference] will:
 
-1. Generate Execution Layer (EL) & Consensus Layer (CL) genesis information using [the Ethereum genesis generator](https://github.com/ethpandaops/ethereum-genesis-generator).
-2. Configure & bootstrap a network of Ethereum nodes of *n* size using the genesis data generated above
+1. Generate Execution Layer (EL) & Consensus Layer (CL) genesis information using [the Zond genesis generator](https://github.com/theQRL/zond-genesis-generator).
+2. Configure & bootstrap a network of Zond nodes of *n* size using the genesis data generated above
 3. Spin up a [transaction spammer](https://github.com/MariusVanDerWijden/tx-fuzz) to send fake transactions to the network
 4. Spin up and connect a [testnet verifier](https://github.com/ethereum/merge-testnet-verifier)
 5. Spin up a Grafana and Prometheus instance to observe the network
-6. Spin up a Blobscan instance to analyze blob transactions (EIP-4844)
 
 Optional features (enabled via flags or parameter files at runtime):
 
@@ -27,14 +24,12 @@ Optional features (enabled via flags or parameter files at runtime):
 
 ## Quickstart
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/new/?editor=code#https://github.com/ethpandaops/ethereum-package)
-
 1. [Install Docker & start the Docker Daemon if you haven't done so already][docker-installation]
 2. [Install the Kurtosis CLI, or upgrade it to the latest version if it's already installed][kurtosis-cli-installation]
 3. Run the package with default configurations from the command line:
 
    ```bash
-   kurtosis run --enclave my-testnet github.com/ethpandaops/ethereum-package
+   kurtosis run --enclave my-testnet github.com/theQRL/zond-package
    ```
 
 #### Run with your own configuration
@@ -42,7 +37,7 @@ Optional features (enabled via flags or parameter files at runtime):
 Kurtosis packages are parameterizable, meaning you can customize your network and its behavior to suit your needs by storing parameters in a file that you can pass in at runtime like so:
 
 ```bash
-kurtosis run --enclave my-testnet github.com/ethpandaops/ethereum-package --args-file network_params.yaml
+kurtosis run --enclave my-testnet github.com/theQRL/zond-package --args-file network_params.yaml
 ```
 
 Where `network_params.yaml` contains the parameters for your network in your home directory.
@@ -74,23 +69,13 @@ persistent: true
 ...
 ```
 
-##### Shadowforking custom verkle networks
-In order to enable shadowfork capabilities for verkle networks, you need to define electra and mention verkle in the network name after shadowfork.
-```yaml
-...
-network_params:
-  electra_fork_epoch: 1
-  network: "holesky-shadowfork-verkle"
-persistent: true
-...
-```
 
 #### Taints and tolerations
 It is possible to run the package on a Kubernetes cluster with taints and tolerations. This is done by adding the tolerations to the `tolerations` field in the `network_params.yaml` file. For example:
 ```yaml
 participants:
-  - el_type: reth
-    cl_type: teku
+  - el_type: gzond
+    cl_type: qrysm
 global_tolerations:
   - key: "node-role.kubernetes.io/master6"
     value: "true"
@@ -163,23 +148,17 @@ To configure the package behaviour, you can modify your `network_params.yaml` fi
 participants:
   # EL(Execution Layer) Specific flags
     # The type of EL client that should be started
-    # Valid values are geth, nethermind, erigon, besu, ethereumjs, reth, nimbus-eth1
-  - el_type: geth
+    # Valid values are gzond
+  - el_type: gzond
 
     # The Docker image that should be used for the EL client; leave blank to use the default for the client type
     # Defaults by client:
-    # - geth: ethereum/client-go:latest
-    # - erigon: ethpandaops/erigon:main
-    # - nethermind: nethermind/nethermind:latest
-    # - besu: hyperledger/besu:develop
-    # - reth: ghcr.io/paradigmxyz/reth
-    # - ethereumjs: ethpandaops/ethereumjs:master
-    # - nimbus-eth1: ethpandaops/nimbus-eth1:master
+    # - gzond: theqrl/gzond:latest
     el_image: ""
 
     # The log level string that this participant's EL client should log at
     # If this is emptystring then the global `logLevel` parameter's value will be translated into a string appropriate for the client (e.g. if
-    # global `logLevel` = `info` then Geth would receive `3`, Besu would receive `INFO`, etc.)
+    # global `logLevel` = `info` then Gzond would receive `3`)
     # If this is not emptystring, then this value will override the global `logLevel` setting to allow for fine-grained control
     # over a specific participant's logging
     el_log_level: ""
@@ -188,7 +167,7 @@ participants:
     el_extra_env_vars: {}
 
     # A list of optional extra labels the el container should spin up with
-    # Example; el_extra_labels: {"ethereum-package.partition": "1"}
+    # Example; el_extra_labels: {"zond-package.partition": "1"}
     el_extra_labels: {}
 
     # A list of optional extra params that will be passed to the EL client container for modifying its behaviour
@@ -221,22 +200,17 @@ participants:
 
   # CL(Consensus Layer) Specific flags
     # The type of CL client that should be started
-    # Valid values are nimbus, lighthouse, lodestar, teku, prysm, and grandine
-    cl_type: lighthouse
+    # Valid values are qrysm
+    cl_type: qrysm
 
     # The Docker image that should be used for the CL client; leave blank to use the default for the client type
     # Defaults by client:
-    # - lighthouse: sigp/lighthouse:latest
-    # - teku: consensys/teku:latest
-    # - nimbus: statusim/nimbus-eth2:multiarch-latest
-    # - prysm: gcr.io/prysmaticlabs/prysm/beacon-chain:latest
-    # - lodestar: chainsafe/lodestar:next
-    # - grandine: sifrai/grandine:stable
+    # - qrysm: theqrl/qrysm-beacon-chain:latest
     cl_image: ""
 
     # The log level string that this participant's CL client should log at
     # If this is emptystring then the global `logLevel` parameter's value will be translated into a string appropriate for the client (e.g. if
-    # global `logLevel` = `info` then Teku would receive `INFO`, Prysm would receive `info`, etc.)
+    # global `logLevel` = `info` then Qrysm would receive `info`, etc.)
     # If this is not emptystring, then this value will override the global `logLevel` setting to allow for fine-grained control
     # over a specific participant's logging
     cl_log_level: ""
@@ -245,11 +219,11 @@ participants:
     cl_extra_env_vars: {}
 
     # A list of optional extra labels that will be passed to the CL client Beacon container.
-    # Example; cl_extra_labels: {"ethereum-package.partition": "1"}
+    # Example; cl_extra_labels: {"zond-package.partition": "1"}
     cl_extra_labels: {}
 
     # A list of optional extra params that will be passed to the CL client Beacon container for modifying its behaviour
-    # If the client combines the Beacon & validator nodes (e.g. Teku, Nimbus), then this list will be passed to the combined Beacon-validator node
+    # If the client combines the Beacon & validator nodes, then this list will be passed to the combined Beacon-validator node
     cl_extra_params: []
 
     # A list of tolerations that will be passed to the CL client container
@@ -284,29 +258,24 @@ participants:
     supernode: false
 
     # Whether to use a separate validator client attached to the CL client.
-    # Defaults to false for clients that can run both in one process (Teku, Nimbus)
+    # Defaults to false for clients that can run both in one process
     use_separate_vc: true
 
   # VC (Validator Client) Specific flags
     # The type of validator client that should be used
-    # Valid values are nimbus, lighthouse, lodestar, teku, prysm and vero
-    # ( The prysm validator only works with a prysm CL client )
+    # Valid values are qrysm
+    # ( The qrysm validator only works with a qrysm CL client )
     # Defaults to matching the chosen CL client (cl_type)
     vc_type: ""
 
     # The Docker image that should be used for the separate validator client
     # Defaults by client:
-    # - lighthouse: sigp/lighthouse:latest
-    # - lodestar: chainsafe/lodestar:latest
-    # - nimbus: statusim/nimbus-validator-client:multiarch-latest
-    # - prysm: gcr.io/prysmaticlabs/prysm/validator:latest
-    # - teku: consensys/teku:latest
-    # - vero: ghcr.io/serenita-org/vero:master
+    # - qrysm: theqrl/qrysm-validator:latest
     vc_image: ""
 
     # The log level string that this participant's validator client should log at
     # If this is emptystring then the global `logLevel` parameter's value will be translated into a string appropriate for the client (e.g. if
-    # global `logLevel` = `info` then Teku would receive `INFO`, Prysm would receive `info`, etc.)
+    # global `logLevel` = `info` then Qrysm would receive `info`, etc.)
     # If this is not emptystring, then this value will override the global `logLevel` setting to allow for fine-grained control
     # over a specific participant's logging
     vc_log_level: ""
@@ -315,11 +284,11 @@ participants:
     vc_extra_env_vars: {}
 
     # A list of optional extra labels that will be passed to the validator client validator container.
-    # Example; vc_extra_labels: {"ethereum-package.partition": "1"}
+    # Example; vc_extra_labels: {"zond-package.partition": "1"}
     vc_extra_labels: {}
 
     # A list of optional extra params that will be passed to the validator client container for modifying its behaviour
-    # If the client combines the Beacon & validator nodes (e.g. Teku, Nimbus), then this list will also be passed to the combined Beacon-validator node
+    # If the client combines the Beacon & validator nodes, then this list will also be passed to the combined Beacon-validator node
     vc_extra_params: []
 
     # A list of tolerations that will be passed to the validator container
@@ -348,7 +317,6 @@ participants:
     validator_count: null
 
     # Whether to use a remote signer instead of the vc directly handling keys
-    # Note Lighthouse VC does not support this flag
     # Defaults to false
     use_remote_signer: false
 
@@ -366,7 +334,7 @@ participants:
     remote_signer_extra_env_vars: {}
 
     # A list of optional extra labels that will be passed to the remote signer container.
-    # Example; remote_signer_extra_labels: {"ethereum-package.partition": "1"}
+    # Example; remote_signer_extra_labels: {"zond-package.partition": "1"}
     remote_signer_extra_labels: {}
 
     # A list of optional extra params that will be passed to the remote signer container for modifying its behaviour
@@ -438,14 +406,6 @@ participants:
       # Additional labels to be added. Default to empty
       labels: {}
 
-    # Blobber can be enabled with the `blobber_enabled` flag per client or globally
-    # Defaults to false
-    blobber_enabled: false
-
-    # Blobber extra params can be passed in to the blobber container
-    # Defaults to empty
-    blobber_extra_params: []
-
     # A set of parameters the node needs to reach an external block building network
     # If `null` then the builder infrastructure will not be instantiated
     # Example:
@@ -467,32 +427,32 @@ participants:
 # Each EL/CL/VC item can provide the same parameters as a standard participant
 participants_matrix: {}
   # el:
-  #   - el_type: geth
-  #   - el_type: besu
+  #   - el_type: gzond
+  #   - el_type: gzond
   # cl:
-  #   - cl_type: prysm
-  #   - cl_type: lighthouse
+  #   - cl_type: qrysm
+  #   - cl_type: qrysm
   # vc:
-  #   - vc_type: prysm
-  #   - vc_type: lighthouse
+  #   - vc_type: qrysm
+  #   - vc_type: qrysm
 
 
 # Default configuration parameters for the network
 network_params:
   # Network name, used to enable syncing of alternative networks
   # Defaults to "kurtosis"
-  # You can sync any public network by setting this to the network name (e.g. "mainnet", "sepolia", "holesky")
-  # You can sync any devnet by setting this to the network name (e.g. "dencun-devnet-12", "verkle-gen-devnet-2")
+  # You can sync any public network by setting this to the network name (e.g. "mainnet", "sepolia")
+  # You can sync any devnet by setting this to the network name (e.g. "dencun-devnet-12")
   network: "kurtosis"
 
   # The network ID of the network.
   network_id: "3151908"
 
-  # The address of the staking contract address on the Eth1 chain
-  deposit_contract_address: "0x4242424242424242424242424242424242424242"
+  # The address of the staking contract address
+  deposit_contract_address: "Z4242424242424242424242424242424242424242"
 
   # Number of seconds per slot on the Beacon chain
-  seconds_per_slot: 12
+  seconds_per_slot: 60
 
   # The number of validator keys that each CL validator node should get
   num_validator_keys_per_node: 64
@@ -510,8 +470,7 @@ network_params:
   # The gas limit of the network set at genesis
   genesis_gaslimit: 30000000
 
-  # Max churn rate for the network introduced by
-  # EIP-7514 https://eips.ethereum.org/EIPS/eip-7514
+  # Max churn rate for the network
   # Defaults to 8
   max_per_epoch_activation_churn_limit: 8
 
@@ -536,39 +495,12 @@ network_params:
   # Defaults to 256 epoch ~27 hours
   shard_committee_period: 256
 
-  # The epoch at which the deneb/electra/fulu forks are set to occur. Note: PeerDAS and Electra clients are currently
-  # working on forks. So set either one of the below forks.
-  # Altair fork epoch
-  # Defaults to 0
-  altair_fork_epoch: 0
-
-  # Bellatrix fork epoch
-  # Defaults to 0
-  bellatrix_fork_epoch: 0
-
-  # Capella fork epoch
-  # Defaults to 0
-  capella_fork_epoch: 0
-
-  # Deneb fork epoch
-  # Defaults to 0
-  deneb_fork_epoch: 0
-
-  # Electra fork epoch
-  # Defaults to 100000000
-  electra_fork_epoch: 100000000
-
-  # Fulu fork epoch
-  # Defaults to 100000001
-  fulu_fork_epoch: 100000001
-
-
   # Network sync base url for syncing public networks from a custom snapshot (mostly useful for shadowforks)
   # Defaults to "https://snapshots.ethpandaops.io/"
   # If you have a local snapshot, you can set this to the local url:
   # network_snapshot_url_base = "http://10.10.101.21:10000/snapshots/"
   # The snapshots are taken with https://github.com/ethpandaops/snapshotter
-  network_sync_base_url: https://snapshots.ethpandaops.io/
+  network_sync_base_url: https://snapshots.theqrl.org/
 
   # The number of data column sidecar subnets used in the gossipsub protocol
   data_column_sidecar_subnet_count: 128
@@ -576,16 +508,6 @@ network_params:
   samples_per_slot: 8
   # Minimum number of subnets an honest node custodies and serves samples from
   custody_requirement: 4
-
-  # Maximum number of blobs per block for Electra fork
-  max_blobs_per_block_electra: 9
-  # Target number of blobs per block for Electra fork
-  target_blobs_per_block_electra: 6
-
-  # Maximum number of blobs per block for Fulu fork
-  max_blobs_per_block_fulu: 12
-  # Target number of blobs per block for Fulu fork
-  target_blobs_per_block_fulu: 9
 
   # Preset for the network
   # Default: "mainnet"
@@ -600,7 +522,7 @@ network_params:
   additional_preloaded_contracts: {}
   # Example:
   # additional_preloaded_contracts: '{
-  #  "0x123463a4B065722E99115D6c222f267d9cABb524":
+  #  "Z123463a4B065722E99115D6c222f267d9cABb524":
   #   {
   #     balance: "1ETH",
   #     code: "0x1234",
@@ -617,11 +539,11 @@ network_params:
   # A number of prefunded accounts to be created
   # Defaults to no prefunded accounts
   # Example:
-  # prefunded_accounts: '{"0x25941dC771bB64514Fc8abBce970307Fb9d477e9": {"balance": "10ETH"}}'
-  # 10ETH to the account 0x25941dC771bB64514Fc8abBce970307Fb9d477e9
+  # prefunded_accounts: '{"Z25941dC771bB64514Fc8abBce970307Fb9d477e9": {"balance": "10ETH"}}'
+  # 10ETH to the account Z25941dC771bB64514Fc8abBce970307Fb9d477e9
   # To prefund multiple accounts, separate them with a comma
   #
-  # prefunded_accounts: '{"0x25941dC771bB64514Fc8abBce970307Fb9d477e9": {"balance": "10ETH"}, "0x4107be99052d895e3ee461C685b042Aa975ab5c0": {"balance": "1ETH"}}'
+  # prefunded_accounts: '{"Z25941dC771bB64514Fc8abBce970307Fb9d477e9": {"balance": "10ETH"}, "Z4107be99052d895e3ee461C685b042Aa975ab5c0": {"balance": "1ETH"}}'
   prefunded_accounts: {}
 
   # Maximum size of gossip messages in bytes
@@ -634,7 +556,7 @@ network_params:
 # Global parameters for the network
 
 # By default includes
-# - A transaction spammer & blob spammer is launched to fake transactions sent to the network
+# - A transaction spammer is launched to fake transactions sent to the network
 # - Forkmon for EL will be launched
 # - A prometheus will be started, coupled with grafana
 # - A beacon metrics gazer will be launched
@@ -644,17 +566,14 @@ additional_services:
   - assertoor
   - broadcaster
   - tx_spammer
-  - blob_spammer
   - custom_flood
   - spamoor
-  - spamoor_blob
   - el_forkmon
   - blockscout
   - beacon_metrics_gazer
   - dora
   - full_beaconchain_explorer
   - prometheus_grafana
-  - blobscan
   - dugtrio
   - blutgang
   - forky
@@ -748,13 +667,6 @@ assertoor_params:
   # test is done twice, first with legacy (type 0) transactions, then with dynfee (type 2) transactions
   run_transaction_test: false
 
-  # Run blob transaction test
-  # This test generates blob transactions and checks inclusion with/from all client pairs
-  # This test checks for:
-  # - block proposals with blobs from all client pairs
-  # - blob inclusion when submitting via each client pair
-  run_blob_transaction_test: false
-
   # Run all-opcodes transaction test
   # This test generates a transaction that triggers all EVM OPCODES once
   # This test checks for:
@@ -811,7 +723,6 @@ disable_peer_scoring: false
 
 # Whether the environment should be persistent; this is WIP and is slowly being rolled out accross services
 # Note this requires Kurtosis greater than 0.85.49 to work
-# Note Erigon, Besu, Teku persistence is not currently supported with docker.
 # Defaults to false
 persistent: false
 
@@ -845,7 +756,7 @@ mev_params:
   # The image to use for the builder
   mev_builder_image: ethpandaops/flashbots-builder:main
   # The image to use for the CL builder
-  mev_builder_cl_image: sigp/lighthouse:latest
+  # mev_builder_cl_image: sigp/lighthouse:latest
   # The image to use for mev-boost
   mev_boost_image: flashbots/mev-boost
   # Parameters for MEV Boost. This overrides all arguments of the mev-boost container
@@ -898,7 +809,6 @@ xatu_sentry_params:
     - head
     - voluntary_exit
     - contribution_and_proof
-    - blob_sidecar
 
 # Apache params
 # Apache public port to port forward to local machine
@@ -939,7 +849,7 @@ spamoor_params:
   image: ethpandaops/spamoor:latest
   # The spamoor scenario to use (see https://github.com/ethpandaops/spamoor)
   # Valid scenarios are:
-  #  eoatx, erctx, deploytx, depoy-destruct, blobs, gasburnertx
+  #  eoatx, erctx, deploytx, depoy-destruct, gasburnertx
   # Defaults to eoatx
   scenario: eoatx
   # Throughput of spamoor
@@ -955,38 +865,10 @@ spamoor_params:
   # Defaults to empty
   spamoor_extra_args: []
 
-# Configuration place for spammor as blob spammer
-spamoor_blob_params:
-  # spamoor docker image to use
-  # Defaults to the latest
-  image: "ethpandaops/spamoor:latest"
-  # The spamoor blob scenario to use (see https://github.com/ethpandaops/spamoor)
-  # Valid blob scenarios are:
-  # - blobs (normal blob transactions only)
-  # - blob-combined (normal & special blobs with replacements)
-  # - blob-conflicting (conflicting blob & dynfee transactions)
-  # - blob-replacements (normal blobs with replacement blob transactions)
-  # Defaults to blob-combined
-  scenario: blob-combined
-  # Throughput of spamoor
-  # Defaults to 3
-  throughput: 3
-  # Maximum number of blobs per transaction
-  # Defaults to 2
-  max_blobs: 2
-  # Max pending blob transactions for spamoor
-  # Defaults to 6
-  max_pending: 6
-  # Max wallets for spamoor
-  # Defaults to 20
-  max_wallets: 20
-  # A list of optional params that will be passed to the spamoor comamnd for modifying its behaviour
-  spamoor_extra_args: []
-
-# Ethereum genesis generator params
-ethereum_genesis_generator_params:
-  # The image to use for ethereum genesis generator
-  image: ethpandaops/ethereum-genesis-generator:3.5.1
+# Zond genesis generator params
+zond_genesis_generator_params:
+  # The image to use for zond genesis generator
+  image: theqrl/zond-genesis-generator:latest
 
 # Global parameter to set the exit ip address of services and public ports
 port_publisher:
@@ -1035,91 +917,24 @@ port_publisher:
 #### Example configurations
 
 <details>
-    <summary>Verkle configuration example</summary>
+    <summary>A 5-node Zond network.</summary>
 
 ```yaml
 participants:
-  - el_type: geth
-    el_image: ethpandaops/geth:<VERKLE_IMAGE>
-    elExtraParams:
-    - "--override.verkle=<UNIXTIMESTAMP>"
-    cl_type: lighthouse
-    cl_image: sigp/lighthouse:latest
-  - el_type: geth
-    el_image: ethpandaops/geth:<VERKLE_IMAGE>
-    elExtraParams:
-    - "--override.verkle=<UNIXTIMESTAMP>"
-    cl_type: lighthouse
-    cl_image: sigp/lighthouse:latest
-  - el_type: geth
-    el_image: ethpandaops/geth:<VERKLE_IMAGE>
-    elExtraParams:
-    - "--override.verkle=<UNIXTIMESTAMP>"
-    cl_type: lighthouse
-    cl_image: sigp/lighthouse:latest
-network_params:
-  deneb_fork_epoch: 0
-wait_for_finalization: false
-wait_for_verifications: false
-global_log_level: info
-
+  - el_type: gzond
+    cl_type: qrysm
+    count: 5
 ```
 
 </details>
 
 <details>
-    <summary>A 3-node Ethereum network with "mock" MEV mode.</summary>
-    Useful for testing mev-boost and the client implementations without adding the complexity of the relay. This can be enabled by a single config command and would deploy the [mock-builder](https://github.com/marioevz/mock-builder), instead of the relay infrastructure.
+    <summary>A 2-node gzond/qrysm network with optional services (Grafana, Prometheus, transaction-spammer, EngineAPI snooper, and a testnet verifier)</summary>
 
 ```yaml
 participants:
-  - el_type: geth
-    el_image: ''
-    cl_type: lighthouse
-    cl_image: ''
-    count: 2
-  - el_type: nethermind
-    el_image: ''
-    cl_type: teku
-    cl_image: ''
-    count: 1
-  - el_type: besu
-    el_image: ''
-    cl_type: prysm
-    cl_image: ''
-    count: 2
-mev_type: mock
-```
-
-</details>
-
-<details>
-    <summary>A 5-node Ethereum network with three different CL and EL client combinations and mev-boost infrastructure in "full" mode.</summary>
-
-```yaml
-participants:
-  - el_type: geth
-    cl_type: lighthouse
-    count: 2
-  - el_type: nethermind
-    cl_type: teku
-  - el_type: besu
-    cl_type: prysm
-    count: 2
-mev_type: flashbots
-network_params:
-  deneb_fork_epoch: 1
-```
-
-</details>
-
-<details>
-    <summary>A 2-node geth/lighthouse network with optional services (Grafana, Prometheus, transaction-spammer, EngineAPI snooper, and a testnet verifier)</summary>
-
-```yaml
-participants:
-  - el_type: geth
-    cl_type: lighthouse
+  - el_type: gzond
+    cl_type: qrysm
     count: 2
 snooper_enabled: true
 additional_services:
@@ -1129,17 +944,6 @@ ethereum_metrics_exporter_enabled: true
 
 </details>
 
-## Beacon Node <> Validator Client compatibility
-
-|               | Lighthouse VC | Prysm VC | Teku VC | Lodestar VC | Nimbus VC
-|---------------|---------------|----------|---------|-------------|-----------|
-| Lighthouse BN | ✅            | ❌       | ✅      | ✅          | ✅
-| Prysm BN      | ✅            | ✅       | ✅      | ✅          | ✅
-| Teku BN       | ✅            | ✅       | ✅      | ✅          | ✅
-| Lodestar BN   | ✅            | ✅       | ✅      | ✅          | ✅
-| Nimbus BN     | ✅            | ✅       | ✅      | ✅          | ✅
-| Grandine BN   | ✅            | ✅       | ✅      | ✅          | ✅
-
 ## Custom labels for Docker and Kubernetes
 
 There are 4 custom labels that can be used to identify the nodes in the network. These labels are used to identify the nodes in the network and can be used to run chaos tests on specific nodes. An example for these labels are as follows:
@@ -1147,46 +951,46 @@ There are 4 custom labels that can be used to identify the nodes in the network.
 Execution Layer (EL) nodes:
 
 ```sh
-  "com.kurtosistech.custom.ethereum-package-client": "geth",
-  "com.kurtosistech.custom.ethereum-package-client-image": "ethereum-client-go-latest",
-  "com.kurtosistech.custom.ethereum-package-client-type": "execution",
-  "com.kurtosistech.custom.ethereum-package-connected-client": "lighthouse",
+  "com.kurtosistech.custom.zond-package-client": "gzond",
+  "com.kurtosistech.custom.zond-package-client-image": "theqrl-gzond-latest",
+  "com.kurtosistech.custom.zond-package-client-type": "execution",
+  "com.kurtosistech.custom.zond-package-connected-client": "qrysm",
 ```
 
 Consensus Layer (CL) nodes - Beacon:
 
 ```sh
-  "com.kurtosistech.custom.ethereum-package-client": "lighthouse",
-  "com.kurtosistech.custom.ethereum-package-client-image": "sigp-lighthouse-latest",
-  "com.kurtosistech.custom.ethereum-package-client-type": "beacon",
-  "com.kurtosistech.custom.ethereum-package-connected-client": "geth",
+  "com.kurtosistech.custom.zond-package-client": "qrysm",
+  "com.kurtosistech.custom.zond-package-client-image": "theqrl-qrysm-beacon-chain-latest",
+  "com.kurtosistech.custom.zond-package-client-type": "beacon",
+  "com.kurtosistech.custom.zond-package-connected-client": "gzond",
 ```
 
 Consensus Layer (CL) nodes - Validator:
 
 ```sh
-  "com.kurtosistech.custom.ethereum-package-client": "lighthouse",
-  "com.kurtosistech.custom.ethereum-package-client-image": "sigp-lighthouse-latest",
-  "com.kurtosistech.custom.ethereum-package-client-type": "validator",
-  "com.kurtosistech.custom.ethereum-package-connected-client": "geth",
+  "com.kurtosistech.custom.zond-package-client": "qrysm",
+  "com.kurtosistech.custom.zond-package-client-image": "theqrl-qrysm-validator-latest",
+  "com.kurtosistech.custom.zond-package-client-type": "validator",
+  "com.kurtosistech.custom.zond-package-connected-client": "gzond",
 ```
 
-`ethereum-package-client` describes which client is running on the node.
-`ethereum-package-client-image` describes the image that is used for the client.
-`ethereum-package-client-type` describes the type of client that is running on the node (`execution`,`beacon` or `validator`).
-`ethereum-package-connected-client` describes the CL/EL client that is connected to the EL/CL client.
+`zond-package-client` describes which client is running on the node.
+`zond-package-client-image` describes the image that is used for the client.
+`zond-package-client-type` describes the type of client that is running on the node (`execution`,`beacon` or `validator`).
+`zond-package-connected-client` describes the CL/EL client that is connected to the EL/CL client.
 
 ## Proposer Builder Separation (PBS) emulation
 
-To spin up the network of Ethereum nodes with an external block building network (using Flashbot's `mev-boost` protocol), simply use:
+To spin up the network of Zond nodes with an external block building network (using Flashbot's `mev-boost` protocol), simply use:
 
 ```
-kurtosis run github.com/ethpandaops/ethereum-package '{"mev_type": "full"}'
+kurtosis run github.com/theQRL/zond-package '{"mev_type": "full"}'
 ```
 
 Starting your network up with `"mev_type": "full"` will instantiate and connect the following infrastructure to your network:
 
-1. `Flashbot's block builder & CL validator + beacon` - A modified Geth client that builds blocks. The CL validator and beacon clients are lighthouse clients configured to receive payloads from the relay.
+1. `Flashbot's block builder & CL validator + beacon` - A modified Gzond client that builds blocks. The CL validator and beacon clients are lighthouse clients configured to receive payloads from the relay.
 2. `mev-relay-api` - Services that provide APIs for (a) proposers, (b) block builders, (c) data
 3. `mev-relay-website` - A website to monitor payloads that have been delivered
 4. `mev-relay-housekeeper` - Updates known validators, proposer duties, and more in the background. Only a single instance of this should run.
@@ -1211,7 +1015,7 @@ For more details, including a guide and architecture of the `mev-boost` infrastr
 
 ## Pre-funded accounts at Genesis
 
-This package comes with [21 prefunded keys for testing](https://github.com/ethpandaops/ethereum-package/blob/main/src/prelaunch_data_generator/genesis_constants/genesis_constants.star).
+This package comes with [21 prefunded keys for testing](https://github.com/theQRL/zond-package/blob/main/src/prelaunch_data_generator/genesis_constants/genesis_constants.star).
 
 Here's a table of where the keys are used
 
@@ -1219,9 +1023,7 @@ Here's a table of where the keys are used
 |---------------|---------------------|------------------|-----------------|-----------------------------|
 | 0             | Builder             | ✅                |                 | As coinbase                |
 | 0             | mev_custom_flood    |                   | ✅              | As the receiver of balance |
-| 1             | blob_spammer        | ✅                |                 | As the sender of blobs     |
 | 3             | transaction_spammer | ✅                |                 | To spam transactions with  |
-| 4             | spamoor_blob        | ✅                |                 | As the sender of blobs     |
 | 6             | mev_flood           | ✅                |                 | As the contract owner      |
 | 7             | mev_flood           | ✅                |                 | As the user_key            |
 | 8             | assertoor           | ✅                | ✅              | As the funding for tests   |
@@ -1252,14 +1054,7 @@ To get detailed information about the structure of the package, visit [the archi
 When you're happy with your changes:
 
 1. Create a PR
-1. Add one of the maintainers of the repo as a "Review Request":
-   * `parithosh` (Ethereum Foundation)
-   * `barnabasbusa` (Ethereum Foundation)
-   * `pk910` (Ethereum Foundation)
-   * `samcm` (Ethereum Foundation)
-   * `h4ck3rk3y` (Kurtosis)
-   * `mieubrisse` (Kurtosis)
-   * `leederek` (Kurtosis)
+1. Add one of the maintainers of the repo as a "Review Request".
 1. Once everything works, merge!
 
 <!------------------------ Only links below here -------------------------------->

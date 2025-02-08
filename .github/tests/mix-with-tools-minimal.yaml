@@ -1,28 +1,17 @@
 participants:
-  - el_type: geth
-    cl_type: teku
-  - el_type: geth
-    cl_type: prysm
-  - el_type: erigon
-    cl_type: nimbus
-  - el_type: besu
-    cl_type: lighthouse
-  - el_type: reth
-    cl_type: lodestar
-  - el_type: geth
-    cl_type: grandine
+  - el_type: gzond
+    cl_type: qrysm
+  - el_type: gzond
+    cl_type: qrysm
 network_params:
   preset: minimal
 additional_services:
   - tx_spammer
-  - blob_spammer
   - el_forkmon
   - beacon_metrics_gazer
   - dora
   - prometheus_grafana
-  - spamoor_blob
   - custom_flood
-  - blobscan
   - blockscout
   - dugtrio
   - blutgang

@@ -1,11 +1,10 @@
 participants:
-  - el_type: geth
-    cl_type: lighthouse
+  - el_type: gzond
+    cl_type: qrysm
     count: 3
 mev_type: mock
-additional_services:
-  - dora
-  - spamoor_blob
-  - tx_spammer
+# additional_services:
+#   - dora
+#   - tx_spammer
 mev_params:
   mock_mev_image: "ethpandaops/rustic-builder:main"

@@ -1,9 +1,4 @@
-lighthouse = import_module("./lighthouse/lighthouse_launcher.star")
-lodestar = import_module("./lodestar/lodestar_launcher.star")
-nimbus = import_module("./nimbus/nimbus_launcher.star")
-prysm = import_module("./prysm/prysm_launcher.star")
-teku = import_module("./teku/teku_launcher.star")
-grandine = import_module("./grandine/grandine_launcher.star")
+qrysm = import_module("./qrysm/qrysm_launcher.star")
 
 constants = import_module("../package_io/constants.star")
 input_parser = import_module("../package_io/input_parser.star")
@@ -27,57 +22,19 @@ def launch(
     persistent,
     num_participants,
     validator_data,
-    prysm_password_relative_filepath,
-    prysm_password_artifact_uuid,
+    qrysm_password_relative_filepath,
+    qrysm_password_artifact_uuid,
 ):
     plan.print("Launching CL network")
 
     cl_launchers = {
-        constants.CL_TYPE.lighthouse: {
-            "launcher": lighthouse.new_lighthouse_launcher(
-                el_cl_data, jwt_file, network_params
-            ),
-            "launch_method": lighthouse.launch,
-        },
-        constants.CL_TYPE.lodestar: {
-            "launcher": lodestar.new_lodestar_launcher(
-                el_cl_data, jwt_file, network_params
-            ),
-            "launch_method": lodestar.launch,
-        },
-        constants.CL_TYPE.nimbus: {
-            "launcher": nimbus.new_nimbus_launcher(
-                el_cl_data,
-                jwt_file,
-                network_params,
-                keymanager_file,
-            ),
-            "launch_method": nimbus.launch,
-        },
-        constants.CL_TYPE.prysm: {
-            "launcher": prysm.new_prysm_launcher(
+        constants.CL_TYPE.qrysm: {
+            "launcher": qrysm.new_qrysm_launcher(
                 el_cl_data,
                 jwt_file,
                 network_params,
             ),
-            "launch_method": prysm.launch,
-        },
-        constants.CL_TYPE.teku: {
-            "launcher": teku.new_teku_launcher(
-                el_cl_data,
-                jwt_file,
-                network_params,
-                keymanager_file,
-            ),
-            "launch_method": teku.launch,
-        },
-        constants.CL_TYPE.grandine: {
-            "launcher": grandine.new_grandine_launcher(
-                el_cl_data,
-                jwt_file,
-                network_params,
-            ),
-            "launch_method": grandine.launch,
+            "launch_method": qrysm.launch,
         },
     }
 

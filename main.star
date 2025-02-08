@@ -14,8 +14,6 @@ validator_ranges = import_module(
 transaction_spammer = import_module(
     "./src/transaction_spammer/transaction_spammer.star"
 )
-blob_spammer = import_module("./src/blob_spammer/blob_spammer.star")
-spamoor_blob = import_module("./src/spamoor_blob/spamoor_blob.star")
 el_forkmon = import_module("./src/el_forkmon/el_forkmon_launcher.star")
 beacon_metrics_gazer = import_module(
     "./src/beacon_metrics_gazer/beacon_metrics_gazer_launcher.star"
@@ -23,7 +21,6 @@ beacon_metrics_gazer = import_module(
 dora = import_module("./src/dora/dora_launcher.star")
 dugtrio = import_module("./src/dugtrio/dugtrio_launcher.star")
 blutgang = import_module("./src/blutgang/blutgang_launcher.star")
-blobscan = import_module("./src/blobscan/blobscan_launcher.star")
 forky = import_module("./src/forky/forky_launcher.star")
 tracoor = import_module("./src/tracoor/tracoor_launcher.star")
 apache = import_module("./src/apache/apache_launcher.star")
@@ -71,14 +68,13 @@ FIRST_NODE_FINALIZATION_FACT = "cl-boot-finalization-fact"
 HTTP_PORT_ID_FOR_FACT = "http"
 
 MEV_BOOST_SHOULD_CHECK_RELAY = True
-PATH_TO_PARSED_BEACON_STATE = "/genesis/output/parsedBeaconState.json"
 
 
 def run(plan, args={}):
-    """Launches an arbitrarily complex ethereum testnet based on the arguments provided
+    """Launches an arbitrarily complex zond testnet based on the arguments provided
 
     Args:
-        args: A YAML or JSON argument to configure the network; example https://github.com/ethpandaops/ethereum-package/blob/main/network_params.yaml
+        args: A YAML or JSON argument to configure the network; example https://github.com/theQRL/zond-package/blob/main/network_params.yaml
     """
 
     args_with_right_defaults = input_parser.input_parser(plan, args)
@@ -158,7 +154,6 @@ def run(plan, args={}):
     (
         all_participants,
         final_genesis_timestamp,
-        genesis_validators_root,
         el_cl_data_files_artifact_uuid,
         network_id,
     ) = participant_network.launch_participant_network(
@@ -307,7 +302,7 @@ def run(plan, args={}):
                 mev_params,
                 network_id,
                 beacon_uris,
-                genesis_validators_root,
+                # genesis_validators_root,
                 blocksim_uri,
                 network_params.seconds_per_slot,
                 persistent,
@@ -429,7 +424,6 @@ def run(plan, args={}):
             network_params=network_params,
             network_id=network_id,
             final_genesis_timestamp=final_genesis_timestamp,
-            genesis_validators_root=genesis_validators_root,
         )
 
         return output
@@ -449,20 +443,6 @@ def run(plan, args={}):
                 global_node_selectors,
             )
             plan.print("Successfully launched transaction spammer")
-        elif additional_service == "blob_spammer":
-            plan.print("Launching Blob spammer")
-            blob_spammer.launch_blob_spammer(
-                plan,
-                prefunded_accounts,
-                fuzz_target,
-                all_cl_contexts[0],
-                network_params.deneb_fork_epoch,
-                network_params.seconds_per_slot,
-                network_params.genesis_delay,
-                global_node_selectors,
-                args_with_right_defaults.tx_spammer_params,
-            )
-            plan.print("Successfully launched blob spammer")
         # We need a way to do time.sleep
         # TODO add code that waits for CL genesis
         elif additional_service == "el_forkmon":
@@ -564,21 +544,6 @@ def run(plan, args={}):
                 args_with_right_defaults.docker_cache_params,
             )
             plan.print("Successfully launched blutgang")
-        elif additional_service == "blobscan":
-            plan.print("Launching blobscan")
-            blobscan.launch_blobscan(
-                plan,
-                all_cl_contexts,
-                all_el_contexts,
-                network_id,
-                network_params,
-                persistent,
-                global_node_selectors,
-                args_with_right_defaults.port_publisher,
-                index,
-                args_with_right_defaults.docker_cache_params,
-            )
-            plan.print("Successfully launched blobscan")
         elif additional_service == "forky":
             plan.print("Launching forky")
             forky_config_template = read_file(
@@ -684,15 +649,6 @@ def run(plan, args={}):
                 args_with_right_defaults.spamoor_params,
                 global_node_selectors,
             )
-        elif additional_service == "spamoor_blob":
-            plan.print("Launching spamoor as blob spammer")
-            spamoor_blob.launch_spamoor_blob(
-                plan,
-                prefunded_accounts,
-                all_el_contexts,
-                args_with_right_defaults.spamoor_blob_params,
-                global_node_selectors,
-            )
         else:
             fail("Invalid additional service %s" % (additional_service))
     if launch_prometheus_grafana:
@@ -726,7 +682,7 @@ def run(plan, args={}):
         first_cl_client = all_cl_contexts[0]
         first_client_beacon_name = first_cl_client.beacon_service_name
         epoch_recipe = GetHttpRequestRecipe(
-            endpoint="/eth/v1/beacon/states/head/finality_checkpoints",
+            endpoint="/zond/v1/beacon/states/head/finality_checkpoints",
             port_id=HTTP_PORT_ID_FOR_FACT,
             extract={"finalized_epoch": ".data.finalized.epoch"},
         )
@@ -756,7 +712,6 @@ def run(plan, args={}):
         network_params=network_params,
         network_id=network_id,
         final_genesis_timestamp=final_genesis_timestamp,
-        genesis_validators_root=genesis_validators_root,
     )
 
     return output

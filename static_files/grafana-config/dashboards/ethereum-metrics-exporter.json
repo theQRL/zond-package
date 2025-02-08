@@ -3558,8 +3558,8 @@
       {
         "current": {
           "selected": false,
-          "text": "1-lighthouse-geth",
-          "value": "1-lighthouse-geth"
+          "text": "1-qrysm-gzond",
+          "value": "1-qrysm-gzond"
         },
         "datasource": {
           "type": "prometheus",
