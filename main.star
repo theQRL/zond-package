@@ -181,14 +181,14 @@ def run(plan, args={}):
     all_cl_contexts = []
     all_vc_contexts = []
     all_remote_signer_contexts = []
-    all_zond_metrics_exporter_contexts = []
+    all_ethereum_metrics_exporter_contexts = []
     all_xatu_sentry_contexts = []
     for participant in all_participants:
         all_el_contexts.append(participant.el_context)
         all_cl_contexts.append(participant.cl_context)
         all_vc_contexts.append(participant.vc_context)
         all_remote_signer_contexts.append(participant.remote_signer_context)
-        all_zond_metrics_exporter_contexts.append(
+        all_ethereum_metrics_exporter_contexts.append(
             participant.zond_metrics_exporter_context
         )
         all_xatu_sentry_contexts.append(participant.xatu_sentry_context)
@@ -302,7 +302,7 @@ def run(plan, args={}):
                 mev_params,
                 network_id,
                 beacon_uris,
-                genesis_validators_root,
+                # genesis_validators_root,
                 blocksim_uri,
                 network_params.seconds_per_slot,
                 persistent,
