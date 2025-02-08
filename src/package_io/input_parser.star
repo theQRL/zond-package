@@ -305,7 +305,7 @@ def input_parser(plan, input_args):
         mev_params=struct(
             mev_relay_image=result["mev_params"]["mev_relay_image"],
             mev_builder_image=result["mev_params"]["mev_builder_image"],
-            mev_builder_cl_image=result["mev_params"]["mev_builder_cl_image"],
+            # mev_builder_cl_image=result["mev_params"]["mev_builder_cl_image"],
             mev_builder_extra_data=result["mev_params"]["mev_builder_extra_data"],
             mev_boost_image=result["mev_params"]["mev_boost_image"],
             mev_boost_args=result["mev_params"]["mev_boost_args"],
@@ -971,7 +971,7 @@ def get_default_mev_params(mev_type, preset):
         "mock_mev_image": mev_builder_image
         if mev_type == constants.MOCK_MEV_TYPE
         else None,
-        "mev_builder_cl_image": mev_builder_cl_image,
+        # "mev_builder_cl_image": mev_builder_cl_image,
         "mev_builder_extra_data": mev_builder_extra_data,
         "mev_builder_extra_args": mev_builder_extra_args,
         "mev_boost_image": mev_boost_image,
@@ -1127,7 +1127,7 @@ def enrich_mev_extra_params(parsed_arguments_dict, mev_prefix, mev_port, mev_typ
         mev_participant.update(
             {
                 "el_image": parsed_arguments_dict["mev_params"]["mev_builder_image"],
-                "cl_image": parsed_arguments_dict["mev_params"]["mev_builder_cl_image"],
+                # "cl_image": parsed_arguments_dict["mev_params"]["mev_builder_cl_image"],
                 "cl_log_level": parsed_arguments_dict["global_log_level"],
                 "cl_extra_params": [
                     "--always-prepare-payload",
@@ -1153,7 +1153,7 @@ def enrich_mev_extra_params(parsed_arguments_dict, mev_prefix, mev_port, mev_typ
         mev_participant.update(
             {
                 "el_image": parsed_arguments_dict["mev_params"]["mev_builder_image"],
-                "cl_image": parsed_arguments_dict["mev_params"]["mev_builder_cl_image"],
+                # "cl_image": parsed_arguments_dict["mev_params"]["mev_builder_cl_image"],
                 "cl_log_level": parsed_arguments_dict["global_log_level"],
                 "cl_extra_params": [
                     "--always-prepare-payload",
@@ -1207,7 +1207,7 @@ def docker_cache_image_override(plan, result):
         "assertoor_params.image",
         "mev_params.mev_relay_image",
         "mev_params.mev_builder_image",
-        "mev_params.mev_builder_cl_image",
+        # "mev_params.mev_builder_cl_image",
         "mev_params.mev_boost_image",
         "mev_params.mev_flood_image",
         "xatu_sentry_params.xatu_sentry_image",
