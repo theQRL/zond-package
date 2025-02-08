@@ -535,7 +535,6 @@ def parse_network_params(plan, input_args):
             participant["cl_image"] = default_image
 
         if participant["use_separate_vc"] == None:
-            # NOTE(rgeraldes24): only qrysm support for now
             participant["use_separate_vc"] = True
 
         if participant["use_remote_signer"] and not participant["use_separate_vc"]:
