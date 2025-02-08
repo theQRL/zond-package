@@ -127,7 +127,7 @@ mev_type: null
 mev_params:
   mev_relay_image: flashbots/mev-boost-relay
   mev_builder_image: ethpandaops/flashbots-builder:main
-  mev_builder_cl_image: sigp/lighthouse:latest
+  # mev_builder_cl_image: sigp/lighthouse:latest
   mev_boost_image: flashbots/mev-boost
   mev_boost_args: ["mev-boost", "--relay-check"]
   mev_relay_api_extra_args: []

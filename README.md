@@ -756,7 +756,7 @@ mev_params:
   # The image to use for the builder
   mev_builder_image: ethpandaops/flashbots-builder:main
   # The image to use for the CL builder
-  mev_builder_cl_image: sigp/lighthouse:latest
+  # mev_builder_cl_image: sigp/lighthouse:latest
   # The image to use for mev-boost
   mev_boost_image: flashbots/mev-boost
   # Parameters for MEV Boost. This overrides all arguments of the mev-boost container

@@ -210,7 +210,7 @@ SUBCATEGORY_PARAMS = {
     "mev_params": [
         "mev_relay_image",
         "mev_builder_image",
-        "mev_builder_cl_image",
+        # "mev_builder_cl_image",
         "mev_boost_image",
         "mev_boost_args",
         "mev_relay_api_extra_args",
