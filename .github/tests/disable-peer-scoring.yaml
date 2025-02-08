@@ -3,12 +3,4 @@ participants:
     cl_type: qrysm
   - el_type: gzond
     cl_type: qrysm
-  - el_type: gzond
-    cl_type: qrysm
-  - el_type: gzond
-    cl_type: qrysm
-  - el_type: gzond
-    cl_type: qrysm
-  - el_type: gzond
-    cl_type: qrysm
 disable_peer_scoring: true
