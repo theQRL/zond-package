@@ -32,7 +32,7 @@ def get_config(
 ):
     cmd = [
         "{}".format(tx_spammer_params.scenario),
-        "--seed={}".format(prefunded_addresses[13].seed),
+        "--wallet-seed={}".format(prefunded_addresses[13].seed),
         "--rpchost={}".format(
             ",".join([el_context.rpc_http_url for el_context in all_el_contexts])
         ),
