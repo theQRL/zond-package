@@ -1,5 +1,5 @@
 shared_utils = import_module("../shared_utils/shared_utils.star")
-SERVICE_NAME = "tx_spammer"
+SERVICE_NAME = "tx-spammer"
 
 # The min/max CPU/memory that tx spammer can use
 MIN_CPU = 100
