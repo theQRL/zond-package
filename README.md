@@ -565,9 +565,8 @@ network_params:
 additional_services:
   - assertoor
   - broadcaster
-  - tx_spammer
   - custom_flood
-  - spamoor
+  - tx_spammer
   - el_forkmon
   - blockscout
   - beacon_metrics_gazer
@@ -599,14 +598,6 @@ dora_params:
   image: "ethpandaops/dora:latest"
   # A list of optional extra env_vars the dora container should spin up with
   env: {}
-
-# Configuration place for transaction spammer - https://github.com/MariusVanDerWijden/tx-fuzz
-tx_spammer_params:
-  # TX Spammer docker image to use
-  # Defaults to the latest master image
-  image: "ethpandaops/tx-fuzz:master"
-  # A list of optional extra params that will be passed to the TX Spammer container for modifying its behaviour
-  tx_spammer_extra_args: []
 
 # Configuration place for prometheus
 prometheus_params:
@@ -843,27 +834,27 @@ checkpoint_sync_enabled: false
 # Global flag to set checkpoint sync url
 checkpoint_sync_url: ""
 
-# Configuration place for spamoor as transaction spammer
-spamoor_params:
-  # The image to use for spamoor
-  image: ethpandaops/spamoor:latest
-  # The spamoor scenario to use (see https://github.com/ethpandaops/spamoor)
+# Transaction spammer params
+tx_spammer_params:
+  # The image to use for tx spammer
+  image: theQRL/tx-spammer:latest
+  # The scenario to use (see https://github.com/theQRL/tx-spammer)
   # Valid scenarios are:
   #  eoatx, erctx, deploytx, depoy-destruct, gasburnertx
   # Defaults to eoatx
   scenario: eoatx
-  # Throughput of spamoor
+  # Throughput of tx spammer
   # Defaults to 1000
   throughput: 1000
-  # Max pending transactions for spamoor
+  # Max pending transactions for tx spammer
   # Defaults to 1000
   max_pending: 1000
-  # Max wallets for spamoor
+  # Max wallets for tx spammer
   # Defaults to 500
   max_wallets: 500
-  # Extra parameters to send to spamoor
+  # Extra parameters to send to tx spammer
   # Defaults to empty
-  spamoor_extra_args: []
+  tx_spammer_extra_args: []
 
 # Zond genesis generator params
 zond_genesis_generator_params:
@@ -1023,13 +1014,12 @@ Here's a table of where the keys are used
 |---------------|---------------------|------------------|-----------------|-----------------------------|
 | 0             | Builder             | ✅                |                 | As coinbase                |
 | 0             | mev_custom_flood    |                   | ✅              | As the receiver of balance |
-| 3             | transaction_spammer | ✅                |                 | To spam transactions with  |
 | 6             | mev_flood           | ✅                |                 | As the contract owner      |
 | 7             | mev_flood           | ✅                |                 | As the user_key            |
 | 8             | assertoor           | ✅                | ✅              | As the funding for tests   |
 | 11            | mev_custom_flood    | ✅                |                 | As the sender of balance   |
 | 12            | l2_contracts        | ✅                |                 | Contract deployer address  |
-| 13            | spamoor             | ✅                |                 | Spams transactions         |
+| 13            | tx_spammer             | ✅                |                 | Spams transactions         |
 
 ## Developing On This Package
 

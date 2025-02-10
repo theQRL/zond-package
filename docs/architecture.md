@@ -82,7 +82,6 @@ After the Zond network is up and running, this package starts several auxiliary 
 - [Forkmon](https://github.com/theQRL/zond-package/tree/main/src/el_forkmon), a "fork monitor" web UI for visualizing the CL clients' forks
 - [Prometheus](https://github.com/theQRL/zond-package/tree/main/src/prometheus) for collecting client node metrics
 - [Grafana](https://github.com/theQRL/zond-package/tree/main/src/grafana) for visualizing client node metrics
-- [A Zond transaction spammer](https://github.com/theQRL/zond-package/tree/main/src/transaction_spammer), which [has been forked off](https://github.com/kurtosis-tech/tx-fuzz) of [Marius' transaction spammer code](https://github.com/MariusVanDerWijden/tx-fuzz) so that it can run as a container
 
 ## [Testnet Verifier][testnet-verifier]
 

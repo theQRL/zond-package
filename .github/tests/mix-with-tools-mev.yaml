@@ -4,7 +4,6 @@ participants:
   - el_type: gzond
     cl_type: qrysm
 # additional_services:
-#   - tx_spammer
 #   - el_forkmon
 #   - beacon_metrics_gazer
 #   - dora
@@ -15,7 +14,7 @@ participants:
 #   - blutgang
 #   - apache
 #   - tracoor
-#   - spamoor
+#   - tx_spammer
 ethereum_metrics_exporter_enabled: true
 snooper_enabled: true
 mev_type: flashbots

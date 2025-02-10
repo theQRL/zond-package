@@ -8,7 +8,6 @@ network_params:
   seconds_per_slot: 6
 # additional_services:
 #   - dora
-#   - tx_spammer
 #   - apache
 
 mev_type: mev-rs
