@@ -73,7 +73,7 @@ PRE_FUNDED_ACCOUNTS = [
         "eaba42282ad33c8ef2524f07277c03a776d98ae19f581990ce75becb7cfa1c23",
     ),
     # m/44'/60'/0'/0/13
-    NOTE(rgeraldes24): details from https://github.com/cyyber/web3.js/blob/main/scripts/accounts.json#L3
+    # NOTE(rgeraldes24): details from https://github.com/cyyber/web3.js/blob/main/scripts/accounts.json#L3
     new_prefunded_account(
         "Z2099d76d9a34cdd2694c4dc703930a6fbbc1d402",
         "f29f58aff0b00de2844f7e20bd9eeaacc379150043beeb328335817512b29fbb7184da84a092f842b2a06d72a24a5d28",
