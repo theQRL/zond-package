@@ -32,7 +32,7 @@ def get_config(
 ):
     cmd = [
         "{}".format(tx_spammer_params.scenario),
-        "--privkey={}".format(prefunded_addresses[13].private_key),
+        "--seed={}".format(prefunded_addresses[13].seed),
         "--rpchost={}".format(
             ",".join([el_context.rpc_http_url for el_context in all_el_contexts])
         ),
