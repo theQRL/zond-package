@@ -837,7 +837,7 @@ checkpoint_sync_url: ""
 # Transaction spammer params
 tx_spammer_params:
   # The image to use for tx spammer
-  image: theQRL/zond-tx-spammer:latest
+  image: theqrl/zond-tx-spammer:latest
   # The scenario to use (see https://github.com/theQRL/zond-tx-spammer)
   # Valid scenarios are:
   #  eoatx, erctx, deploytx, depoy-destruct, gasburnertx
