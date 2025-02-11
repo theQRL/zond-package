@@ -11,9 +11,6 @@ validator_ranges = import_module(
     "./src/prelaunch_data_generator/validator_keystores/validator_ranges_generator.star"
 )
 
-transaction_spammer = import_module(
-    "./src/transaction_spammer/transaction_spammer.star"
-)
 el_forkmon = import_module("./src/el_forkmon/el_forkmon_launcher.star")
 beacon_metrics_gazer = import_module(
     "./src/beacon_metrics_gazer/beacon_metrics_gazer_launcher.star"
@@ -58,7 +55,7 @@ assertoor = import_module("./src/assertoor/assertoor_launcher.star")
 get_prefunded_accounts = import_module(
     "./src/prefunded_accounts/get_prefunded_accounts.star"
 )
-spamoor = import_module("./src/spamoor/spamoor.star")
+tx_spammer = import_module("./src/tx_spammer/tx_spammer.star")
 
 GRAFANA_USER = "admin"
 GRAFANA_PASSWORD = "admin"
@@ -432,20 +429,9 @@ def run(plan, args={}):
     for index, additional_service in enumerate(
         args_with_right_defaults.additional_services
     ):
-        if additional_service == "tx_spammer":
-            plan.print("Launching transaction spammer")
-            tx_spammer_params = args_with_right_defaults.tx_spammer_params
-            transaction_spammer.launch_transaction_spammer(
-                plan,
-                prefunded_accounts,
-                fuzz_target,
-                tx_spammer_params,
-                global_node_selectors,
-            )
-            plan.print("Successfully launched transaction spammer")
         # We need a way to do time.sleep
         # TODO add code that waits for CL genesis
-        elif additional_service == "el_forkmon":
+        if additional_service == "el_forkmon":
             plan.print("Launching el forkmon")
             el_forkmon_config_template = read_file(
                 static_files.EL_FORKMON_CONFIG_TEMPLATE_FILEPATH
@@ -640,13 +626,13 @@ def run(plan, args={}):
                 global_node_selectors,
                 args_with_right_defaults.docker_cache_params,
             )
-        elif additional_service == "spamoor":
-            plan.print("Launching spamoor")
-            spamoor.launch_spamoor(
+        elif additional_service == "tx_spammer":
+            plan.print("Launching tx spammer")
+            tx_spammer.launch_tx_spammer(
                 plan,
                 prefunded_accounts,
                 all_el_contexts,
-                args_with_right_defaults.spamoor_params,
+                args_with_right_defaults.tx_spammer_params,
                 global_node_selectors,
             )
         else:

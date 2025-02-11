@@ -93,8 +93,6 @@ network_params:
 additional_services: []
 dora_params:
   image: ""
-tx_spammer_params:
-  tx_spammer_extra_args: []
 prometheus_params:
   storage_tsdb_retention_time: "1d"
   storage_tsdb_retention_size: "512MB"

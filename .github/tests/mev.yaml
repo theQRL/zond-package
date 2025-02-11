@@ -3,7 +3,6 @@ participants:
     cl_type: qrysm
 mev_type: flashbots
 # additional_services:
-#   - tx_spammer
 #   - custom_flood
 #   - beacon_metrics_gazer
 #   - dora

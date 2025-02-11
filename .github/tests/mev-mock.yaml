@@ -5,6 +5,5 @@ participants:
 mev_type: mock
 # additional_services:
 #   - dora
-#   - tx_spammer
 mev_params:
   mock_mev_image: "ethpandaops/rustic-builder:main"

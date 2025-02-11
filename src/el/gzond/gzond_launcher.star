@@ -178,11 +178,11 @@ def get_config(
         "--http.corsdomain=*",
         # WARNING: The admin info endpoint is enabled so that we can easily get ENR/enode, which means
         #  that users should NOT store private information in these Kurtosis nodes!
-        "--http.api=admin,engine,net,eth,web3,debug,txpool",
+        "--http.api=admin,engine,net,zond,web3,debug,txpool",
         "--ws",
         "--ws.addr=0.0.0.0",
         "--ws.port={0}".format(WS_PORT_NUM),
-        "--ws.api=admin,engine,net,eth,web3,debug,txpool",
+        "--ws.api=admin,engine,net,zond,web3,debug,txpool",
         "--ws.origins=*",
         "--allow-insecure-unlock",
         "--nat=extip:" + port_publisher.nat_exit_ip,
@@ -201,9 +201,9 @@ def get_config(
     if BUILDER_IMAGE_STR in participant.el_image:
         for index, arg in enumerate(cmd):
             if "--http.api" in arg:
-                cmd[index] = "--http.api=admin,engine,net,eth,web3,debug,mev,flashbots"
+                cmd[index] = "--http.api=admin,engine,net,zond,web3,debug,mev,flashbots"
             if "--ws.api" in arg:
-                cmd[index] = "--ws.api=admin,engine,net,eth,web3,debug,mev,flashbots"
+                cmd[index] = "--ws.api=admin,engine,net,zond,web3,debug,mev,flashbots"
 
 
     if (

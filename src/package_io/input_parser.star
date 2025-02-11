@@ -49,11 +49,10 @@ ATTR_TO_BE_SKIPPED_AT_ROOT = (
     "assertoor_params",
     "prometheus_params",
     "grafana_params",
-    "tx_spammer_params",
     "custom_flood_params",
     "xatu_sentry_params",
     "port_publisher",
-    "spamoor_params",
+    "tx_spammer_params",
 )
 
 
@@ -74,7 +73,6 @@ def input_parser(plan, input_args):
         result["additional_services"] = DEFAULT_ADDITIONAL_SERVICES
     else:
         result["additional_services"] = []
-    result["tx_spammer_params"] = get_default_tx_spammer_params()
     result["custom_flood_params"] = get_default_custom_flood_params()
     result["disable_peer_scoring"] = False
     result["grafana_params"] = get_default_grafana_params()
@@ -86,7 +84,7 @@ def input_parser(plan, input_args):
     result["global_tolerations"] = []
     result["global_node_selectors"] = {}
     result["port_publisher"] = get_port_publisher_params("default")
-    result["spamoor_params"] = get_default_spamoor_params()
+    result["tx_spammer_params"] = get_default_tx_spammer_params()
 
     if constants.NETWORK_NAME.shadowfork in result["network_params"]["network"]:
         shadow_base = result["network_params"]["network"].split("-shadowfork")[0]
@@ -122,10 +120,6 @@ def input_parser(plan, input_args):
             for sub_attr in input_args["mev_params"]:
                 sub_value = input_args["mev_params"][sub_attr]
                 result["mev_params"][sub_attr] = sub_value
-        elif attr == "tx_spammer_params":
-            for sub_attr in input_args["tx_spammer_params"]:
-                sub_value = input_args["tx_spammer_params"][sub_attr]
-                result["tx_spammer_params"][sub_attr] = sub_value
         elif attr == "custom_flood_params":
             for sub_attr in input_args["custom_flood_params"]:
                 sub_value = input_args["custom_flood_params"][sub_attr]
@@ -148,10 +142,10 @@ def input_parser(plan, input_args):
                 result["xatu_sentry_params"][sub_attr] = sub_value
         elif attr == "port_publisher":
             result["port_publisher"] = get_port_publisher_params("user", input_args)
-        elif attr == "spamoor_params":
-            for sub_attr in input_args["spamoor_params"]:
-                sub_value = input_args["spamoor_params"][sub_attr]
-                result["spamoor_params"][sub_attr] = sub_value
+        elif attr == "tx_spammer_params":
+            for sub_attr in input_args["tx_spammer_params"]:
+                sub_value = input_args["tx_spammer_params"][sub_attr]
+                result["tx_spammer_params"][sub_attr] = sub_value
         elif attr == "zond_genesis_generator_params":
             for sub_attr in input_args["zond_genesis_generator_params"]:
                 sub_value = input_args["zond_genesis_generator_params"][sub_attr]
@@ -342,10 +336,6 @@ def input_parser(plan, input_args):
             github_prefix=result["docker_cache_params"]["github_prefix"],
             google_prefix=result["docker_cache_params"]["google_prefix"],
         ),
-        tx_spammer_params=struct(
-            image=result["tx_spammer_params"]["image"],
-            tx_spammer_extra_args=result["tx_spammer_params"]["tx_spammer_extra_args"],
-        ),
         prometheus_params=struct(
             storage_tsdb_retention_time=result["prometheus_params"][
                 "storage_tsdb_retention_time"
@@ -386,13 +376,13 @@ def input_parser(plan, input_args):
                 "interval_between_transactions"
             ],
         ),
-        spamoor_params=struct(
-            image=result["spamoor_params"]["image"],
-            scenario=result["spamoor_params"]["scenario"],
-            throughput=result["spamoor_params"]["throughput"],
-            max_pending=result["spamoor_params"]["max_pending"],
-            max_wallets=result["spamoor_params"]["max_wallets"],
-            spamoor_extra_args=result["spamoor_params"]["spamoor_extra_args"],
+        tx_spammer_params=struct(
+            image=result["tx_spammer_params"]["image"],
+            scenario=result["tx_spammer_params"]["scenario"],
+            throughput=result["tx_spammer_params"]["throughput"],
+            max_pending=result["tx_spammer_params"]["max_pending"],
+            max_wallets=result["tx_spammer_params"]["max_wallets"],
+            tx_spammer_extra_args=result["tx_spammer_params"]["tx_spammer_extra_args"],
         ),
         additional_services=result["additional_services"],
         wait_for_finalization=result["wait_for_finalization"],
@@ -754,7 +744,7 @@ def default_input_args(input_args):
             "nat_exit_ip": constants.PRIVATE_IP_ADDRESS_PLACEHOLDER,
             "public_port_start": None,
         },
-        "spamoor_params": get_default_spamoor_params(),
+        "tx_spammer_params": get_default_tx_spammer_params(),
     }
 
 
@@ -985,13 +975,6 @@ def get_default_mev_params(mev_type, preset):
     }
 
 
-def get_default_tx_spammer_params():
-    return {
-        "image": "ethpandaops/tx-fuzz:master",
-        "tx_spammer_extra_args": [],
-    }
-
-
 def get_default_assertoor_params():
     return {
         "image": constants.DEFAULT_ASSERTOOR_IMAGE,
@@ -1045,14 +1028,14 @@ def get_default_xatu_sentry_params():
     }
 
 
-def get_default_spamoor_params():
+def get_default_tx_spammer_params():
     return {
-        "image": "ethpandaops/spamoor:latest",
+        "image": "theqrl/zond-tx-spammer:latest",
         "scenario": "eoatx",
         "throughput": 1000,
         "max_pending": 1000,
         "max_wallets": 500,
-        "spamoor_extra_args": [],
+        "tx_spammer_extra_args": [],
     }
 
 def get_default_custom_flood_params():
@@ -1210,10 +1193,9 @@ def docker_cache_image_override(plan, result):
         "mev_params.mev_boost_image",
         "mev_params.mev_flood_image",
         "xatu_sentry_params.xatu_sentry_image",
-        "tx_spammer_params.image",
         "prometheus_params.image",
         "grafana_params.image",
-        "spamoor_params.image",
+        "tx_spammer_params.image",
         "zond_genesis_generator_params.image",
     ]
 

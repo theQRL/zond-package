@@ -177,10 +177,6 @@ SUBCATEGORY_PARAMS = {
         "github_prefix",
         "google_prefix",
     ],
-    "tx_spammer_params": [
-        "image",
-        "tx_spammer_extra_args",
-    ],
     "prometheus_params": [
         "min_cpu",
         "max_cpu",
@@ -231,13 +227,13 @@ SUBCATEGORY_PARAMS = {
         "xatu_server_headers",
         "beacon_subscriptions",
     ],
-    "spamoor_params": [
+    "tx_spammer_params": [
         "image",
         "scenario",
         "throughput",
         "max_pending",
         "max_wallets",
-        "spamoor_extra_args",
+        "tx_spammer_extra_args",
     ],
     "zond_genesis_generator_params": [
         "image",
@@ -255,7 +251,6 @@ SUBCATEGORY_PARAMS = {
 ADDITIONAL_SERVICES_PARAMS = [
     "assertoor",
     "broadcaster",
-    "tx_spammer",
     "custom_flood",
     "el_forkmon",
     "blockscout",
@@ -268,7 +263,7 @@ ADDITIONAL_SERVICES_PARAMS = [
     "forky",
     "apache",
     "tracoor",
-    "spamoor",
+    "tx_spammer",
 ]
 
 ADDITIONAL_CATEGORY_PARAMS = {
