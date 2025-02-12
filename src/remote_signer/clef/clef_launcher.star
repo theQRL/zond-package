@@ -46,26 +46,28 @@ def launch(
     tolerations,
     node_selectors,
     port_publisher,
+    remote_signer_index,
 ):
     log_level = input_parser.get_client_log_level_or_default(
         participant.el_log_level, global_log_level, VERBOSITY_LEVELS
     )
 
-    config = get_config(
-        launcher,
-        participant,
-        image,
-        log_level,
-        tolerations,
-        node_selectors,
-        port_publisher,
+    clef_config = get_config(
+        launcher=launcher,
+        participant=participant,
+        image=image,
+        log_level=log_level,
+        tolerations=tolerations,
+        node_selectors=node_selectors,
+        port_publisher=port_publisher,
+        remote_signer_index=remote_signer_index,
     )
 
-    clef_service = plan.add_service(clef_service_name, clef_config)
+    clef_service = plan.add_service(service_name, clef_config)
 
     clef_http_port = clef_service.ports[CLEF_HTTP_PORT_ID]
     clef_http_url = "http://{0}:{1}".format(
-        clef_service.ip_address, remote_signer_http_port.number
+        clef_service.ip_address, clef_http_port.number
     )
 
     return remote_signer_context.new_remote_signer_context(
@@ -84,6 +86,7 @@ def get_config(
     tolerations,
     node_selectors,
     port_publisher,
+    remote_signer_index,
 ):
     cmd = [
         "clef",
