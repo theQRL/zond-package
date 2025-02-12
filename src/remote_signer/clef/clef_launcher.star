@@ -1,9 +1,7 @@
 shared_utils = import_module("../../shared_utils/shared_utils.star")
 input_parser = import_module("../../package_io/input_parser.star")
-remote_signer_context = import_module("../../remote_signer/remote_signer_context.star")
-cl_node_ready_conditions = import_module("../../cl/cl_node_ready_conditions.star")
-cl_shared = import_module("../cl_shared.star")
-node_metrics = import_module("../../node_metrics_info.star")
+remote_signer_context = import_module("../remote_signer_context.star")
+# node_metrics = import_module("../../node_metrics_info.star")
 constants = import_module("../../package_io/constants.star")
 
 #  ---------------------------------- Beacon client -------------------------------------
