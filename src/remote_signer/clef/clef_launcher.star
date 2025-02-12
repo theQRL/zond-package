@@ -41,6 +41,7 @@ def launch(
     plan,
     launcher,
     service_name,
+    image,
     participant,
     global_log_level,
     tolerations,
