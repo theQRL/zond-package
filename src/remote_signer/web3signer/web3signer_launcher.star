@@ -1,8 +1,8 @@
-constants = import_module("../package_io/constants.star")
-input_parser = import_module("../package_io/input_parser.star")
-node_metrics = import_module("../node_metrics_info.star")
-remote_signer_context = import_module("./remote_signer_context.star")
-shared_utils = import_module("../shared_utils/shared_utils.star")
+constants = import_module("../../package_io/constants.star")
+input_parser = import_module("../../package_io/input_parser.star")
+node_metrics = import_module("../../node_metrics_info.star")
+remote_signer_context = import_module("../remote_signer_context.star")
+shared_utils = import_module("../../shared_utils/shared_utils.star")
 
 WEB3SIGNER_KEYS_MOUNTPOINT = "/keystores"
 
