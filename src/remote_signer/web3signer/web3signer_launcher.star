@@ -68,13 +68,13 @@ def launch(
 
     remote_signer_service = plan.add_service(service_name, config)
 
-    remote_signer_http_port = remote_signer_service.ports[REMOTE_SIGNER_HTTP_PORT_ID]
+    remote_signer_http_port = remote_signer_service.ports[WEB3SIGNER_HTTP_PORT_ID]
     remote_signer_http_url = "http://{0}:{1}".format(
         remote_signer_service.ip_address, remote_signer_http_port.number
     )
 
     remote_signer_metrics_port = remote_signer_service.ports[
-        REMOTE_SIGNER_METRICS_PORT_ID
+        WEB3SIGNER_METRICS_PORT_ID
     ]
     validator_metrics_url = "{0}:{1}".format(
         remote_signer_service.ip_address, remote_signer_metrics_port.number
@@ -105,21 +105,21 @@ def get_config(
     validator_keys_dirpath = ""
     if node_keystore_files != None:
         validator_keys_dirpath = shared_utils.path_join(
-            REMOTE_SIGNER_KEYS_MOUNTPOINT,
+            WEB3SIGNER_KEYS_MOUNTPOINT,
             node_keystore_files.teku_keys_relative_dirpath,
         )
         validator_secrets_dirpath = shared_utils.path_join(
-            REMOTE_SIGNER_KEYS_MOUNTPOINT,
+            WEB3SIGNER_KEYS_MOUNTPOINT,
             node_keystore_files.teku_secrets_relative_dirpath,
         )
 
     cmd = [
-        "--http-listen-port={0}".format(REMOTE_SIGNER_HTTP_PORT_NUM),
+        "--http-listen-port={0}".format(WEB3SIGNER_HTTP_PORT_NUM),
         "--http-host-allowlist=*",
         "--metrics-enabled=true",
         "--metrics-host-allowlist=*",
         "--metrics-host=0.0.0.0",
-        "--metrics-port={0}".format(REMOTE_SIGNER_METRICS_PORT_NUM),
+        "--metrics-port={0}".format(WEB3SIGNER_METRICS_PORT_NUM),
         "eth2",
         "--network="
         + constants.GENESIS_CONFIG_MOUNT_PATH_ON_CONTAINER
@@ -136,7 +136,7 @@ def get_config(
 
     files = {
         constants.GENESIS_DATA_MOUNTPOINT_ON_CLIENTS: el_cl_genesis_data.files_artifact_uuid,
-        REMOTE_SIGNER_KEYS_MOUNTPOINT: node_keystore_files.files_artifact_uuid,
+        WEB3SIGNER_KEYS_MOUNTPOINT: node_keystore_files.files_artifact_uuid,
     }
 
     public_ports = {}
@@ -150,7 +150,7 @@ def get_config(
         public_ports = shared_utils.get_port_specs(public_port_assignments)
 
     ports = {}
-    ports.update(REMOTE_SIGNER_USED_PORTS)
+    ports.update(WEB3SIGNER_USED_PORTS)
 
     config_args = {
         "image": image,
