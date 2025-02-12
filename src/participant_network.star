@@ -319,9 +319,6 @@ def launch_participant_network(
         if participant.use_remote_signer:
             remote_signer_context = remote_signer.launch(
                 plan=plan,
-                launcher=remote_signer.new_remote_signer_launcher(
-                    el_cl_genesis_data=el_cl_data
-                ),
                 service_name="signer-{0}".format(full_name),
                 remote_signer_type=remote_signer_type,
                 image=participant.remote_signer_image,

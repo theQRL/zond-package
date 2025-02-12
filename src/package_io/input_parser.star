@@ -846,7 +846,7 @@ def default_participant():
         "vc_min_mem": 0,
         "vc_max_mem": 0,
         "use_remote_signer": None,
-        "remote_signer_type": "web3signer",
+        "remote_signer_type": "clef",
         "remote_signer_image": "",
         "remote_signer_extra_env_vars": {},
         "remote_signer_extra_labels": {},

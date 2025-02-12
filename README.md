@@ -322,13 +322,13 @@ participants:
 
   # Remote signer Specific flags
     # The type of remote signer that should be used
-    # Valid values are web3signer
-    # Defaults to web3signer
-    remote_signer_type: "web3signer"
+    # Valid values are web3signer, clef
+    # Defaults to clef
+    remote_signer_type: "clef"
 
     # The Docker image that should be used for the remote signer
-    # Defaults to "consensys/web3signer:latest"
-    remote_signer_image: "consensys/web3signer:latest"
+    # Defaults to "theqrl/gzond-alltools:latest"
+    remote_signer_image: "theqrl/gzond-alltools:latest"
 
     # A list of optional extra env_vars the remote signer container should spin up with
     remote_signer_extra_env_vars: {}

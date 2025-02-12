@@ -10,7 +10,10 @@ VC_TYPE = struct(
     qrysm="qrysm",
 )
 
-REMOTE_SIGNER_TYPE = struct(web3signer="web3signer")
+REMOTE_SIGNER_TYPE = struct(
+    web3signer="web3signer",
+    clef="clef",
+)
 
 GLOBAL_LOG_LEVEL = struct(
     info="info",
