@@ -21,6 +21,7 @@ def launch(
     port_publisher,
     remote_signer_index,
     network_id,
+    global_log_level,
 ):
     plan.print("Launching remote signer")
 
@@ -58,13 +59,13 @@ def launch(
     rs_context = launch_method(
         plan,
         rs_launcher,
-        cl_service_name,
+        service_name,
         image,
         participant,
-        args_with_right_defaults.global_log_level,
+        global_log_level,
         tolerations,
         node_selectors,
-        args_with_right_defaults.port_publisher,
+        port_publisher,
         index,
     )
     rs_context = None
