@@ -324,6 +324,7 @@ def launch_participant_network(
                 image=participant.remote_signer_image,
                 full_name="{0}-remote_signer".format(full_name),
                 vc_type=vc_type,
+                el_type=el_type,
                 node_keystore_files=vc_keystores,
                 participant=participant,
                 global_tolerations=global_tolerations,

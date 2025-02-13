@@ -60,6 +60,7 @@ def launch(
         node_selectors=node_selectors,
         port_publisher=port_publisher,
         remote_signer_index=remote_signer_index,
+        el_type=launcher.el_type,
     )
 
     clef_service = plan.add_service(service_name, clef_config)
@@ -86,6 +87,7 @@ def get_config(
     node_selectors,
     port_publisher,
     remote_signer_index,
+    el_type,
 ):
     cmd = [
         "clef",
@@ -134,7 +136,7 @@ def get_config(
             image=image,
             extra_labels=participant.remote_signer_extra_labels,
             supernode=participant.supernode,
-            connected_client=None,
+            connected_client=el_type,
         ),
         "tolerations": tolerations,
         "node_selectors": node_selectors,
@@ -153,7 +155,9 @@ def get_config(
 
 def new_clef_launcher(
     networkid,
+    el_type,
 ):
     return struct(
         networkid=networkid,
+        el_type=el_type,
     )

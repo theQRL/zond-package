@@ -14,6 +14,7 @@ def launch(
     image,
     full_name,
     vc_type,
+    el_type,
     node_keystore_files,
     participant,
     global_tolerations,
@@ -29,6 +30,7 @@ def launch(
         constants.REMOTE_SIGNER_TYPE.clef: {
             "launcher": clef.new_clef_launcher(
                 network_id,
+                el_type,
             ),
             "launch_method": clef.launch,
         },
