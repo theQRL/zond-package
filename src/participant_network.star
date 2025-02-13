@@ -122,6 +122,7 @@ def launch_participant_network(
     # Launch one clef agent if enabled in any of the participants
     for index, participant in enumerate(args_with_right_defaults.participants):
         if participant.use_remote_signer and participant.remote_signer_type == "clef":
+            plan.print("AQUI")
             node_selectors = input_parser.get_client_node_selectors(
                 participant.node_selectors,
                 global_node_selectors,
