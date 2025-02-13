@@ -233,7 +233,7 @@ def get_config(
 
     if launcher.remote_signer_context != None:
         cmd.append(
-            "--signer=" + remote_signer_context.http_url
+            "--signer=" + launcher.remote_signer_context.http_url
         )
 
     if len(participant.el_extra_params) > 0:
