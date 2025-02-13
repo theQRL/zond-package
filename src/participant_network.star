@@ -143,8 +143,6 @@ def launch_participant_network(
                 network_id=network_id,
                 global_log_level=args_with_right_defaults.global_log_level,
             )
-            plan.print("AQUI")
-            plan.print(remote_signer_context)
             break
 
     # Launch all execution layer clients

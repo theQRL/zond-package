@@ -70,7 +70,6 @@ def launch(
         port_publisher,
         remote_signer_index,
     )
-    rs_context = None
 
     return rs_context
     
