@@ -118,9 +118,10 @@ def launch_participant_network(
             network_params.devnet_repo,
         )
 
-    # Launch clef if enabled
     remote_signer_context = None
-    if participant.use_remote_signer and remote_signer_type == "clef":
+    # Launch one clef agent if enabled in any of the participants
+    for index, participant in enumerate(args_with_right_defaults.participants):
+        if participant.use_remote_signer and remote_signer_type == "clef":
             remote_signer_context = remote_signer.launch(
                 plan=plan,
                 service_name="signer-{0}".format(full_name),
@@ -138,6 +139,7 @@ def launch_participant_network(
                 network_id=network_id,
                 global_log_level=args_with_right_defaults.global_log_level,
             )
+            break
 
     # Launch all execution layer clients
     all_el_contexts = el_client_launcher.launch(
