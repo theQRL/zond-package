@@ -20,6 +20,7 @@ def launch(
     port_publisher,
     mev_builder_type,
     mev_params,
+    remote_signer_context,
 ):
     el_launchers = {
         constants.EL_TYPE.gzond: {
@@ -28,6 +29,7 @@ def launch(
                 jwt_file,
                 network_params.network,
                 network_id,
+                remote_signer_context,
             ),
             "launch_method": gzond.launch,
         },
