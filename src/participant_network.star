@@ -330,7 +330,7 @@ def launch_participant_network(
                 node_selectors=node_selectors,
                 port_publisher=args_with_right_defaults.port_publisher,
                 remote_signer_index=current_vc_index,
-                network_id,
+                network_id=network_id,
             )
 
         all_remote_signer_contexts.append(remote_signer_context)
