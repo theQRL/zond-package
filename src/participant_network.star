@@ -121,7 +121,7 @@ def launch_participant_network(
     remote_signer_context = None
     # Launch one clef agent if enabled in any of the participants
     for index, participant in enumerate(args_with_right_defaults.participants):
-        if participant.use_remote_signer and remote_signer_type == "clef":
+        if participant.use_remote_signer and participant.remote_signer_type == "clef":
             remote_signer_context = remote_signer.launch(
                 plan=plan,
                 service_name="signer-{0}".format(full_name),
@@ -340,7 +340,7 @@ def launch_participant_network(
             )
         )
 
-        if participant.use_remote_signer and remote_signer_type == "qrysm":
+        if participant.use_remote_signer and participant.remote_signer_type == "qrysm":
             remote_signer_context = remote_signer.launch(
                 plan=plan,
                 service_name="signer-{0}".format(full_name),
