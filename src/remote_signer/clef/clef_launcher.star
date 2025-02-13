@@ -152,9 +152,7 @@ def get_config(
 
 def new_clef_launcher(
     networkid,
-    rules_file,
 ):
     return struct(
         networkid=networkid,
-        rules_file=rules_file,
     )

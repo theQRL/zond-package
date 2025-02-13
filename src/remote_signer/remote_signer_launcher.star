@@ -20,12 +20,15 @@ def launch(
     node_selectors,
     port_publisher,
     remote_signer_index,
+    network_id,
 ):
     plan.print("Launching remote signer")
 
     rs_launchers = {
         constants.REMOTE_SIGNER_TYPE.clef: {
-            "launcher": clef.new_clef_launcher(),
+            "launcher": clef.new_clef_launcher(
+                network_id,
+            ),
             "launch_method": clef.launch,
         },
         # constants.REMOTE_SIGNER_TYPE.web3signer: {
@@ -52,25 +55,18 @@ def launch(
         rs_launchers[remote_signer_type]["launch_method"],
     )
 
-    # rs_context = launch_method(
-    #     plan,
-    #     rs_launcher,
-    #     cl_service_name,
-    #     participant,
-    #     args_with_right_defaults.global_log_level,
-    #     boot_cl_client_ctx,
-    #     el_context,
-    #     full_name,
-    #     new_cl_node_validator_keystores,
-    #     snooper_engine_context,
-    #     persistent,
-    #     tolerations,
-    #     node_selectors,
-    #     args_with_right_defaults.checkpoint_sync_enabled,
-    #     checkpoint_sync_url,
-    #     args_with_right_defaults.port_publisher,
-    #     index,
-    # )
+    rs_context = launch_method(
+        plan,
+        rs_launcher,
+        cl_service_name,
+        image,
+        participant,
+        args_with_right_defaults.global_log_level,
+        tolerations,
+        node_selectors,
+        args_with_right_defaults.port_publisher,
+        index,
+    )
     rs_context = None
 
     return rs_context
