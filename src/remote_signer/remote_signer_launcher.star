@@ -66,7 +66,7 @@ def launch(
         tolerations,
         node_selectors,
         port_publisher,
-        index,
+        remote_signer_index,
     )
     rs_context = None
 
