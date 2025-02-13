@@ -134,6 +134,7 @@ def get_config(
             image=image,
             extra_labels=participant.remote_signer_extra_labels,
             supernode=participant.supernode,
+            connected_client=None,
         ),
         "tolerations": tolerations,
         "node_selectors": node_selectors,
