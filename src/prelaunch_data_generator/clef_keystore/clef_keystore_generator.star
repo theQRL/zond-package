@@ -4,8 +4,8 @@ keystore_result = import_module("./generate_keystore_result.star")
 
 CLEF_KEYSTORE_OUTPUT_DIRPATH = "/clef-keystore/"
 
-# Clef key is encrypted with a passphrase
-CLEF_KEY_PASSWORD = "password"
+# Clef key is encrypted with a passphrase (>=10 characters)
+CLEF_KEY_PASSWORD = "passwordpassword"
 CLEF_KEY_PASSWORD_FILEPATH_ON_GENERATOR = "/tmp/clef-key-password.txt"
 CLEF_KEY_SEED_FILEPATH_ON_GENERATOR = "/tmp/clef-key-seed.txt"
 
