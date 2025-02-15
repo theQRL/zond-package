@@ -6,7 +6,7 @@ clef_keystore = import_module(
     "../prelaunch_data_generator/clef_keystore/clef_keystore_generator.star"
 )
 genesis_constants = import_module(
-    "./src/prelaunch_data_generator/genesis_constants/genesis_constants.star"
+    "../prelaunch_data_generator/genesis_constants/genesis_constants.star"
 )
 
 constants = import_module("../package_io/constants.star")
