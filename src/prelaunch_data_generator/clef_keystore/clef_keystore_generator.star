@@ -91,7 +91,7 @@ def generate_clef_keystore(plan, prefunded_account, participants, docker_cache_p
             CLEF_KEY_SEED_FILEPATH_ON_GENERATOR,
         ),
     ]
-    write_clef_key_seed_cmd_result = plan.exec(
+    write_clef_key_seed_file_cmd_result = plan.exec(
         service_name=service_name,
         description="Storing clef key seed in a file",
         recipe=ExecRecipe(command=write_clef_key_seed_file_cmd),
