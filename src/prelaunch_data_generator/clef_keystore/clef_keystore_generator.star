@@ -106,22 +106,20 @@ def generate_clef_keystore(plan, prefunded_account, participants, docker_cache_p
         service_name, CLEF_KEY_SEED_FILEPATH_ON_GENERATOR, name="clef-key-seed"
     )
 
-    # output_dirpath = CLEF_KEYSTORE_OUTPUT_DIRPATH
+    output_dirpath = CLEF_KEYSTORE_OUTPUT_DIRPATH
 
-    # import_clef_key_cmd = '{0} --suppress-bootwarn --keystore={0} importraw {1} '.format(
-    #     "clef",
-    #     shared_utils.path_join(output_dirpath, "validator_keys"),
-    #     shared_utils.path_join(output_dirpath, "qrysm"),
-    #     QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
-    #     QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
-    # )
+    import_clef_key_cmd = '{0} --suppress-bootwarn --keystore={1} importraw {2} '.format(
+        "clef",
+        shared_utils.path_join(output_dirpath, "keystore"),
+        CLEF_KEY_SEED_FILEPATH_ON_GENERATOR,
+    )
 
-    # command_result = plan.exec(
-    #     service_name=service_name,
-    #     description="Generating keystores",
-    #     recipe=ExecRecipe(command=["sh", "-c", import_clef_key_cmd]),
-    # )
-    # plan.verify(command_result["code"], "==", SUCCESSFUL_EXEC_CMD_EXIT_CODE)
+    command_result = plan.exec(
+        service_name=service_name,
+        description="Generating keystore",
+        recipe=ExecRecipe(command=["sh", "-c", import_clef_key_cmd]),
+    )
+    plan.verify(command_result["code"], "==", SUCCESSFUL_EXEC_CMD_EXIT_CODE)
 
     # Store output into file artifact    
     # artifact_name = plan.store_service_files(
