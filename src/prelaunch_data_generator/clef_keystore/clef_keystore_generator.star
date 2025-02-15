@@ -108,7 +108,7 @@ def generate_clef_keystore(plan, prefunded_account, participants, docker_cache_p
 
     output_dirpath = CLEF_KEYSTORE_OUTPUT_DIRPATH
 
-    import_clef_key_cmd = '{0} --suppress-bootwarn --keystore={1} --password={2} importraw {3} '.format(
+    import_clef_key_cmd = '{0} --suppress-bootwarn --keystore={1} importraw --password={2} {3} '.format(
         "clef",
         shared_utils.path_join(output_dirpath, "keystore"),
         CLEF_KEY_PASSWORD_FILEPATH_ON_GENERATOR,
