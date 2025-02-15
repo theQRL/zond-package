@@ -2,6 +2,12 @@ shared_utils = import_module("../shared_utils/shared_utils.star")
 validator_keystores = import_module(
     "../prelaunch_data_generator/validator_keystores/validator_keystore_generator.star"
 )
+clef_keystore = import_module(
+    "../prelaunch_data_generator/clef_keystore/clef_keystore_generator.star"
+)
+genesis_constants = import_module(
+    "./src/prelaunch_data_generator/genesis_constants/genesis_constants.star"
+)
 
 constants = import_module("../package_io/constants.star")
 
@@ -38,6 +44,18 @@ def launch(
             args_with_right_defaults.docker_cache_params,
         )
 
+    clef_data = None
+    for index, participant in enumerate(args_with_right_defaults.participants):
+        if participant.use_remote_signer and participant.remote_signer_type == "clef":
+            plan.print("Generating clef key store")
+            prefunded_account = genesis_constants.PRE_FUNDED_ACCOUNTS[14]
+            clef_data = clef_keystore.generate_clef_keystore(
+                plan,
+                prefunded_account,
+                args_with_right_defaults.participants,
+                args_with_right_defaults.docker_cache_params,
+            )
+
     plan.print(json.indent(json.encode(validator_data)))
 
     # We need to send the same genesis time to both the EL and the CL to ensure that timestamp based forking works as expected
@@ -67,4 +85,5 @@ def launch(
         zond_genesis_generator_image,
         final_genesis_timestamp,
         validator_data,
+        clef_data,
     )

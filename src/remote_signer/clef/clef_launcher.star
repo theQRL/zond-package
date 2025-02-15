@@ -11,6 +11,7 @@ BEACON_DATA_DIRPATH_ON_SERVICE_CONTAINER = "/data/qrysm/beacon-data/"
 CLEF_HTTP_PORT_NUM = 8550
 CLEF_HTTP_PORT_ID = "http"
 
+CLEF_KEYS_MOUNTPOINT = "/keystore"
 
 CLEF_USED_PORTS = {
     CLEF_HTTP_PORT_ID: shared_utils.new_port_spec(
@@ -107,7 +108,7 @@ def get_config(
         cmd.extend([param for param in participant.remote_signer_extra_params])
 
     files = {
-        # constants.JWT_MOUNTPOINT_ON_CLIENTS: launcher.jwt_file,
+        # CLEF_KEYS_MOUNTPOINT: node_keystore_files.files_artifact_uuid,
     }
 
     public_ports = {}
