@@ -55,6 +55,7 @@ def launch(
                 args_with_right_defaults.participants,
                 args_with_right_defaults.docker_cache_params,
             )
+            break
 
     plan.print(json.indent(json.encode(validator_data)))
 
