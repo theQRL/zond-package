@@ -123,23 +123,20 @@ def generate_clef_keystore(plan, prefunded_account, participants, docker_cache_p
     plan.verify(command_result["code"], "==", SUCCESSFUL_EXEC_CMD_EXIT_CODE)
 
     # Store output into file artifact    
-    # artifact_name = plan.store_service_files(
-    #     service_name, output_dirpath, name="clef"
-    # )
+    artifact_name = plan.store_service_files(
+        service_name, output_dirpath, name="clef"
+    )
 
-    # base_dirname_in_artifact = shared_utils.path_base(output_dirpath)
-    # keystore_file = keystore_files_module.new_keystore_file(
-    #      artifact_name,
-    #     shared_utils.path_join(base_dirname_in_artifact, CLEF_DIRNAME),
-    # )
+    base_dirname_in_artifact = shared_utils.path_base(output_dirpath)
+    keystore_file = keystore_files_module.new_keystore_file(
+         artifact_name,
+        shared_utils.path_join(base_dirname_in_artifact, "keystore"),
+    )
 
-    # running_total_validator_count += participant.validator_count
+    result = keystores_result.new_generate_keystore_result(
+        clef_key_password_artifact_name,
+        shared_utils.path_base(CLEF_KEY_PASSWORD_FILEPATH_ON_GENERATOR),
+        keystore_file,
+    )
 
-    # result = keystores_result.new_generate_keystore_result(
-    #     clef_account_password_artifact_name,
-    #     shared_utils.path_base(CLEF_KEY_PASSWORD_FILEPATH_ON_GENERATOR),
-    #     keystore_file,
-    # )
-
-    # return result
-    return None
+    return result
