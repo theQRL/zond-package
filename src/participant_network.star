@@ -120,8 +120,8 @@ def launch_participant_network(
             network_params.devnet_repo,
         )
 
-    remote_signer_context = None
     # Launch one clef agent if enabled in any of the participants
+    remote_signer_context = None
     if clef_participant != None:
         node_selectors = input_parser.get_client_node_selectors(
             clef_participant.node_selectors,
