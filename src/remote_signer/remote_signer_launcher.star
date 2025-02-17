@@ -1,11 +1,8 @@
-web3signer = import_module("./web3signer/web3signer_launcher.star")
+# web3signer = import_module("./web3signer/web3signer_launcher.star")
 clef = import_module("./clef/clef_launcher.star")
 
 constants = import_module("../package_io/constants.star")
 input_parser = import_module("../package_io/input_parser.star")
-node_metrics = import_module("../node_metrics_info.star")
-remote_signer_context = import_module("./remote_signer_context.star")
-shared_utils = import_module("../shared_utils/shared_utils.star")
 
 def launch(
     plan,
