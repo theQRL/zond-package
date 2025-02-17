@@ -4,9 +4,6 @@ remote_signer_context = import_module("../remote_signer_context.star")
 # node_metrics = import_module("../../node_metrics_info.star")
 constants = import_module("../../package_io/constants.star")
 
-#  ---------------------------------- Beacon client -------------------------------------
-BEACON_DATA_DIRPATH_ON_SERVICE_CONTAINER = "/data/qrysm/beacon-data/"
-
 # Port nums
 CLEF_HTTP_PORT_NUM = 8550
 CLEF_HTTP_PORT_ID = "http"
@@ -97,7 +94,6 @@ def get_config(
         "clef",
         "--loglevel={0}".format(log_level),
         "--keystore={0}".format(keystore_dirpath),
-        # "--configdir={0}".format(""),
         "--chainid={0}".format(launcher.networkid),
         "--http.addr=0.0.0.0",
         "--http.vhosts={0}".format("*"),
