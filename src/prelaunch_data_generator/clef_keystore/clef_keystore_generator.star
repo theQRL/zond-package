@@ -124,12 +124,12 @@ def generate_clef_keystore(plan, prefunded_account, participants, docker_cache_p
 
     # Store output into file artifact    
     # artifact_name = plan.store_service_files(
-    #     service_name, output_dirpath, name="clef-0"
+    #     service_name, output_dirpath, name="clef"
     # )
 
     # base_dirname_in_artifact = shared_utils.path_base(output_dirpath)
-    # keystore_file = keystore_files_module.new_keystore_files(
-    #     artifact_name,
+    # keystore_file = keystore_files_module.new_keystore_file(
+    #      artifact_name,
     #     shared_utils.path_join(base_dirname_in_artifact, CLEF_DIRNAME),
     # )
 
