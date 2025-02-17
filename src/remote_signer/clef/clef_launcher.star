@@ -111,7 +111,7 @@ def get_config(
         cmd.extend([param for param in participant.remote_signer_extra_params])
 
     files = {
-        constants.CLEF_KEYSTORE_DIRPATH_ON_SERVICE_CONTAINER: launcher.keystore.files_artifact_uuid,
+        constants.CLEF_KEYSTORE_DIRPATH_ON_SERVICE_CONTAINER: launcher.keystore.file_artifact_uuid,
     }
 
     public_ports = {}
