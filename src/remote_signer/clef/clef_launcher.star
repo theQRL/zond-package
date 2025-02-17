@@ -11,7 +11,7 @@ BEACON_DATA_DIRPATH_ON_SERVICE_CONTAINER = "/data/qrysm/beacon-data/"
 CLEF_HTTP_PORT_NUM = 8550
 CLEF_HTTP_PORT_ID = "http"
 
-CLEF_KEYS_MOUNTPOINT = "/keystore"
+CLEF_KEY_MOUNTPOINT = "/keystore"
 
 CLEF_USED_PORTS = {
     CLEF_HTTP_PORT_ID: shared_utils.new_port_spec(
@@ -108,7 +108,7 @@ def get_config(
         cmd.extend([param for param in participant.remote_signer_extra_params])
 
     files = {
-        # CLEF_KEYS_MOUNTPOINT: node_keystore_files.files_artifact_uuid,
+        CLEF_KEY_MOUNTPOINT: node_keystore_files.files_artifact_uuid,
     }
 
     public_ports = {}
@@ -157,8 +157,10 @@ def get_config(
 def new_clef_launcher(
     networkid,
     el_type,
+    keystore,
 ):
     return struct(
         networkid=networkid,
         el_type=el_type,
+        keystore=keystore,
     )

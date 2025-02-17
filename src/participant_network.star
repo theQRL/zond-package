@@ -135,7 +135,7 @@ def launch_participant_network(
             full_name="{0}-remote_signer".format(clef_participant.remote_signer_type),
             vc_type=clef_participant.vc_type,
             el_type=clef_participant.el_type,
-            node_keystore_files=None,
+            node_keystore_files=clef_data.keystore,
             participant=clef_participant,
             global_tolerations=global_tolerations,
             node_selectors=node_selectors,

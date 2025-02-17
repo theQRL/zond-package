@@ -31,6 +31,7 @@ def launch(
             "launcher": clef.new_clef_launcher(
                 network_id,
                 el_type,
+                keystore=node_keystore_files,
             ),
             "launch_method": clef.launch,
         },
