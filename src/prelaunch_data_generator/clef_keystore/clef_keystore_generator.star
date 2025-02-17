@@ -13,8 +13,6 @@ GZOND_TOOLS_IMAGE = "theqrl/gzond-alltools:latest"
 
 SUCCESSFUL_EXEC_CMD_EXIT_CODE = 0
 
-CLEF_DIRNAME = "clef"
-
 SERVICE_NAME_PREFIX = "clef-keystore-generation-"
 
 ENTRYPOINT_ARGS = [
@@ -130,7 +128,7 @@ def generate_clef_keystore(plan, prefunded_account, participants, docker_cache_p
     base_dirname_in_artifact = shared_utils.path_base(output_dirpath)
     keystore_file = keystore_file_module.new_keystore_file(
          artifact_name,
-        shared_utils.path_join(base_dirname_in_artifact, CLEF_DIRNAME),
+        shared_utils.path_join(base_dirname_in_artifact, "keystore"),
     )
 
     result = keystore_result.new_generate_keystore_result(
