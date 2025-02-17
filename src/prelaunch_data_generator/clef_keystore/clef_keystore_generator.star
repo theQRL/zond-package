@@ -132,8 +132,6 @@ def generate_clef_keystore(plan, prefunded_account, participants, docker_cache_p
     )
 
     result = keystore_result.new_generate_keystore_result(
-        clef_key_password_artifact_name,
-        shared_utils.path_base(CLEF_KEY_PASSWORD_FILEPATH_ON_GENERATOR),
         keystore_file,
     )
 
