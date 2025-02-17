@@ -88,15 +88,15 @@ def get_config(
     remote_signer_index,
     el_type,
 ):
-    # keystore_dirpath = shared_utils.path_join(
-    #     constants.CLEF_KEYSTORE_DIRPATH_ON_SERVICE_CONTAINER,
-    #     launcher.keystore.qrysm_relative_dirpath,
-    # )
+    keystore_dirpath = shared_utils.path_join(
+        constants.CLEF_KEYSTORE_DIRPATH_ON_SERVICE_CONTAINER,
+        launcher.keystore.clef_relative_dirpath,
+    )
 
     cmd = [
         "clef",
         "--loglevel={0}".format(log_level),
-        # "--keystore={0}".format(""),
+        "--keystore={0}".format(keystore_dirpath),
         # "--configdir={0}".format(""),
         "--chainid={0}".format(launcher.networkid),
         "--http.addr=0.0.0.0",
