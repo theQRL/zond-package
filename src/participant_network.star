@@ -70,6 +70,7 @@ def launch_participant_network(
             final_genesis_timestamp,
             validator_data,
             clef_data,
+            clef_participant,
         ) = launch_kurtosis.launch(
             plan, network_params, args_with_right_defaults, parallel_keystore_generation
         )
@@ -121,21 +122,21 @@ def launch_participant_network(
 
     remote_signer_context = None
     # Launch one clef agent if enabled in any of the participants
-    if clef_data != None:
+    if clef_participant != None:
         node_selectors = input_parser.get_client_node_selectors(
-            participant.node_selectors,
+            clef_participant.node_selectors,
             global_node_selectors,
         )
         remote_signer_context = remote_signer.launch(
             plan=plan,
-            service_name="signer-{0}".format(participant.remote_signer_type),
-            remote_signer_type=participant.remote_signer_type,
-            image=participant.remote_signer_image,
-            full_name="{0}-remote_signer".format(participant.remote_signer_type),
-            vc_type=participant.vc_type,
-            el_type=participant.el_type,
+            service_name="signer-{0}".format(clef_participant.remote_signer_type),
+            remote_signer_type=clef_participant.remote_signer_type,
+            image=clef_participant.remote_signer_image,
+            full_name="{0}-remote_signer".format(clef_participant.remote_signer_type),
+            vc_type=clef_participant.vc_type,
+            el_type=clef_participant.el_type,
             node_keystore_files=None,
-            participant=participant,
+            participant=clef_participant,
             global_tolerations=global_tolerations,
             node_selectors=node_selectors,
             port_publisher=args_with_right_defaults.port_publisher,

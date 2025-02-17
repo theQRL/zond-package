@@ -45,6 +45,7 @@ def launch(
         )
 
     clef_data = None
+    clef_participant = None
     for index, participant in enumerate(args_with_right_defaults.participants):
         if participant.use_remote_signer and participant.remote_signer_type == "clef":
             plan.print("Generating clef key store")
@@ -55,6 +56,7 @@ def launch(
                 args_with_right_defaults.participants,
                 args_with_right_defaults.docker_cache_params,
             )
+            clef_participant = participant
             break
 
     plan.print(json.indent(json.encode(validator_data)))
@@ -87,4 +89,5 @@ def launch(
         final_genesis_timestamp,
         validator_data,
         clef_data,
+        clef_participant,
     )
