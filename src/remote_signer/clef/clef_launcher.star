@@ -132,7 +132,7 @@ def get_config(
         "ports": ports,
         "public_ports": public_ports,
         "cmd": cmd,
-        # "files": files,
+        "files": files,
         "env_vars": participant.remote_signer_extra_env_vars,
         "labels": shared_utils.label_maker(
             client=constants.REMOTE_SIGNER_TYPE.clef,
