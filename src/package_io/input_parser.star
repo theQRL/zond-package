@@ -27,7 +27,7 @@ DEFAULT_VC_IMAGES_MINIMAL = {
 }
 
 DEFAULT_REMOTE_SIGNER_IMAGES = {
-    "clef": "theqrl/gzond-alltools:latest",
+    "clef": "qrledger/go-zond:alltools-stable",
     "web3signer": "consensys/web3signer:latest",
 }
 

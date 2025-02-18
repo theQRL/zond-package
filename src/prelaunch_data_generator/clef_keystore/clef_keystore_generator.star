@@ -9,7 +9,7 @@ CLEF_KEY_PASSWORD = "passwordpassword"
 CLEF_KEY_PASSWORD_FILEPATH_ON_GENERATOR = "/tmp/clef-key-password.txt"
 CLEF_KEY_SEED_FILEPATH_ON_GENERATOR = "/tmp/clef-key-seed.txt"
 
-GZOND_TOOLS_IMAGE = "theqrl/gzond-alltools:latest"
+GZOND_TOOLS_IMAGE = "qrledger/go-zond:alltools-stable"
 
 SUCCESSFUL_EXEC_CMD_EXIT_CODE = 0
 
@@ -120,7 +120,7 @@ def generate_clef_keystore(plan, prefunded_account, participants, docker_cache_p
     )
     plan.verify(command_result["code"], "==", SUCCESSFUL_EXEC_CMD_EXIT_CODE)
 
-    # Store output into file artifact    
+    # Store output into file artifact
     artifact_name = plan.store_service_files(
         service_name, output_dirpath, name="clef"
     )
