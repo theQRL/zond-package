@@ -153,7 +153,7 @@ participants:
 
     # The Docker image that should be used for the EL client; leave blank to use the default for the client type
     # Defaults by client:
-    # - gzond: theqrl/gzond:latest
+    # - gzond: qrledger/go-zond:stable
     el_image: ""
 
     # The log level string that this participant's EL client should log at
@@ -205,7 +205,7 @@ participants:
 
     # The Docker image that should be used for the CL client; leave blank to use the default for the client type
     # Defaults by client:
-    # - qrysm: theqrl/qrysm-beacon-chain:latest
+    # - qrysm: qrledger/qrysm:beacon-chain-latest
     cl_image: ""
 
     # The log level string that this participant's CL client should log at
@@ -270,7 +270,7 @@ participants:
 
     # The Docker image that should be used for the separate validator client
     # Defaults by client:
-    # - qrysm: theqrl/qrysm-validator:latest
+    # - qrysm: qrledger/qrysm:validator-latest
     vc_image: ""
 
     # The log level string that this participant's validator client should log at
@@ -327,8 +327,8 @@ participants:
     remote_signer_type: "clef"
 
     # The Docker image that should be used for the remote signer
-    # Defaults to "theqrl/gzond-alltools:latest"
-    remote_signer_image: "theqrl/gzond-alltools:latest"
+    # Defaults to "qrledger/go-zond:alltools-stable"
+    remote_signer_image: "qrledger/go-zond:alltools-stable"
 
     # A list of optional extra env_vars the remote signer container should spin up with
     remote_signer_extra_env_vars: {}
@@ -859,7 +859,7 @@ tx_spammer_params:
 # Zond genesis generator params
 zond_genesis_generator_params:
   # The image to use for zond genesis generator
-  image: theqrl/zond-genesis-generator:latest
+  image: qrledger/qrysm:zond-genesis-generator-main-linux-amd64
 
 # Global parameter to set the exit ip address of services and public ports
 port_publisher:
