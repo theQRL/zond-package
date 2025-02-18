@@ -7,23 +7,23 @@ genesis_constants = import_module(
 sanity_check = import_module("./sanity_check.star")
 
 DEFAULT_EL_IMAGES = {
-    "gzond": "theqrl/gzond:latest",
+    "gzond": "qrledger/go-zond:stable",
 }
 
 DEFAULT_CL_IMAGES = {
-    "qrysm": "theqrl/qrysm-beacon-chain:latest",
+    "qrysm": "qrledger/qrysm:beacon-chain-latest",
 }
 
 DEFAULT_CL_IMAGES_MINIMAL = {
-    "qrysm": "theqrl/qrysm-beacon-chain:develop-minimal",
+    "qrysm": "qrledger/qrysm:beacon-chain-develop-minimal",
 }
 
 DEFAULT_VC_IMAGES = {
-    "qrysm": "theqrl/qrysm-validator:latest",
+    "qrysm": "qrledger/qrysm:validator-latest",
 }
 
 DEFAULT_VC_IMAGES_MINIMAL = {
-    "qrysm": "theqrl/qrysm-validator:develop-minimal",
+    "qrysm": "qrledger/qrysm:validator-develop-minimal",
 }
 
 DEFAULT_REMOTE_SIGNER_IMAGES = {

@@ -1,7 +1,7 @@
 participants:
 # EL
   - el_type: gzond
-    el_image: theqrl/gzond:latest
+    el_image: qrledger/go-zond:stable
     el_log_level: ""
     el_extra_env_vars: {}
     el_extra_labels: {}
@@ -14,7 +14,7 @@ participants:
     el_max_mem: 0
 # CL
     cl_type: qrysm
-    cl_image: theqrl/qrysm-beacon-chain:latest
+    cl_image: qrledger/qrysm:beacon-chain-latest
     cl_log_level: ""
     cl_extra_env_vars: {}
     cl_extra_labels: {}
@@ -29,7 +29,7 @@ participants:
     use_separate_vc: true
 # Validator
     vc_type: qrysm
-    vc_image: theqrl/qrysm-validator:latest
+    vc_image: qrledger/qrysm:validator-latest
     vc_log_level: ""
     vc_extra_env_vars: {}
     vc_extra_labels: {}
@@ -161,7 +161,7 @@ keymanager_enabled: false
 checkpoint_sync_enabled: false
 checkpoint_sync_url: ""
 zond_genesis_generator_params:
-  image: theqrl/zond-genesis-generator:latest
+  image: qrledger/qrysm:zond-genesis-generator-main-linux-amd64
 port_publisher:
   nat_exit_ip: KURTOSIS_IP_ADDR_PLACEHOLDER
   el:
