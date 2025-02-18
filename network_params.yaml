@@ -42,8 +42,8 @@ participants:
     validator_count: null
     use_remote_signer: false
 # Remote signer
-    remote_signer_type: web3signer
-    remote_signer_image: consensys/web3signer:latest
+    remote_signer_type: clef
+    remote_signer_image: theqrl/gzond-alltools:latest
     remote_signer_extra_env_vars: {}
     remote_signer_extra_labels: {}
     remote_signer_extra_params: []

@@ -73,15 +73,16 @@ PRE_FUNDED_ACCOUNTS = [
         "eaba42282ad33c8ef2524f07277c03a776d98ae19f581990ce75becb7cfa1c23",
     ),
     # m/44'/60'/0'/0/13
-    # NOTE(rgeraldes24): details from https://github.com/cyyber/web3.js/blob/main/scripts/accounts.json#L3
+    # NOTE(rgeraldes24): seed from https://github.com/cyyber/web3.js/blob/main/scripts/accounts.json#L3
     new_prefunded_account(
         "Z2099d76d9a34cdd2694c4dc703930a6fbbc1d402",
         "f29f58aff0b00de2844f7e20bd9eeaacc379150043beeb328335817512b29fbb7184da84a092f842b2a06d72a24a5d28",
     ),
     # m/44'/60'/0'/0/14
+    # NOTE(rgeraldes24): seed from https://github.com/cyyber/web3.js/blob/main/scripts/accounts.json#L7
     new_prefunded_account(
-        "ZF5504cE2BcC52614F121aff9b93b2001d92715CA",
-        "5288e2f440c7f0cb61a9be8afdeb4295f786383f96f5e35eb0c94ef103996b64",
+        "Z2018dcff6a42061e4203d3b8cbf48e9b890cbdf2",
+        "d665bd59e560503aba4f32edbc3d49523c602657e169cb6d71cce62e282a1320c0f12536318d7b5d713b296b8a35233b",
     ),
     # m/44'/60'/0'/0/15
     new_prefunded_account(

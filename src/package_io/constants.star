@@ -10,7 +10,10 @@ VC_TYPE = struct(
     qrysm="qrysm",
 )
 
-REMOTE_SIGNER_TYPE = struct(web3signer="web3signer")
+REMOTE_SIGNER_TYPE = struct(
+    web3signer="web3signer",
+    clef="clef",
+)
 
 GLOBAL_LOG_LEVEL = struct(
     info="info",
@@ -53,6 +56,8 @@ GENESIS_DATA_MOUNTPOINT_ON_CLIENTS = "/network-configs"
 GENESIS_CONFIG_MOUNT_PATH_ON_CONTAINER = GENESIS_DATA_MOUNTPOINT_ON_CLIENTS
 
 VALIDATOR_KEYS_DIRPATH_ON_SERVICE_CONTAINER = "/validator-keys"
+
+CLEF_KEYSTORE_DIRPATH_ON_SERVICE_CONTAINER = "/clef-keystore"
 
 JWT_MOUNTPOINT_ON_CLIENTS = "/jwt"
 JWT_MOUNT_PATH_ON_CONTAINER = JWT_MOUNTPOINT_ON_CLIENTS + "/jwtsecret"

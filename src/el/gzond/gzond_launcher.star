@@ -231,6 +231,11 @@ def get_config(
             )
         )
 
+    if launcher.remote_signer_context != None:
+        cmd.append(
+            "--signer=" + launcher.remote_signer_context.http_url
+        )
+
     if len(participant.el_extra_params) > 0:
         # this is a repeated<proto type>, we convert it into Starlark
         cmd.extend([param for param in participant.el_extra_params])
@@ -296,10 +301,12 @@ def new_gzond_launcher(
     jwt_file,
     network,
     networkid,
+    remote_signer_context,
 ):
     return struct(
         el_cl_genesis_data=el_cl_genesis_data,
         jwt_file=jwt_file,
         network=network,
         networkid=networkid,
+        remote_signer_context=remote_signer_context,
     )
