@@ -161,7 +161,7 @@ keymanager_enabled: false
 checkpoint_sync_enabled: false
 checkpoint_sync_url: ""
 zond_genesis_generator_params:
-  image: qrledger/qrysm:zond-genesis-generator-main-linux-amd64
+  image: qrledger/qrysm:zond-genesis-generator-latest
 port_publisher:
   nat_exit_ip: KURTOSIS_IP_ADDR_PLACEHOLDER
   el:

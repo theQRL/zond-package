@@ -859,7 +859,7 @@ tx_spammer_params:
 # Zond genesis generator params
 zond_genesis_generator_params:
   # The image to use for zond genesis generator
-  image: qrledger/qrysm:zond-genesis-generator-main-linux-amd64
+  image: qrledger/qrysm:zond-genesis-generator-latest
 
 # Global parameter to set the exit ip address of services and public ports
 port_publisher:
