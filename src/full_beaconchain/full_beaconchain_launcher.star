@@ -2,7 +2,7 @@ shared_utils = import_module("../shared_utils/shared_utils.star")
 postgres = import_module("github.com/kurtosis-tech/postgres-package/main.star")
 redis = import_module("github.com/kurtosis-tech/redis-package/main.star")
 constants = import_module("../package_io/constants.star")
-IMAGE_NAME = "gobitfly/eth2-beaconchain-explorer:latest"
+IMAGE_NAME = "qrledger/zond-beaconchain-explorer:latest"
 
 POSTGRES_PORT_ID = "postgres"
 POSTGRES_PORT_NUMBER = 5432
@@ -48,11 +48,11 @@ INIT_MAX_CPU = 100
 INIT_MIN_MEMORY = 32
 INIT_MAX_MEMORY = 128
 
-# The min/max CPU/memory that the eth1indexer can use
-ETH1INDEXER_MIN_CPU = 100
-ETH1INDEXER_MAX_CPU = 1000
-ETH1INDEXER_MIN_MEMORY = 128
-ETH1INDEXER_MAX_MEMORY = 1024
+# The min/max CPU/memory that the el-indexer can use
+ELINDEXER_MIN_CPU = 100
+ELINDEXER_MAX_CPU = 1000
+ELINDEXER_MIN_MEMORY = 128
+ELINDEXER_MAX_MEMORY = 1024
 
 # The min/max CPU/memory that the rewards-exporter can use
 REWARDSEXPORTER_MIN_CPU = 10
@@ -225,13 +225,13 @@ def launch_full_beacon(
             node_selectors=node_selectors,
         ),
     )
-    # Start the eth1indexer
-    eth1indexer = plan.add_service(
-        name="beaconchain-eth1indexer",
+    # Start the elindexer
+    elindexer = plan.add_service(
+        name="beaconchain-elindexer",
         config=ServiceConfig(
             image=IMAGE_NAME,
             files=files,
-            entrypoint=["./eth1indexer"],
+            entrypoint=["./el-indexer"],
             cmd=[
                 "-config",
                 "/app/config/beaconchain-config.yml",
@@ -243,10 +243,10 @@ def launch_full_beacon(
                 "1",
                 "-balances.enabled",
             ],
-            min_cpu=ETH1INDEXER_MIN_CPU,
-            max_cpu=ETH1INDEXER_MAX_CPU,
-            min_memory=ETH1INDEXER_MIN_MEMORY,
-            max_memory=ETH1INDEXER_MAX_MEMORY,
+            min_cpu=ELINDEXER_MIN_CPU,
+            max_cpu=ELINDEXER_MAX_CPU,
+            min_memory=ELINDEXER_MIN_MEMORY,
+            max_memory=ELINDEXER_MAX_MEMORY,
             node_selectors=node_selectors,
         ),
     )
