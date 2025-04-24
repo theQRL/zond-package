@@ -7,7 +7,7 @@ bidding_deadline_ms = 1000
 bid_percent = 0.9
 # amount to add to the bid on top of the payload's revenue,
 # currently sourced from the builder's wallet authoring the payment transaction
-subsidy_gwei = 100000000 # 0.1 eth
+subsidy_gplanck = 100000000 # 0.1 znd
 
 [builder.auctioneer]
 # builder BLS secret key
@@ -32,6 +32,6 @@ wait_until_ms = 3000
 # validation: should be between [0, 1] inclusive.
 bid_percent = 0.9
 # [optional] amount to add to the bid on top of the payload's revenue,
-# if missing, defaults to 0 wei
+# if missing, defaults to 0 planck
 # currently sourced from the builder's wallet authoring the payment transaction
-subsidy_wei = "0x0000000000000000000000000000000000000000000000000000000000000001"
+subsidy_planck = "0x0000000000000000000000000000000000000000000000000000000000000001"

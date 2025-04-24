@@ -1915,7 +1915,7 @@
               }
             ]
           },
-          "unit": "gwei"
+          "unit": "gplanck"
         },
         "overrides": []
       },
@@ -1946,7 +1946,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(increase(eth_con_beacon_withdrawals_amount_gwei{instance=~\"$instance\", block_id=\"head\"}[1m])) by (instance)",
+          "expr": "sum(increase(eth_con_beacon_withdrawals_amount_gplanck{instance=~\"$instance\", block_id=\"head\"}[1m])) by (instance)",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "range": true,
@@ -2857,7 +2857,7 @@
               }
             ]
           },
-          "unit": "Gwei"
+          "unit": "Gplanck"
         },
         "overrides": []
       },
@@ -2887,7 +2887,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "eth_exe_gas_price_gwei{instance=~\"$instance\"}",
+          "expr": "eth_exe_gas_price_gplanck{instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "refId": "A"

@@ -479,8 +479,8 @@ network_params:
   churn_limit_quotient: 65536
 
   # Ejection balance
-  # Defaults to 16ETH
-  # 16000000000 gwei
+  # Defaults to 16ZND
+  # 16000000000 gplanck
   ejection_balance: 16000000000
 
   # ETH1 follow distance
@@ -524,7 +524,7 @@ network_params:
   # additional_preloaded_contracts: '{
   #  "Z123463a4B065722E99115D6c222f267d9cABb524":
   #   {
-  #     balance: "1ETH",
+  #     balance: "1ZND",
   #     code: "0x1234",
   #     storage: {},
   #     nonce: 0,
@@ -539,11 +539,11 @@ network_params:
   # A number of prefunded accounts to be created
   # Defaults to no prefunded accounts
   # Example:
-  # prefunded_accounts: '{"Z25941dC771bB64514Fc8abBce970307Fb9d477e9": {"balance": "10ETH"}}'
-  # 10ETH to the account Z25941dC771bB64514Fc8abBce970307Fb9d477e9
+  # prefunded_accounts: '{"Z25941dC771bB64514Fc8abBce970307Fb9d477e9": {"balance": "10ZND"}}'
+  # 10ZND to the account Z25941dC771bB64514Fc8abBce970307Fb9d477e9
   # To prefund multiple accounts, separate them with a comma
   #
-  # prefunded_accounts: '{"Z25941dC771bB64514Fc8abBce970307Fb9d477e9": {"balance": "10ETH"}, "Z4107be99052d895e3ee461C685b042Aa975ab5c0": {"balance": "1ETH"}}'
+  # prefunded_accounts: '{"Z25941dC771bB64514Fc8abBce970307Fb9d477e9": {"balance": "10ZND"}, "Z4107be99052d895e3ee461C685b042Aa975ab5c0": {"balance": "1ZND"}}'
   prefunded_accounts: {}
 
   # Maximum size of gossip messages in bytes

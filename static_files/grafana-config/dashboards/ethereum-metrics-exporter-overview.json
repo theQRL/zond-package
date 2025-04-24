@@ -3427,7 +3427,7 @@
               }
             ]
           },
-          "unit": "Gwei"
+          "unit": "Gplanck"
         },
         "overrides": []
       },
@@ -3458,7 +3458,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "eth_exe_gas_price_gwei{}",
+          "expr": "eth_exe_gas_price_gplanck{}",
           "interval": "",
           "legendFormat": "{{ instance }}",
           "range": true,
