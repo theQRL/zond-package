@@ -840,7 +840,7 @@ tx_spammer_params:
   image: theqrl/zond-tx-spammer:latest
   # The scenario to use (see https://github.com/theQRL/zond-tx-spammer)
   # Valid scenarios are:
-  #  eoatx, erctx, deploytx, depoy-destruct, gasburnertx
+  #  eoatx, zrctx, deploytx, depoy-destruct, gasburnertx
   # Defaults to eoatx
   scenario: eoatx
   # Throughput of tx spammer
