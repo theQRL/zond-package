@@ -83,12 +83,12 @@ def launch(
     )
     beacon_grpc_url = "{0}:{1}".format(beacon_service.ip_address, RPC_PORT_NUM)
 
-    # TODO(old) add validator availability using the validator API: https://ethereum.github.io/beacon-APIs/?urls.primaryName=v1#/ValidatorRequiredApi | from eth2-merge-kurtosis-module
+    # TODO(old) add validator availability using the validator API: https://ethereum.github.io/beacon-APIs/?urls.primaryName=v1#/ValidatorRequiredApi | from qrl-kurtosis-module
     beacon_node_identity_recipe = GetHttpRequestRecipe(
-        endpoint="/zond/v1/node/identity",
+        endpoint="/qrl/v1/node/identity",
         port_id=constants.HTTP_PORT_ID,
         extract={
-            "enr": ".data.enr",
+            "qnr": ".data.qnr",
             "multiaddr": ".data.p2p_addresses[0]",
             "peer_id": ".data.peer_id",
         },
@@ -96,7 +96,7 @@ def launch(
     response = plan.request(
         recipe=beacon_node_identity_recipe, service_name=beacon_service_name
     )
-    beacon_node_enr = response["extract.enr"]
+    beacon_node_qnr = response["extract.qnr"]
     beacon_multiaddr = response["extract.multiaddr"]
     beacon_peer_id = response["extract.peer_id"]
 
@@ -111,7 +111,7 @@ def launch(
 
     return cl_context.new_cl_context(
         client_name="qrysm",
-        enr=beacon_node_enr,
+        qnr=beacon_node_qnr,
         ip_addr=beacon_service.ip_address,
         http_port=beacon_http_port.number,
         beacon_http_url=beacon_http_url,
@@ -257,8 +257,8 @@ def get_beacon_config(
             or constants.NETWORK_NAME.shadowfork in launcher.network
         ):
             if bootnode_contexts != None:
-                for ctx in bootnode_contexts[: constants.MAX_ENR_ENTRIES]:
-                    cmd.append("--bootstrap-node=" + ctx.enr)
+                for ctx in bootnode_contexts[: constants.MAX_QNR_ENTRIES]:
+                    cmd.append("--bootstrap-node=" + ctx.qnr)
         elif launcher.network == constants.NETWORK_NAME.ephemery:
             cmd.append(
                 "--genesis-beacon-api-url="

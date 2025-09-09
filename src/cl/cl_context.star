@@ -1,6 +1,6 @@
 def new_cl_context(
     client_name,
-    enr,
+    qnr,
     ip_addr,
     http_port,
     beacon_http_url,
@@ -16,7 +16,7 @@ def new_cl_context(
 ):
     return struct(
         client_name=client_name,
-        enr=enr,
+        qnr=qnr,
         ip_addr=ip_addr,
         http_port=http_port,
         beacon_http_url=beacon_http_url,

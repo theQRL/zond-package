@@ -5,4 +5,4 @@ participants:
     cl_type: qrysm
 network_params:
   network: kurtosis
-  additional_preloaded_contracts: '{"Z123463a4B065722E99115D6c222f267d9cABb524": {"balance": "2ZND","code": "0x1234","storage": {}}}'
+  additional_preloaded_contracts: '{"Q123463a4B065722E99115D6c222f267d9cABb524": {"balance": "2QRL","code": "0x1234","storage": {}}}'

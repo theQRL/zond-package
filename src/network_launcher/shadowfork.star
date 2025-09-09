@@ -34,7 +34,7 @@ def shadowfork_prep(
         + base_network
         + "/gzond/"
         + shadowfork_block
-        + "/_snapshot_eth_getBlockByNumber.json",
+        + "/_snapshot_qrl_getBlockByNumber.json",
         store=[StoreSpec(src="/shadowfork", name="latest_blocks")],
     )
 

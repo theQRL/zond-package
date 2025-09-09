@@ -1,15 +1,15 @@
 shared_utils = import_module("../shared_utils/shared_utils.star")
 static_files = import_module("../static_files/static_files.star")
-ethereum_metrics_exporter_context = import_module(
-    "../ethereum_metrics_exporter/ethereum_metrics_exporter_context.star"
+qrl_metrics_exporter_context = import_module(
+    "../qrl_metrics_exporter/qrl_metrics_exporter_context.star"
 )
 
 HTTP_PORT_ID = "http"
 METRICS_PORT_NUMBER = 9090
 
-DEFAULT_ETHEREUM_METRICS_EXPORTER_IMAGE = "ethpandaops/ethereum-metrics-exporter:0.22.0"
+DEFAULT_QRL_METRICS_EXPORTER_IMAGE = "qrledger/qrl-metrics-exporter:0.22.0"
 
-# The min/max CPU/memory that ethereum-metrics-exporter can use
+# The min/max CPU/memory that qrl-metrics-exporter can use
 MIN_CPU = 10
 MAX_CPU = 100
 MIN_MEMORY = 16
@@ -19,18 +19,18 @@ MAX_MEMORY = 128
 def launch(
     plan,
     pair_name,
-    ethereum_metrics_exporter_service_name,
+    qrl_metrics_exporter_service_name,
     el_context,
     cl_context,
     node_selectors,
     docker_cache_params,
 ):
     exporter_service = plan.add_service(
-        ethereum_metrics_exporter_service_name,
+        qrl_metrics_exporter_service_name,
         ServiceConfig(
             image=shared_utils.docker_cache_image_calc(
                 docker_cache_params,
-                DEFAULT_ETHEREUM_METRICS_EXPORTER_IMAGE,
+                DEFAULT_QRL_METRICS_EXPORTER_IMAGE,
             ),
             ports={
                 HTTP_PORT_ID: shared_utils.new_port_spec(
@@ -60,7 +60,7 @@ def launch(
         ),
     )
 
-    return ethereum_metrics_exporter_context.new_ethereum_metrics_exporter_context(
+    return qrl_metrics_exporter_context.new_qrl_metrics_exporter_context(
         pair_name,
         exporter_service.ip_address,
         METRICS_PORT_NUMBER,

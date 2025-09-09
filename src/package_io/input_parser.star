@@ -60,7 +60,7 @@ ATTR_TO_BE_SKIPPED_AT_ROOT = (
 def input_parser(plan, input_args):
     sanity_check.sanity_check(plan, input_args)
     result = parse_network_params(plan, input_args)
-    # add default eth2 input params
+    # add default qrl input params
     result["blockscout_params"] = get_default_blockscout_params()
     result["dora_params"] = get_default_dora_params()
     result["docker_cache_params"] = get_default_docker_cache_params()
@@ -104,7 +104,7 @@ def input_parser(plan, input_args):
         # if its inserted we use the value inserted
         if attr not in ATTR_TO_BE_SKIPPED_AT_ROOT and attr in input_args:
             result[attr] = value
-        # custom eth2 attributes config
+        # custom qrl attributes config
         elif attr == "blockscout_params":
             for sub_attr in input_args["blockscout_params"]:
                 sub_value = input_args["blockscout_params"][sub_attr]
@@ -147,10 +147,10 @@ def input_parser(plan, input_args):
             for sub_attr in input_args["tx_spammer_params"]:
                 sub_value = input_args["tx_spammer_params"][sub_attr]
                 result["tx_spammer_params"][sub_attr] = sub_value
-        elif attr == "zond_genesis_generator_params":
-            for sub_attr in input_args["zond_genesis_generator_params"]:
-                sub_value = input_args["zond_genesis_generator_params"][sub_attr]
-                result["zond_genesis_generator_params"][sub_attr] = sub_value
+        elif attr == "qrl_genesis_generator_params":
+            for sub_attr in input_args["qrl_genesis_generator_params"]:
+                sub_value = input_args["qrl_genesis_generator_params"][sub_attr]
+                result["qrl_genesis_generator_params"][sub_attr] = sub_value
 
     if result.get("disable_peer_scoring"):
         result = enrich_disable_peer_scoring(result)
@@ -243,8 +243,8 @@ def input_parser(plan, input_args):
                 node_selectors=participant["node_selectors"],
                 snooper_enabled=participant["snooper_enabled"],
                 count=participant["count"],
-                ethereum_metrics_exporter_enabled=participant[
-                    "ethereum_metrics_exporter_enabled"
+                qrl_metrics_exporter_enabled=participant[
+                    "qrl_metrics_exporter_enabled"
                 ],
                 xatu_sentry_enabled=participant["xatu_sentry_enabled"],
                 prometheus_config=struct(
@@ -272,12 +272,13 @@ def input_parser(plan, input_args):
             seconds_per_slot=result["network_params"]["seconds_per_slot"],
             genesis_delay=result["network_params"]["genesis_delay"],
             genesis_gaslimit=result["network_params"]["genesis_gaslimit"],
+            light_kdf_enabled=result["network_params"]["light_kdf_enabled"],
             max_per_epoch_activation_churn_limit=result["network_params"][
                 "max_per_epoch_activation_churn_limit"
             ],
             churn_limit_quotient=result["network_params"]["churn_limit_quotient"],
             ejection_balance=result["network_params"]["ejection_balance"],
-            eth1_follow_distance=result["network_params"]["eth1_follow_distance"],
+            execution_follow_distance=result["network_params"]["execution_follow_distance"],
             network=result["network_params"]["network"],
             min_validator_withdrawability_delay=result["network_params"][
                 "min_validator_withdrawability_delay"
@@ -390,7 +391,7 @@ def input_parser(plan, input_args):
         global_log_level=result["global_log_level"],
         mev_type=result["mev_type"],
         snooper_enabled=result["snooper_enabled"],
-        ethereum_metrics_exporter_enabled=result["ethereum_metrics_exporter_enabled"],
+        qrl_metrics_exporter_enabled=result["qrl_metrics_exporter_enabled"],
         xatu_sentry_enabled=result["xatu_sentry_enabled"],
         parallel_keystore_generation=result["parallel_keystore_generation"],
         disable_peer_scoring=result["disable_peer_scoring"],
@@ -407,8 +408,8 @@ def input_parser(plan, input_args):
         keymanager_enabled=result["keymanager_enabled"],
         checkpoint_sync_enabled=result["checkpoint_sync_enabled"],
         checkpoint_sync_url=result["checkpoint_sync_url"],
-        zond_genesis_generator_params=struct(
-            image=result["zond_genesis_generator_params"]["image"],
+        qrl_genesis_generator_params=struct(
+            image=result["qrl_genesis_generator_params"]["image"],
         ),
         port_publisher=struct(
             nat_exit_ip=result["port_publisher"]["nat_exit_ip"],
@@ -571,12 +572,12 @@ def parse_network_params(plan, input_args):
         if keymanager_enabled == None:
             participant["keymanager_enabled"] = result["keymanager_enabled"]
 
-        ethereum_metrics_exporter_enabled = participant[
-            "ethereum_metrics_exporter_enabled"
+        qrl_metrics_exporter_enabled = participant[
+            "qrl_metrics_exporter_enabled"
         ]
-        if ethereum_metrics_exporter_enabled == None:
-            participant["ethereum_metrics_exporter_enabled"] = result[
-                "ethereum_metrics_exporter_enabled"
+        if qrl_metrics_exporter_enabled == None:
+            participant["qrl_metrics_exporter_enabled"] = result[
+                "qrl_metrics_exporter_enabled"
             ]
 
         xatu_sentry_enabled = participant["xatu_sentry_enabled"]
@@ -727,7 +728,7 @@ def default_input_args(input_args):
         "wait_for_finalization": False,
         "global_log_level": "info",
         "snooper_enabled": False,
-        "ethereum_metrics_exporter_enabled": False,
+        "qrl_metrics_exporter_enabled": False,
         "parallel_keystore_generation": False,
         "disable_peer_scoring": False,
         "persistent": False,
@@ -740,7 +741,7 @@ def default_input_args(input_args):
         "keymanager_enabled": False,
         "checkpoint_sync_enabled": False,
         "checkpoint_sync_url": "",
-        "zond_genesis_generator_params": get_default_zond_genesis_generator_params(),
+        "qrl_genesis_generator_params": get_default_qrl_genesis_generator_params(),
         "port_publisher": {
             "nat_exit_ip": constants.PRIVATE_IP_ADDRESS_PLACEHOLDER,
             "public_port_start": None,
@@ -753,17 +754,18 @@ def default_network_params():
     return {
         "network": "kurtosis",
         "network_id": "3151908",
-        "deposit_contract_address": "Z4242424242424242424242424242424242424242",
+        "deposit_contract_address": "Q4242424242424242424242424242424242424242",
         "seconds_per_slot": 60,
         "num_validator_keys_per_node": 64,
         "preregistered_validator_keys_mnemonic": constants.DEFAULT_MNEMONIC,
         "preregistered_validator_count": 0,
         "genesis_delay": 20,
         "genesis_gaslimit": 30000000,
+        "light_kdf_enabled": False,
         "max_per_epoch_activation_churn_limit": 8,
         "churn_limit_quotient": 65536,
         "ejection_balance": 16000000000,
-        "eth1_follow_distance": 2048,
+        "execution_follow_distance": 2048,
         "min_validator_withdrawability_delay": 256,
         "shard_committee_period": 256,
         "network_sync_base_url": "https://snapshots.theqrl.org/",
@@ -782,17 +784,18 @@ def default_minimal_network_params():
     return {
         "network": "kurtosis",
         "network_id": "3151908",
-        "deposit_contract_address": "Z4242424242424242424242424242424242424242",
+        "deposit_contract_address": "Q4242424242424242424242424242424242424242",
         "seconds_per_slot": 15,
         "num_validator_keys_per_node": 64,
         "preregistered_validator_keys_mnemonic": constants.DEFAULT_MNEMONIC,
         "preregistered_validator_count": 0,
         "genesis_delay": 20,
         "genesis_gaslimit": 30000000,
+        "light_kdf_enabled": False,
         "max_per_epoch_activation_churn_limit": 4,
         "churn_limit_quotient": 32,
         "ejection_balance": 16000000000,
-        "eth1_follow_distance": 16,
+        "execution_follow_distance": 16,
         "min_validator_withdrawability_delay": 256,
         "shard_committee_period": 64,
         "network_sync_base_url": "https://snapshots.theqrl.org/",
@@ -862,7 +865,7 @@ def default_participant():
         "tolerations": [],
         "count": 1,
         "snooper_enabled": None,
-        "ethereum_metrics_exporter_enabled": None,
+        "qrl_metrics_exporter_enabled": None,
         "xatu_sentry_enabled": None,
         "prometheus_config": {
             "scrape_interval": "15s",
@@ -1031,7 +1034,7 @@ def get_default_xatu_sentry_params():
 
 def get_default_tx_spammer_params():
     return {
-        "image": "theqrl/zond-tx-spammer:latest",
+        "image": "theqrl/qrl-tx-spammer:latest",
         "scenario": "eoatx",
         "throughput": 1000,
         "max_pending": 1000,
@@ -1197,7 +1200,7 @@ def docker_cache_image_override(plan, result):
         "prometheus_params.image",
         "grafana_params.image",
         "tx_spammer_params.image",
-        "zond_genesis_generator_params.image",
+        "qrl_genesis_generator_params.image",
     ]
 
     if result["docker_cache_params"]["url"] == "":
@@ -1271,7 +1274,7 @@ def docker_cache_image_override(plan, result):
             )
 
 
-def get_default_zond_genesis_generator_params():
+def get_default_qrl_genesis_generator_params():
     return {
-        "image": constants.DEFAULT_ZOND_GENESIS_GENERATOR_IMAGE,
+        "image": constants.DEFAULT_QRL_GENESIS_GENERATOR_IMAGE,
     }

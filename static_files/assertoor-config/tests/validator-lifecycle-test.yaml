@@ -22,7 +22,7 @@ tasks:
         limitTotal: 300
         limitPerSlot: 20
         limitPending: 50
-        depositContract: "Z4242424242424242424242424242424242424242"
+        depositContract: "Q4242424242424242424242424242424242424242"
         awaitReceipt: true
       configVars:
         walletPrivkey: "walletPrivkey"
@@ -95,7 +95,7 @@ tasks:
         limitTotal: 50
         limitPerSlot: 1
         indexCount: 100
-        targetAddress: Z65D08a056c17Ae13370565B04cF77D2AfA1cB9FA
+        targetAddress: Q65D08a056c17Ae13370565B04cF77D2AfA1cB9FA
       configVars:
         mnemonic: "validatorMnemonic"
 
@@ -246,7 +246,7 @@ tasks:
         limitTotal: 50
         limitPerSlot: 1
         indexCount: 50
-        targetAddress: Z65D08a056c17Ae13370565B04cF77D2AfA1cB9FA
+        targetAddress: Q65D08a056c17Ae13370565B04cF77D2AfA1cB9FA
       configVars:
         mnemonic: "validatorMnemonic"
 
@@ -389,6 +389,6 @@ cleanupTasks:
       config:
         limitTotal: 300
         indexCount: 300
-        targetAddress: Z65D08a056c17Ae13370565B04cF77D2AfA1cB9FA
+        targetAddress: Q65D08a056c17Ae13370565B04cF77D2AfA1cB9FA
       configVars:
         mnemonic: "validatorMnemonic"

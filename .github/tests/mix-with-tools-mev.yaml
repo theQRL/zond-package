@@ -15,7 +15,7 @@ participants:
 #   - apache
 #   - tracoor
 #   - tx_spammer
-ethereum_metrics_exporter_enabled: true
+qrl_metrics_exporter_enabled: true
 snooper_enabled: true
 mev_type: flashbots
 mev_params:

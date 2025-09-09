@@ -739,7 +739,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "beacon_participation_prev_epoch_target_attesting_gplanck_total/beacon_participation_prev_epoch_active_gplanck_total",
+          "expr": "beacon_participation_prev_epoch_target_attesting_shor_total/beacon_participation_prev_epoch_active_shor_total",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -848,7 +848,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Eth2 Merge Kurtosis Module Dashboard",
+  "title": "QRL Kurtosis Module Dashboard",
   "uid": "QdTOwy-nz",
   "version": 11,
   "weekStart": ""

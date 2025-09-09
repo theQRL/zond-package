@@ -73,9 +73,9 @@ jobs:
       - name: Kurtosis Assertoor GitHub Action
         uses: ethpandaops/kurtosis-assertoor-github-action@v1
         with:
-          zond_package_url: "."
-          zond_package_branch: ""
-          zond_package_args: .github/tests/mix-assert.yaml
+          qrl_package_url: "."
+          qrl_package_branch: ""
+          qrl_package_args: .github/tests/mix-assert.yaml
   #check_optimism_package:
   #  runs-on: ubuntu-latest
   #  steps:

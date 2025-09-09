@@ -2,7 +2,7 @@ shared_utils = import_module("../shared_utils/shared_utils.star")
 postgres = import_module("github.com/kurtosis-tech/postgres-package/main.star")
 redis = import_module("github.com/kurtosis-tech/redis-package/main.star")
 constants = import_module("../package_io/constants.star")
-IMAGE_NAME = "qrledger/zond-beaconchain-explorer:latest"
+IMAGE_NAME = "qrledger/qrl-beaconchain-explorer:latest"
 
 POSTGRES_PORT_ID = "postgres"
 POSTGRES_PORT_NUMBER = 5432

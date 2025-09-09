@@ -5,9 +5,9 @@ SERVICE_NAME = "apache"
 HTTP_PORT_ID = "http"
 HTTP_PORT_NUMBER = 80
 APACHE_CONFIG_FILENAME = "index.html"
-APACHE_ENR_FILENAME = "boot_enr.yaml"
-APACHE_ENODE_FILENAME = "bootnode.txt"
-APACHE_ENR_LIST_FILENAME = "bootstrap_nodes.txt"
+APACHE_QNR_FILENAME = "boot_qnr.yaml"
+APACHE_QNODE_FILENAME = "bootnode.txt"
+APACHE_QNR_LIST_FILENAME = "bootstrap_nodes.txt"
 
 APACHE_CONFIG_MOUNT_DIRPATH_ON_SERVICE = "/usr/local/apache2/htdocs/"
 
@@ -46,37 +46,37 @@ def launch_apache(
         _, cl_client, el_client, _ = shared_utils.get_client_names(
             participant, index, participant_contexts, participant_configs
         )
-        all_cl_client_info.append(new_cl_client_info(cl_client.enr))
-        all_el_client_info.append(new_el_client_info(el_client.enode))
+        all_cl_client_info.append(new_cl_client_info(cl_client.qnr))
+        all_el_client_info.append(new_el_client_info(el_client.qnode))
 
     template_data = new_config_template_data(
         all_cl_client_info,
         all_el_client_info,
     )
 
-    enr_template_and_data = shared_utils.new_template_and_data(
-        read_file(static_files.APACHE_ENR_FILEPATH),
+    qnr_template_and_data = shared_utils.new_template_and_data(
+        read_file(static_files.APACHE_QNR_FILEPATH),
         template_data,
     )
 
-    enr_list_template_and_data = shared_utils.new_template_and_data(
-        read_file(static_files.APACHE_ENR_LIST_FILEPATH),
+    qnr_list_template_and_data = shared_utils.new_template_and_data(
+        read_file(static_files.APACHE_QNR_LIST_FILEPATH),
         template_data,
     )
 
-    enode_template_and_data = shared_utils.new_template_and_data(
-        read_file(static_files.APACHE_ENODE_FILEPATH),
+    qnode_template_and_data = shared_utils.new_template_and_data(
+        read_file(static_files.APACHE_QNODE_FILEPATH),
         template_data,
     )
 
     template_and_data_by_rel_dest_filepath = {}
-    template_and_data_by_rel_dest_filepath[APACHE_ENR_FILENAME] = enr_template_and_data
+    template_and_data_by_rel_dest_filepath[APACHE_QNR_FILENAME] = qnr_template_and_data
     template_and_data_by_rel_dest_filepath[
-        APACHE_ENR_LIST_FILENAME
-    ] = enr_list_template_and_data
+        APACHE_QNR_LIST_FILENAME
+    ] = qnr_list_template_and_data
     template_and_data_by_rel_dest_filepath[
-        APACHE_ENODE_FILENAME
-    ] = enode_template_and_data
+        APACHE_QNODE_FILENAME
+    ] = qnode_template_and_data
 
     bootstrap_info_files_artifact_name = plan.render_templates(
         template_and_data_by_rel_dest_filepath, "bootstrap-info"
@@ -123,16 +123,16 @@ def get_config(
         "/usr/local/apache2/conf/httpd.conf",
         "&&",
         "mv",
-        "/network-configs/boot/" + APACHE_ENR_FILENAME,
-        "/network-configs/" + APACHE_ENR_FILENAME,
+        "/network-configs/boot/" + APACHE_QNR_FILENAME,
+        "/network-configs/" + APACHE_QNR_FILENAME,
         "&&",
         "mv",
-        "/network-configs/boot/" + APACHE_ENODE_FILENAME,
-        "/network-configs/" + APACHE_ENODE_FILENAME,
+        "/network-configs/boot/" + APACHE_QNODE_FILENAME,
+        "/network-configs/" + APACHE_QNODE_FILENAME,
         "&&",
         "mv",
-        "/network-configs/boot/" + APACHE_ENR_LIST_FILENAME,
-        "/network-configs/" + APACHE_ENR_LIST_FILENAME,
+        "/network-configs/boot/" + APACHE_QNR_LIST_FILENAME,
+        "/network-configs/" + APACHE_QNR_LIST_FILENAME,
         "&&",
         "cp -R /network-configs /usr/local/apache2/htdocs/",
         "&&",
@@ -173,13 +173,13 @@ def new_config_template_data(cl_client, el_client):
     }
 
 
-def new_cl_client_info(enr):
+def new_cl_client_info(qnr):
     return {
-        "Enr": enr,
+        "Qnr": qnr,
     }
 
 
-def new_el_client_info(enode):
+def new_el_client_info(qnode):
     return {
-        "Enode": enode,
+        "Qnode": qnode,
     }

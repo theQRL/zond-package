@@ -17,9 +17,9 @@ VALIDATOR_RANGES_CONFIG_TEMPLATE_FILEPATH = (
 )
 
 APACHE_CONFIG_FILEPATH = STATIC_FILES_DIRPATH + "/apache-config/index.html"
-APACHE_ENR_FILEPATH = STATIC_FILES_DIRPATH + "/apache-config/enr.txt.tmpl"
-APACHE_ENR_LIST_FILEPATH = STATIC_FILES_DIRPATH + "/apache-config/enr_list.txt.tmpl"
-APACHE_ENODE_FILEPATH = STATIC_FILES_DIRPATH + "/apache-config/enode.txt.tmpl"
+APACHE_QNR_FILEPATH = STATIC_FILES_DIRPATH + "/apache-config/qnr.txt.tmpl"
+APACHE_QNR_LIST_FILEPATH = STATIC_FILES_DIRPATH + "/apache-config/qnr_list.txt.tmpl"
+APACHE_QNODE_FILEPATH = STATIC_FILES_DIRPATH + "/apache-config/qnode.txt.tmpl"
 
 DORA_CONFIG_TEMPLATE_FILEPATH = STATIC_FILES_DIRPATH + "/dora-config/config.yaml.tmpl"
 DUGTRIO_CONFIG_TEMPLATE_FILEPATH = (

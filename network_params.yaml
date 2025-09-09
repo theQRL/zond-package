@@ -57,7 +57,7 @@ participants:
     tolerations: []
     count: 2
     snooper_enabled: false
-    ethereum_metrics_exporter_enabled: false
+    qrl_metrics_exporter_enabled: false
     xatu_sentry_enabled: false
     prometheus_config:
       scrape_interval: 15s
@@ -67,7 +67,7 @@ participants:
 network_params:
   network: kurtosis
   network_id: "3151908"
-  deposit_contract_address: "Z4242424242424242424242424242424242424242"
+  deposit_contract_address: "Q4242424242424242424242424242424242424242"
   seconds_per_slot: 60
   num_validator_keys_per_node: 64
   preregistered_validator_keys_mnemonic:
@@ -80,7 +80,7 @@ network_params:
   max_per_epoch_activation_churn_limit: 8
   churn_limit_quotient: 65536
   ejection_balance: 16000000000
-  eth1_follow_distance: 2048
+  execution_follow_distance: 2048
   min_validator_withdrawability_delay: 256
   shard_committee_period: 256
   network_sync_base_url: https://snapshots.theqrl.org/
@@ -117,7 +117,7 @@ assertoor_params:
 wait_for_finalization: false
 global_log_level: info
 snooper_enabled: false
-ethereum_metrics_exporter_enabled: false
+qrl_metrics_exporter_enabled: false
 parallel_keystore_generation: false
 disable_peer_scoring: false
 persistent: false
@@ -160,8 +160,8 @@ global_node_selectors: {}
 keymanager_enabled: false
 checkpoint_sync_enabled: false
 checkpoint_sync_url: ""
-zond_genesis_generator_params:
-  image: qrledger/qrysm:zond-genesis-generator-latest
+qrl_genesis_generator_params:
+  image: qrledger/qrysm:qrl-genesis-generator-latest
 port_publisher:
   nat_exit_ip: KURTOSIS_IP_ADDR_PLACEHOLDER
   el:

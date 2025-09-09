@@ -5,13 +5,13 @@ This repo is a Kurtosis package. To get general information on what a Kurtosis p
 The overview of this particular package's operation is as follows:
 
 1. Parse user parameters
-1. Launch a network of Zond participants
+1. Launch a network of QRL participants
    1. Generate execution layer (EL) client config data
    1. Launch EL clients
    1. Generate consensus layer (CL) client config data
    1. Launch CL clients
 1. Launch auxiliary services (Grafana, Forkmon, etc.)
-1. Run Zond Merge verification logic
+1. Run QRL Merge verification logic
 1. Return information to the user
 
 ## Overview
@@ -55,7 +55,7 @@ We'll explain these phases one by one.
 
 ### Generating EL and CL client data
 
-All EL clients require both a genesis file and a JWT secret. The exact format of the genesis file differs per client, so we first leverage [a Docker image containing tools for generating this genesis data][zond-genesis-generator] to create the actual files that the EL clients-to-be will need. This is accomplished by filling in a single genesis generation environment config files found in [`static_files`](../static_files/genesis-generation-config/el-cl/values.env.tmpl).
+All EL clients require both a genesis file and a JWT secret. The exact format of the genesis file differs per client, so we first leverage [a Docker image containing tools for generating this genesis data][qrl-genesis-generator] to create the actual files that the EL clients-to-be will need. This is accomplished by filling in a single genesis generation environment config files found in [`static_files`](../static_files/genesis-generation-config/el-cl/values.env.tmpl).
 
 CL clients, like EL clients also have a genesis and config files that they need. This is created at the same time as the EL genesis files.
 
@@ -63,36 +63,36 @@ Then the validator keys are generated. A tool called [eth2-val-tools](https://gi
 
 ### Starting EL clients
 
-Next, we plug the generated genesis data [into EL client "launchers"](https://github.com/theQRL/zond-package/tree/main/src/participant_network/el) to start a mining network of EL nodes. The launchers come with a `launch` function that consumes EL genesis data and produces information about the running EL client node. Running EL node information is represented by [an `el_context` struct](https://github.com/theQRL/zond-package/blob/main/src/participant_network/el/el_context.star). Each EL client type has its own launcher (e.g. [Gzond](https://github.com/theQRL/zond-package/tree/main/src/participant_network/el/gzond)) because each EL client will require different environment variables and flags to be set when launching the client's container.
+Next, we plug the generated genesis data [into EL client "launchers"](https://github.com/theQRL/qrl-package/tree/main/src/participant_network/el) to start a mining network of EL nodes. The launchers come with a `launch` function that consumes EL genesis data and produces information about the running EL client node. Running EL node information is represented by [an `el_context` struct](https://github.com/theQRL/qrl-package/blob/main/src/participant_network/el/el_context.star). Each EL client type has its own launcher (e.g. [Gzond](https://github.com/theQRL/qrl-package/tree/main/src/participant_network/el/gzond)) because each EL client will require different environment variables and flags to be set when launching the client's container.
 
 ### Starting CL clients
 
-Once CL genesis data and keys have been created, the CL client nodes are started via [the CL client launchers](https://github.com/theQRL/zond-package/tree/main/src/participant_network/cl). Just as with EL clients:
+Once CL genesis data and keys have been created, the CL client nodes are started via [the CL client launchers](https://github.com/theQRL/qrl-package/tree/main/src/participant_network/cl). Just as with EL clients:
 
 - CL client launchers implement come with a `launch` method
-- One CL client launcher exists per client type (e.g. [Qrysm](https://github.com/theQRL/zond-package/tree/main/src/participant_network/cl/qrysm))
-- Launched CL node information is tracked in [a `cl_context` struct](https://github.com/theQRL/zond-package/blob/main/src/participant_network/cl/cl_context.star)
+- One CL client launcher exists per client type (e.g. [Qrysm](https://github.com/theQRL/qrl-package/tree/main/src/participant_network/cl/qrysm))
+- Launched CL node information is tracked in [a `cl_context` struct](https://github.com/theQRL/qrl-package/blob/main/src/participant_network/cl/cl_context.star)
 
 There are only two major difference between CL client and EL client launchers. First, the `cl_client_launcher.launch` method also consumes an `el_context`, because each CL client is connected in a 1:1 relationship with an EL client. Second, because CL clients have keys, the keystore files are passed in to the `launch` function as well.
 
 ## Auxiliary Services
 
-After the Zond network is up and running, this package starts several auxiliary containers to make it easier to work with the Zond network. At time of writing, these are:
+After the QRL network is up and running, this package starts several auxiliary containers to make it easier to work with the QRL network. At time of writing, these are:
 
-- [Forkmon](https://github.com/theQRL/zond-package/tree/main/src/el_forkmon), a "fork monitor" web UI for visualizing the CL clients' forks
-- [Prometheus](https://github.com/theQRL/zond-package/tree/main/src/prometheus) for collecting client node metrics
-- [Grafana](https://github.com/theQRL/zond-package/tree/main/src/grafana) for visualizing client node metrics
+- [Forkmon](https://github.com/theQRL/qrl-package/tree/main/src/el_forkmon), a "fork monitor" web UI for visualizing the CL clients' forks
+- [Prometheus](https://github.com/theQRL/qrl-package/tree/main/src/prometheus) for collecting client node metrics
+- [Grafana](https://github.com/theQRL/qrl-package/tree/main/src/grafana) for visualizing client node metrics
 
 ## [Testnet Verifier][testnet-verifier]
 
-Once the Zond network is up and running, verification logic will be run to ensure that the Merge has happened successfully. This happens via [a testnet-verifying Docker image](https://github.com/ethereum/merge-testnet-verifier) that periodically polls the network to check the state of the merge. If the merge doesn't occur, the testnet-verifying image returns an unsuccessful exit code which in turn signals the Kurtosis package to exit with an error. This merge verification can be disabled in the package's configuration (see the "Configuration" section in the README).
+Once the QRL network is up and running, verification logic will be run to ensure that the Merge has happened successfully. This happens via [a testnet-verifying Docker image](https://github.com/ethereum/merge-testnet-verifier) that periodically polls the network to check the state of the merge. If the merge doesn't occur, the testnet-verifying image returns an unsuccessful exit code which in turn signals the Kurtosis package to exit with an error. This merge verification can be disabled in the package's configuration (see the "Configuration" section in the README).
 
 <!------------------------ Only links below here -------------------------------->
 
 [enclave-context]: https://docs.kurtosistech.com/kurtosis/core-lib-documentation#enclavecontext
-[main-function]: https://github.com/theQRL/zond-package/blob/main/main.star#22
-[package-io]: https://github.com/theQRL/zond-package/tree/main/src/package_io
-[participant-network]: https://github.com/theQRL/zond-package/tree/main/src/participant_network
-[zond-genesis-generator]: https://github.com/theQRL/zond-genesis-generator
-[static-files]: https://github.com/theQRL/zond-package/tree/main/static_files
-[testnet-verifier]: https://github.com/theQRL/zond-package/tree/main/src/testnet_verifier
+[main-function]: https://github.com/theQRL/qrl-package/blob/main/main.star#22
+[package-io]: https://github.com/theQRL/qrl-package/tree/main/src/package_io
+[participant-network]: https://github.com/theQRL/qrl-package/tree/main/src/participant_network
+[qrl-genesis-generator]: https://github.com/theQRL/qrl-genesis-generator
+[static-files]: https://github.com/theQRL/qrl-package/tree/main/static_files
+[testnet-verifier]: https://github.com/theQRL/qrl-package/tree/main/src/testnet_verifier

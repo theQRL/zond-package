@@ -105,7 +105,7 @@ def new_config_template_data(
         "BeaconNodeName": beacon_node_name,
         "BeaconNodeAddress": beacon_node_addr,
         "XatuServerAddress": xatu_server_addr,
-        "EthereumNetworkName": network_name,
+        "QRLNetworkName": network_name,
         "BeaconSubscriptions": beacon_subscriptions,
         "XatuServerHeaders": xatu_server_headers,
         "XatuServerTLS": xatu_server_tls,
