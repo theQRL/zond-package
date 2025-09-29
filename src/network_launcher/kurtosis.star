@@ -35,9 +35,10 @@ def launch(
             network_params.preregistered_validator_keys_mnemonic,
             args_with_right_defaults.participants,
             args_with_right_defaults.docker_cache_params,
+            network_params.light_kdf_enabled,
         )
     else:
-        validator_data = validator_keystores.generate_valdiator_keystores_in_parallel(
+        validator_data = validator_keystores.generate_validator_keystores_in_parallel(
             plan,
             network_params.preregistered_validator_keys_mnemonic,
             args_with_right_defaults.participants,
@@ -78,14 +79,14 @@ def launch(
 
     plan.print("Generating EL CL data")
 
-    zond_genesis_generator_image = shared_utils.docker_cache_image_calc(
+    qrl_genesis_generator_image = shared_utils.docker_cache_image_calc(
         args_with_right_defaults.docker_cache_params,
-        args_with_right_defaults.zond_genesis_generator_params.image,
+        args_with_right_defaults.qrl_genesis_generator_params.image,
     )
 
     return (
         total_number_of_validator_keys,
-        zond_genesis_generator_image,
+        qrl_genesis_generator_image,
         final_genesis_timestamp,
         validator_data,
         clef_data,

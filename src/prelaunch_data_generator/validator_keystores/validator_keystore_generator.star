@@ -10,7 +10,7 @@ QRYSM_PASSWORD_FILEPATH_ON_GENERATOR = "/tmp/qrysm-password.txt"
 
 KEYSTORES_GENERATION_TOOL_NAME = "/app/eth2-val-tools"
 
-VAL_TOOLS_IMAGE = "qrledger/qrysm:zond-genesis-generator-latest"
+VAL_TOOLS_IMAGE = "qrledger/qrysm:qrl-genesis-generator-latest"
 
 SUCCESSFUL_EXEC_CMD_EXIT_CODE = 0
 
@@ -74,7 +74,7 @@ def get_config(files_artifact_mountpoints, docker_cache_params):
 # Generates keystores for the given number of nodes from the given mnemonic, where each keystore contains approximately
 #
 # 	num_keys / num_nodes keys
-def generate_validator_keystores(plan, mnemonic, participants, docker_cache_params):
+def generate_validator_keystores(plan, mnemonic, participants, docker_cache_params, light_kdf_enabled):
     service_name = launch_prelaunch_data_generator(
         plan, {}, "cl-validator-keystore", docker_cache_params
     )
@@ -122,6 +122,9 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
             mnemonic,
             QRYSM_PASSWORD_FILEPATH_ON_GENERATOR,
         )
+        if light_kdf_enabled:
+            generate_validator_keys_cmd += " --lightkdf"
+                
         generate_keystores_cmds.append(generate_validator_keys_cmd)
         create_validator_wallets_cmd = '{0} wallet create --accept-terms-of-use=true --wallet-dir={1} --keymanager-kind={2} --wallet-password-file={3}'.format(
             "/usr/local/bin/validator",
@@ -201,7 +204,7 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
 
 
 # this is like above but runs things in parallel - for large networks that run on k8s or gigantic dockers
-def generate_valdiator_keystores_in_parallel(
+def generate_validator_keystores_in_parallel(
     plan, mnemonic, participants, docker_cache_params
 ):
     service_names = launch_prelaunch_data_generator_parallel(

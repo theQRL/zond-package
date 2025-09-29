@@ -1,4 +1,4 @@
-def new_ethereum_metrics_exporter_context(
+def new_qrl_metrics_exporter_context(
     pair_name,
     ip_addr,
     metrics_port_num,

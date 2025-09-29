@@ -10,7 +10,7 @@ def get_accounts(plan, mnemonic, num_of_keys=21):
     plan.print("mnemonic: {0}".format(mnemonic))
     for current_key in range(num_of_keys):
         private_key_service_name = "run-ethereal-private-key-{0}".format(current_key)
-        eth_address_service_name = "run-ethereal-eth-address-{0}".format(current_key)
+        qrl_address_service_name = "run-ethereal-qrl-address-{0}".format(current_key)
 
         private_key = plan.run_sh(
             name=private_key_service_name,
@@ -22,20 +22,20 @@ def get_accounts(plan, mnemonic, num_of_keys=21):
                 mnemonic, current_key
             ),
         )
-        eth_address = plan.run_sh(
-            name=eth_address_service_name,
+        qrl_address = plan.run_sh(
+            name=qrl_address_service_name,
             image=IMAGE,
-            description="Running ethereal to derive eth address of key {0}".format(
+            description="Running ethereal to derive qrl address of key {0}".format(
                 current_key
             ),
-            run="eth_addr=$(/app/ethereal hd keys --seed=\"{0}\" --path=\"m/44'/60'/0'/0/{1}\" | awk '/Ethereum address/{{print $NF}}'); echo -n $eth_addr".format(
+            run="qrl_addr=$(/app/ethereal hd keys --seed=\"{0}\" --path=\"m/44'/60'/0'/0/{1}\" | awk '/QRL address/{{print $NF}}'); echo -n $qrl_addr".format(
                 mnemonic, current_key
             ),
         )
 
         PRE_FUNDED_ACCOUNTS.append(
             new_prefunded_account.new_prefunded_account(
-                eth_address.output, private_key.output
+                qrl_address.output, private_key.output
             )
         )
 

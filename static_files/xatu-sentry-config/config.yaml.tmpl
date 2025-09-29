@@ -5,9 +5,9 @@ name: "{{ .BeaconNodeName }}"
 
 ntpServer: time.google.com
 
-ethereum:
+qrl:
   beaconNodeAddress: "{{ .BeaconNodeAddress }}"
-  overrideNetworkName: "{{ .EthereumNetworkName }}"
+  overrideNetworkName: "{{ .QRLNetworkName }}"
   beaconSubscriptions:
   {{- range .BeaconSubscriptions }}
   - "{{ . }}"

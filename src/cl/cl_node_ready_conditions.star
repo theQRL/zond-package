@@ -1,5 +1,5 @@
 def get_ready_conditions(port_id):
-    recipe = GetHttpRequestRecipe(endpoint="/zond/v1/node/health", port_id=port_id)
+    recipe = GetHttpRequestRecipe(endpoint="/qrl/v1/node/health", port_id=port_id)
 
     ready_conditions = ReadyCondition(
         recipe=recipe,

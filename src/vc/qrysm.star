@@ -61,7 +61,7 @@ def get_config(
         cmd.extend(
             [
                 "--remote-signer-url={0}".format(remote_signer_context.http_url),
-                "--remote-signer-keys={0}/api/v1/eth2/publicKeys".format(
+                "--remote-signer-keys={0}/api/v1/consensus/publicKeys".format(
                     remote_signer_context.http_url
                 ),
             ]

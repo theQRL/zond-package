@@ -9,7 +9,7 @@ def new_participant(
     remote_signer_context,
     snooper_engine_context,
     snooper_beacon_context,
-    ethereum_metrics_exporter_context,
+    qrl_metrics_exporter_context,
     xatu_sentry_context,
 ):
     return struct(
@@ -23,6 +23,6 @@ def new_participant(
         remote_signer_context=remote_signer_context,
         snooper_engine_context=snooper_engine_context,
         snooper_beacon_context=snooper_beacon_context,
-        ethereum_metrics_exporter_context=ethereum_metrics_exporter_context,
+        qrl_metrics_exporter_context=qrl_metrics_exporter_context,
         xatu_sentry_context=xatu_sentry_context,
     )

@@ -72,7 +72,7 @@ def launch(
 
     service = plan.add_service(service_name, config)
 
-    enode, enr = el_admin_node_info.get_enode_enr_for_node(
+    qnode, qnr = el_admin_node_info.get_qnode_qnr_for_node(
         plan, service_name, constants.RPC_PORT_ID
     )
 
@@ -86,14 +86,14 @@ def launch(
 
     return el_context.new_el_context(
         client_name="gzond",
-        enode=enode,
+        qnode=qnode,
         ip_addr=service.ip_address,
         rpc_port_num=RPC_PORT_NUM,
         ws_port_num=WS_PORT_NUM,
         engine_rpc_port_num=ENGINE_RPC_PORT_NUM,
         rpc_http_url=http_url,
         ws_url=ws_url,
-        enr=enr,
+        qnr=qnr,
         service_name=service_name,
         el_metrics_info=[gzond_metrics_info],
     )
@@ -176,13 +176,13 @@ def get_config(
         "--http.addr=0.0.0.0",
         "--http.vhosts=*",
         "--http.corsdomain=*",
-        # WARNING: The admin info endpoint is enabled so that we can easily get ENR/enode, which means
+        # WARNING: The admin info endpoint is enabled so that we can easily get QNR/qnode, which means
         #  that users should NOT store private information in these Kurtosis nodes!
-        "--http.api=admin,engine,net,zond,web3,debug,txpool",
+        "--http.api=admin,engine,net,qrl,web3,debug,txpool",
         "--ws",
         "--ws.addr=0.0.0.0",
         "--ws.port={0}".format(WS_PORT_NUM),
-        "--ws.api=admin,engine,net,zond,web3,debug,txpool",
+        "--ws.api=admin,engine,net,qrl,web3,debug,txpool",
         "--ws.origins=*",
         "--allow-insecure-unlock",
         "--nat=extip:" + port_publisher.nat_exit_ip,
@@ -201,9 +201,9 @@ def get_config(
     if BUILDER_IMAGE_STR in participant.el_image:
         for index, arg in enumerate(cmd):
             if "--http.api" in arg:
-                cmd[index] = "--http.api=admin,engine,net,zond,web3,debug,mev,flashbots"
+                cmd[index] = "--http.api=admin,engine,net,qrl,web3,debug,mev,flashbots"
             if "--ws.api" in arg:
-                cmd[index] = "--ws.api=admin,engine,net,zond,web3,debug,mev,flashbots"
+                cmd[index] = "--ws.api=admin,engine,net,qrl,web3,debug,mev,flashbots"
 
 
     if (
@@ -215,8 +215,8 @@ def get_config(
                 "--bootnodes="
                 + ",".join(
                     [
-                        ctx.enode
-                        for ctx in existing_el_clients[: constants.MAX_ENODE_ENTRIES]
+                        ctx.qnode
+                        for ctx in existing_el_clients[: constants.MAX_QNODE_ENTRIES]
                     ]
                 )
             )
@@ -226,7 +226,7 @@ def get_config(
     ):
         cmd.append(
             "--bootnodes="
-            + shared_utils.get_devnet_enodes(
+            + shared_utils.get_devnet_qnodes(
                 plan, launcher.el_cl_genesis_data.files_artifact_uuid
             )
         )
@@ -234,6 +234,11 @@ def get_config(
     if launcher.remote_signer_context != None:
         cmd.append(
             "--signer=" + launcher.remote_signer_context.http_url
+        )
+
+    if launcher.light_kdf_enabled:
+        cmd.append(
+            "--lightkdf"
         )
 
     if len(participant.el_extra_params) > 0:
@@ -302,6 +307,7 @@ def new_gzond_launcher(
     network,
     networkid,
     remote_signer_context,
+    light_kdf_enabled,
 ):
     return struct(
         el_cl_genesis_data=el_cl_genesis_data,
@@ -309,4 +315,5 @@ def new_gzond_launcher(
         network=network,
         networkid=networkid,
         remote_signer_context=remote_signer_context,
+        light_kdf_enabled=light_kdf_enabled,
     )

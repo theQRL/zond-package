@@ -8,7 +8,7 @@ countryName = EU
 stateOrProvinceName = CA
 localityName = San Francisco
 organizationName = Kurtosis
-organizationalUnitName = zond-package
+organizationalUnitName = qrl-package
 
 [v3_req]
 subjectKeyIdentifier = hash

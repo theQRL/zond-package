@@ -30,6 +30,7 @@ def launch(
                 network_params.network,
                 network_id,
                 remote_signer_context,
+                network_params.light_kdf_enabled,
             ),
             "launch_method": gzond.launch,
         },

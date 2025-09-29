@@ -21,7 +21,7 @@ def launch_prometheus(
     vc_contexts,
     remote_signer_contexts,
     additional_metrics_jobs,
-    ethereum_metrics_exporter_contexts,
+    qrl_metrics_exporter_contexts,
     xatu_sentry_contexts,
     global_node_selectors,
     prometheus_params,
@@ -32,7 +32,7 @@ def launch_prometheus(
         vc_contexts,
         remote_signer_contexts,
         additional_metrics_jobs,
-        ethereum_metrics_exporter_contexts,
+        qrl_metrics_exporter_contexts,
         xatu_sentry_contexts,
     )
     prometheus_url = prometheus.run(
@@ -58,7 +58,7 @@ def get_metrics_jobs(
     vc_contexts,
     remote_signer_contexts,
     additional_metrics_jobs,
-    ethereum_metrics_exporter_contexts,
+    qrl_metrics_exporter_contexts,
     xatu_sentry_contexts,
 ):
     metrics_jobs = []
@@ -172,12 +172,12 @@ def get_metrics_jobs(
             )
         )
 
-    # Adding ethereum-metrics-exporter metrics jobs
-    for context in ethereum_metrics_exporter_contexts:
+    # Adding qrl-metrics-exporter metrics jobs
+    for context in qrl_metrics_exporter_contexts:
         if context != None:
             metrics_jobs.append(
                 new_metrics_job(
-                    job_name="ethereum-metrics-exporter-{0}".format(context.pair_name),
+                    job_name="qrl-metrics-exporter-{0}".format(context.pair_name),
                     endpoint="{}:{}".format(
                         context.ip_addr,
                         context.metrics_port_num,

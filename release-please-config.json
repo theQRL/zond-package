@@ -6,7 +6,7 @@
   "bump-minor-pre-major": true,
   "packages": {
     ".": {
-      "package-name": "zond-package"
+      "package-name": "qrl-package"
     }
   }
 }

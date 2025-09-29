@@ -120,7 +120,7 @@ def get_config(
         "--metrics-host-allowlist=*",
         "--metrics-host=0.0.0.0",
         "--metrics-port={0}".format(WEB3SIGNER_METRICS_PORT_NUM),
-        "eth2",
+        "consensus",
         "--network="
         + constants.GENESIS_CONFIG_MOUNT_PATH_ON_CONTAINER
         + "/config.yaml",

@@ -59,7 +59,7 @@ tx_spammer = import_module("./src/tx_spammer/tx_spammer.star")
 
 GRAFANA_USER = "admin"
 GRAFANA_PASSWORD = "admin"
-GRAFANA_DASHBOARD_PATH_URL = "/d/QdTOwy-nz/eth2-merge-kurtosis-module-dashboard?orgId=1"
+GRAFANA_DASHBOARD_PATH_URL = "/d/QdTOwy-nz/qrl-kurtosis-module-dashboard?orgId=1"
 
 FIRST_NODE_FINALIZATION_FACT = "cl-boot-finalization-fact"
 HTTP_PORT_ID_FOR_FACT = "http"
@@ -68,10 +68,10 @@ MEV_BOOST_SHOULD_CHECK_RELAY = True
 
 
 def run(plan, args={}):
-    """Launches an arbitrarily complex zond testnet based on the arguments provided
+    """Launches an arbitrarily complex qrl testnet based on the arguments provided
 
     Args:
-        args: A YAML or JSON argument to configure the network; example https://github.com/theQRL/zond-package/blob/main/network_params.yaml
+        args: A YAML or JSON argument to configure the network; example https://github.com/theQRL/qrl-package/blob/main/network_params.yaml
     """
 
     args_with_right_defaults = input_parser.input_parser(plan, args)
@@ -178,15 +178,15 @@ def run(plan, args={}):
     all_cl_contexts = []
     all_vc_contexts = []
     all_remote_signer_contexts = []
-    all_ethereum_metrics_exporter_contexts = []
+    all_qrl_metrics_exporter_contexts = []
     all_xatu_sentry_contexts = []
     for participant in all_participants:
         all_el_contexts.append(participant.el_context)
         all_cl_contexts.append(participant.cl_context)
         all_vc_contexts.append(participant.vc_context)
         all_remote_signer_contexts.append(participant.remote_signer_context)
-        all_ethereum_metrics_exporter_contexts.append(
-            participant.ethereum_metrics_exporter_context
+        all_qrl_metrics_exporter_contexts.append(
+            participant.qrl_metrics_exporter_context
         )
         all_xatu_sentry_contexts.append(participant.xatu_sentry_context)
 
@@ -278,7 +278,7 @@ def run(plan, args={}):
             global_node_selectors,
         )
         epoch_recipe = GetHttpRequestRecipe(
-            endpoint="/eth/v2/beacon/blocks/head",
+            endpoint="/qrl/v2/beacon/blocks/head",
             port_id=HTTP_PORT_ID_FOR_FACT,
             extract={"epoch": ".data.message.body.attestations[0].data.target.epoch"},
         )
@@ -646,7 +646,7 @@ def run(plan, args={}):
             all_vc_contexts,
             all_remote_signer_contexts,
             prometheus_additional_metrics_jobs,
-            all_ethereum_metrics_exporter_contexts,
+            all_qrl_metrics_exporter_contexts,
             all_xatu_sentry_contexts,
             global_node_selectors,
             args_with_right_defaults.prometheus_params,
@@ -668,7 +668,7 @@ def run(plan, args={}):
         first_cl_client = all_cl_contexts[0]
         first_client_beacon_name = first_cl_client.beacon_service_name
         epoch_recipe = GetHttpRequestRecipe(
-            endpoint="/zond/v1/beacon/states/head/finality_checkpoints",
+            endpoint="/qrl/v1/beacon/states/head/finality_checkpoints",
             port_id=HTTP_PORT_ID_FOR_FACT,
             extract={"finalized_epoch": ".data.finalized.epoch"},
         )

@@ -20,7 +20,7 @@ server:
 agents:
 {{- range $client := .ParticipantClientInfo }}
   - name: "{{ $client.Beacon.FullName }}"
-    ethereum:
+    qrl:
       overrideNetworkName: "{{ $client.Network }}"
       beacon:
         nodeAddress: "{{ $client.Beacon.Beacon_HTTP_URL }}"

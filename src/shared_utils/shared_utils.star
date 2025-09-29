@@ -81,17 +81,17 @@ def label_maker(
 
     # Create the labels dictionary
     labels = {
-        "zond-package.client": client,
-        "zond-package.client-type": client_type,
-        "zond-package.client-image": ensure_alphanumeric_bounds(
+        "qrl-package.client": client,
+        "qrl-package.client-type": client_type,
+        "qrl-package.client-image": ensure_alphanumeric_bounds(
             image.replace("/", "-").replace(":", "_").replace(".", "-").split("@")[0]
         ),  # drop the sha256 part of the image from the label
-        "zond-package.sha256": sha256,
-        "zond-package.connected-client": connected_client,
+        "qrl-package.sha256": sha256,
+        "qrl-package.connected-client": connected_client,
     }
 
     if supernode:
-        labels["zond-package.supernode"] = str(supernode)
+        labels["qrl-package.supernode"] = str(supernode)
 
     # Add extra_labels to the labels dictionary
     labels.update(extra_labels)
@@ -99,13 +99,13 @@ def label_maker(
     return labels
 
 
-def get_devnet_enodes(plan, filename):
-    enode_list = plan.run_python(
-        description="Getting devnet enodes",
+def get_devnet_qnodes(plan, filename):
+    qnode_list = plan.run_python(
+        description="Getting devnet qnodes",
         files={constants.GENESIS_DATA_MOUNTPOINT_ON_CLIENTS: filename},
         wait=None,
         run="""
-with open("/network-configs/enodes.txt") as bootnode_file:
+with open("/network-configs/qnodes.txt") as bootnode_file:
     bootnodes = []
     for line in bootnode_file:
         line = line.strip()
@@ -113,12 +113,12 @@ with open("/network-configs/enodes.txt") as bootnode_file:
 print(",".join(bootnodes), end="")
             """,
     )
-    return enode_list.output
+    return qnode_list.output
 
 
-def get_devnet_enrs_list(plan, filename):
-    enr_list = plan.run_python(
-        description="Creating devnet enrs list",
+def get_devnet_qnrs_list(plan, filename):
+    qnr_list = plan.run_python(
+        description="Creating devnet qnrs list",
         files={constants.GENESIS_DATA_MOUNTPOINT_ON_CLIENTS: filename},
         wait=None,
         run="""
@@ -130,7 +130,7 @@ with open("/network-configs/bootstrap_nodes.txt") as bootnode_file:
 print(",".join(bootnodes), end="")
             """,
     )
-    return enr_list.output
+    return qnr_list.output
 
 
 def read_genesis_timestamp_from_config(plan, filename):

@@ -14,6 +14,6 @@ additional_services:
   - apache
   - tracoor
   - tx_spammer
-ethereum_metrics_exporter_enabled: true
+qrl_metrics_exporter_enabled: true
 snooper_enabled: true
 keymanager_enabled: true

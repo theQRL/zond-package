@@ -1,6 +1,5 @@
 chain:
   clConfigPath: 'node'
-  elConfigPath: '/network-configs/genesis.json'
 readerDatabase:
   name: {{.DBName}}
   host: {{.DBHost}}
@@ -19,12 +18,12 @@ bigtable:
   emulator: true
   emulatorHost: {{.LBTHost}}
   emulatorPort: {{.LBTPort}}
-zond1GzondEndpoint: '{{.ELNodeEndpoint}}'
+elNodeEndpoint: '{{.ELNodeEndpoint}}'
 redisCacheEndpoint: '{{.RedisEndpoint}}'
 tieredCacheProvider: 'redis'
 frontend:
   siteDomain: "localhost:8080"
-  siteName: 'Open Source Zond Testnet Explorer' # Name of the site, displayed in the title tag
+  siteName: 'QRL Testnet Explorer' # Name of the site, displayed in the title tag
   siteSubtitle: "Showing a local testnet."
   server:
     host: '0.0.0.0' # Address to listen on
@@ -42,16 +41,6 @@ frontend:
     user: {{.DBUser}}
     password: {{.DBPass}}
   sessionSecret: "11111111111111111111111111111111"
-  jwtSigningSecret: "1111111111111111111111111111111111111111111111111111111111111111"
-  jwtIssuer: "localhost"
-  jwtValidityInMinutes: 30
-  maxMailsPerEmailPerDay: 10
-  mail:
-    mailgun:
-      sender: no-reply@localhost
-      domain: mg.localhost
-      privateKey: "key-11111111111111111111111111111111"
-  csrfAuthKey: '1111111111111111111111111111111111111111111111111111111111111111'
 indexer:
   # fullIndexOnStartup: false # Perform a one time full db index on startup
   # indexMissingEpochsOnStartup: true # Check for missing epochs and export them after startup
@@ -59,4 +48,4 @@ indexer:
     host: '{{.CLNodeHost}}'
     port: '{{.CLNodePort}}'
     type: '{{.CLNodeType}}'
-  eth1DepositContractFirstBlock: 0
+  depositContractFirstBlock: 0
